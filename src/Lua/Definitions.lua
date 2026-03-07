@@ -34,14 +34,6 @@ LightObjects[MT_TURRETLASER] = {
     stayondeath = true
 }
 
-LightObjects[MT_THOK] = {
-    color = SKINCOLOR_SILVER,
-    scale = FU/5,
-    alpha = FU,
-    zoffset = -20,
-    stayondeath = true
-}
-
 LightObjects[MT_EMERALD1] = {color = SKINCOLOR_GREEN, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
 LightObjects[MT_EMERALD2] = {color = SKINCOLOR_PURPLE, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
 LightObjects[MT_EMERALD3] = {color = SKINCOLOR_BLUE, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
