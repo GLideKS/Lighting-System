@@ -84,7 +84,7 @@ local function InitCorona(mo, type)
         floorlight.target = corona
         floorlight.color = corona.color
         floorlight.alpha = corona.alpha
-        corona.renderflags = $|corona_rf
+        floorlight.renderflags = $|corona_rf
         floorlight.spritexscale = corona.spritexscale
         floorlight.spriteyscale = corona.spriteyscale
         floorlight.scale = corona.scale
