@@ -8,13 +8,19 @@ local P_SpawnMobjFromMobj = P_SpawnMobjFromMobj
 local P_SpawnMobj = P_SpawnMobj
 local P_RemoveMobj = P_RemoveMobj
 local P_MoveOrigin = P_MoveOrigin
+local P_SetOrigin = P_SetOrigin
 local MT_GKS_CORONA = MT_GKS_CORONA
 local MT_GKS_CORONA_SPLAT = MT_GKS_CORONA_SPLAT
 local FixedMul = FixedMul
 local FixedDiv = FixedDiv
+local SILVER = SKINCOLOR_SILVER
+local RF_NOCOLORMAPS = RF_NOCOLORMAPS
+local RF_NOSPLATBILLBOARD = RF_NOSPLATBILLBOARD
+local RF_BRIGHTMASK = RF_BRIGHTMASK
 
 rawset(_G, "corona_toggle", true) --true by default for testing
 local corona_size = CV_FindVar("corona_size")
+local fov = CV_FindVar("fov") --Romoney5 suggestion
 
 --Initialize corona for the mobj
 local function InitCorona(mo, type)
@@ -31,7 +37,7 @@ local function InitCorona(mo, type)
     --set the color
     local color = (cmobj.states and cmobj.states[mo.state]
                     and cmobj.states[mo.state][2])
-                    or cmobj.color or mo.color or SKINCOLOR_SILVER
+                    or cmobj.color or mo.color or SILVER
 
     corona.colorized = true
     corona.color = color
@@ -112,7 +118,7 @@ local function Corona(mo)
 		    mo.flags2 = $ & ~MF2_DONTDRAW
         end
         --Set the color from the state if available
-        local color = mo.states[t.state][2] or mo.cmobj.color or t.color or SKINCOLOR_SILVER
+        local color = mo.states[t.state][2] or mo.cmobj.color or t.color or SILVER
         if mo.color != color then mo.color = color end
     else
         mo.flags2 = $|MF2_DONTDRAW
