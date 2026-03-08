@@ -2,11 +2,109 @@
 
 if not LightObjects then rawset(_G, "LightObjects", {}) end
 
+------------Collectibles
+
 LightObjects[MT_RING] = {
-    color = SKINCOLOR_LEMON, --the main color of the corona
-    scale = FU/4, --corona scale
-    stayondeath = false --the corona will be displayed still on death?
+    color = SKINCOLOR_LEMON,
+    scale = FU/4,
+    zoffset = -5,
+    stayondeath = false,
 }
+
+LightObjects[MT_FLINGRING] = {
+    color = LightObjects[MT_RING].color,
+    scale = LightObjects[MT_RING].scale,
+    stayondeath = LightObjects[MT_RING].stayondeath
+}
+
+LightObjects[MT_TOKEN] = {
+    color = SKINCOLOR_SILVER,
+    scale = FU/2,
+    alpha = FU/3*2,
+    floorlight = true,
+    stayondeath = true,
+    zoffset = -5
+}
+
+local emmy = { --Emeralds
+    scale = FU/2,
+    alpha = FU-(FU/3/2),
+    floorlight = true,
+    zoffset = -10
+}
+
+LightObjects[MT_EMERALD1] = {
+    color = SKINCOLOR_GREEN,
+    scale = emmy.scale,
+    alpha = emmy.alpha,
+    floorlight = emmy.floorlight,
+    zoffset = emmy.zoffset
+}
+
+LightObjects[MT_EMERALD2] = {
+    color = SKINCOLOR_PURPLE,
+    scale = emmy.scale,
+    alpha = emmy.alpha,
+    floorlight = emmy.floorlight,
+    zoffset = emmy.zoffset
+}
+
+LightObjects[MT_EMERALD3] = {
+    color = SKINCOLOR_BLUE,
+    scale = emmy.scale,
+    alpha = emmy.alpha,
+    floorlight = emmy.floorlight,
+    zoffset = emmy.zoffset
+}
+
+LightObjects[MT_EMERALD4] = {
+    color = SKINCOLOR_BLUEBELL,
+    scale = emmy.scale,
+    alpha = emmy.alpha,
+    floorlight = emmy.floorlight,
+    zoffset = emmy.zoffset
+}
+
+LightObjects[MT_EMERALD5] = {
+    color = SKINCOLOR_ORANGE,
+    scale = emmy.scale,
+    alpha = emmy.alpha,
+    floorlight = emmy.floorlight,
+    zoffset = emmy.zoffset
+}
+
+LightObjects[MT_EMERALD6] = {
+color = SKINCOLOR_SALMON,
+    scale = emmy.scale,
+    alpha = emmy.alpha,
+    floorlight = emmy.floorlight,
+    zoffset = emmy.zoffset
+}
+
+LightObjects[MT_EMERALD7] = {
+    color = SKINCOLOR_SILVER,
+    scale = emmy.scale,
+    alpha = emmy.alpha,
+    floorlight = emmy.floorlight,
+    zoffset = emmy.zoffset
+}
+
+LightObjects[MT_EMERHUNT] = {
+    color = SKINCOLOR_GREEN,
+    scale = emmy.scale,
+    alpha = emmy.alpha,
+    floorlight = emmy.floorlight,
+    zoffset = emmy.zoffset
+}
+
+LightObjects[MT_FIREFLOWER] = {
+    scale = FU/2,
+    zoffset = -7,
+    floorlight = true
+}
+
+------------Effects
+
 LightObjects[MT_SPARK] = {
     color = SKINCOLOR_LEMON,
     scale = FU/2,
@@ -26,6 +124,84 @@ LightObjects[MT_IVSP] = {
     stayondeath = false,
     zoffset = -35
 }
+
+LightObjects[MT_JETFUME1] = {
+    color = SKINCOLOR_BLUEBELL,
+    scale = FU/2,
+    states = {
+        [S_JETFUME1] = {true}
+    },
+    alpha = FU*3/2,
+    stayondeath = false,
+}
+
+LightObjects[MT_PROJECTORLIGHT] = {
+    color = SKINCOLOR_GREEN,
+}
+
+LightObjects[MT_EGGROBO1JET] = {
+    color = SKINCOLOR_ORANGE,
+    scale = FU/2,
+    alpha = FU/2,
+    zoffset = -10,
+    stayondeath = false,
+}
+
+LightObjects[MT_MSSHIELD_FRONT] = {
+    color = SKINCOLOR_GALAXY,
+    scale = FU*6/5,
+    alpha = FU/2,
+    zoffset = -20,
+    floorlight = true
+}
+
+------------Scenery
+
+LightObjects[MT_CANDLE] = {
+    color = SKINCOLOR_ORANGE,
+    scale = FU,
+    alpha = FU/3,
+    zoffset = -10,
+    floorlight = true
+}
+
+LightObjects[MT_CANDLEPRICKET] = {
+    color = LightObjects[MT_CANDLE].color,
+    scale = LightObjects[MT_CANDLE].scale,
+    alpha = LightObjects[MT_CANDLE].alpha,
+    zoffset = LightObjects[MT_CANDLE].zoffset,
+    floorlight = LightObjects[MT_CANDLE].floorlight
+}
+
+LightObjects[MT_FIRETORCH] = {
+    color = LightObjects[MT_CANDLE].color,
+    scale = LightObjects[MT_CANDLE].scale,
+    alpha = LightObjects[MT_CANDLE].alpha,
+    zoffset = -20,
+    floorlight = LightObjects[MT_CANDLE].floorlight
+}
+
+LightObjects[MT_DBALL] = {
+    zoffset = -40,
+    alpha = FU/2
+}
+
+LightObjects[MT_LAMPPOST1] = {
+    color = SKINCOLOR_LEMON,
+    zoffset = -20,
+    alpha = FU/2,
+    floorlight = true
+}
+
+LightObjects[MT_LAMPPOST2] = {
+    color = SKINCOLOR_LEMON,
+    zoffset = -20,
+    alpha = FU/2,
+    floorlight = true
+}
+
+------------Projectiles
+
 LightObjects[MT_TURRETLASER] = {
     color = SKINCOLOR_SALMON,
     scale = FU/5,
@@ -34,10 +210,280 @@ LightObjects[MT_TURRETLASER] = {
     stayondeath = true
 }
 
-LightObjects[MT_EMERALD1] = {color = SKINCOLOR_GREEN, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
-LightObjects[MT_EMERALD2] = {color = SKINCOLOR_PURPLE, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
-LightObjects[MT_EMERALD3] = {color = SKINCOLOR_BLUE, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
-LightObjects[MT_EMERALD4] = {color = SKINCOLOR_BLUEBELL, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
-LightObjects[MT_EMERALD5] = {color = SKINCOLOR_ORANGE, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
-LightObjects[MT_EMERALD6] = {color = SKINCOLOR_SALMON, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
-LightObjects[MT_EMERALD7] = {color = SKINCOLOR_SILVER, scale = FU/2, alpha = FU-(FU/3/2), floorlight = true}
+LightObjects[MT_FIREBALL] = {
+    color = SKINCOLOR_ORANGE,
+    alpha = FU/2,
+    stayondeath = true,
+    floorlight = true
+}
+
+LightObjects[MT_ENERGYBALL] = {
+    color = SKINCOLOR_SKY,
+    scale = FU*2,
+    alpha = FU*5/6,
+    states = {
+        [S_ENERGYBALL1] = {true}
+    },
+    zoffset = -50,
+    stayondeath = true,
+    floorlight = true
+}
+
+LightObjects[MT_CACOFIRE] = {
+    color = SKINCOLOR_BLUE,
+    scale = FU/3,
+    zoffset = -13
+}
+
+LightObjects[MT_CYBRAKDEMON_MISSILE] = {
+    color = SKINCOLOR_ORANGE,
+    scale = FU,
+    alpha = FU/2,
+    zoffset = -10,
+    states = {
+        [S_CYBRAKDEMONMISSILE_EXPLODE1] = {true},
+        [S_CYBRAKDEMONMISSILE_EXPLODE2] = {true},
+        [S_CYBRAKDEMONMISSILE_EXPLODE3] = {true}
+    },
+    floorlight = true
+}
+
+------------Hazards
+
+LightObjects[MT_PUMA] = {
+    color = SKINCOLOR_ORANGE,
+    alpha = FU/3,
+    zoffset = -15
+}
+
+LightObjects[MT_SMALLFIREBAR] = {
+    color = SKINCOLOR_ORANGE,
+    scale = FU,
+    alpha = FU/2,
+    zoffset = -15,
+    floorlight = true
+}
+
+LightObjects[MT_BIGFIREBAR] = {
+    color = SKINCOLOR_ORANGE,
+    scale = FU*2,
+    alpha = FU/2,
+    zoffset = -40,
+    floorlight = true
+}
+
+LightObjects[MT_FLAMEJETFLAME] = {
+    color = SKINCOLOR_ORANGE,
+    scale = FU/2,
+    alpha = FU/2,
+    zoffset = 15,
+}
+
+LightObjects[MT_FLAMEJETFLAMEB] = {
+    color = SKINCOLOR_ORANGE,
+    scale = FU,
+    alpha = FU/3,
+    zoffset = 5,
+}
+
+LightObjects[MT_GREENFLAME] = {
+    color = SKINCOLOR_EMERALD,
+    scale = FU,
+    alpha = FU/2,
+    zoffset = -15,
+    floorlight = true
+}
+
+LightObjects[MT_CYBRAKDEMON_ELECTRIC_BARRIER] = {
+    color = SKINCOLOR_AQUAMARINE,
+    scale = FU,
+    alpha = FU/3,
+    zoffset = -25,
+    floorlight = true
+}
+
+------------Enemies
+
+LightObjects[MT_PYREFLY] = {
+    color = SKINCOLOR_ORANGE,
+    states = {
+        [S_PYREFLY_BURN] = {true}
+    },
+    alpha = FU/2,
+}
+
+LightObjects[MT_CACOLANTERN] = {
+    color = SKINCOLOR_BLUE,
+    states = {
+        [S_CACO_PREPARE2] = {true},
+        [S_CACO_PREPARE3] = {true},
+        [S_CACO_SHOOT1] = {true},
+        [S_CACO_SHOOT2] = {true}
+    },
+    alpha = FU/3*2
+}
+
+LightObjects[MT_SPINBOBERT_FIRE1] = {
+    color = SKINCOLOR_COBALT,
+    scale = FU/3,
+    alpha = FU/2,
+    zoffset = -10
+}
+
+LightObjects[MT_SPINBOBERT_FIRE2] = {
+    color = SKINCOLOR_COBALT,
+    scale = FU/3,
+    alpha = FU/2,
+    zoffset = -10
+}
+
+------------Gold boxes
+local goldbox = {
+    color = SKINCOLOR_SILVER,
+    alpha = FU/2,
+    zoffset = -20,
+    stayondeath = true
+}
+
+LightObjects[MT_PITY_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_PITY_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_ATTRACT_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_ATTRACT_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_FORCE_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_FORCE_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_ARMAGEDDON_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_ARMAGEDDON_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_WHIRLWIND_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_WHIRLWIND_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_ELEMENTAL_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_ELEMENTAL_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_SNEAKERS_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_SNEAKERS_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_INVULN_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_INVULN_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_EGGMAN_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_EGGMAN_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_GRAVITY_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_GRAVITY_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_FLAMEAURA_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_FLAMEAURA_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_BUBBLEWRAP_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_BUBBLEWRAP_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
+
+LightObjects[MT_THUNDERCOIN_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = {true},
+        [S_THUNDERCOIN_GOLDBOX] = {true}
+    },
+    alpha = goldbox.alpha, 
+    zoffset = goldbox.zoffset
+}
