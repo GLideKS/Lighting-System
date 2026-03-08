@@ -11,11 +11,7 @@ LightObjects[MT_RING] = {
     stayondeath = false,
 }
 
-LightObjects[MT_FLINGRING] = {
-    color = LightObjects[MT_RING].color,
-    scale = LightObjects[MT_RING].scale,
-    stayondeath = LightObjects[MT_RING].stayondeath
-}
+LightObjects[MT_FLINGRING] = LightObjects[MT_RING]
 
 LightObjects[MT_TOKEN] = {
     color = SKINCOLOR_SILVER,
@@ -165,21 +161,9 @@ LightObjects[MT_CANDLE] = {
     floorlight = true
 }
 
-LightObjects[MT_CANDLEPRICKET] = {
-    color = LightObjects[MT_CANDLE].color,
-    scale = LightObjects[MT_CANDLE].scale,
-    alpha = LightObjects[MT_CANDLE].alpha,
-    zoffset = LightObjects[MT_CANDLE].zoffset,
-    floorlight = LightObjects[MT_CANDLE].floorlight
-}
-
-LightObjects[MT_FIRETORCH] = {
-    color = LightObjects[MT_CANDLE].color,
-    scale = LightObjects[MT_CANDLE].scale,
-    alpha = LightObjects[MT_CANDLE].alpha,
-    zoffset = -20,
-    floorlight = LightObjects[MT_CANDLE].floorlight
-}
+LightObjects[MT_CANDLEPRICKET] = LightObjects[MT_CANDLE]
+LightObjects[MT_FIRETORCH] = LightObjects[MT_CANDLE]
+LightObjects[MT_FIRETORCH].zoffset = -20
 
 LightObjects[MT_DBALL] = {
     zoffset = -40,
@@ -193,12 +177,7 @@ LightObjects[MT_LAMPPOST1] = {
     floorlight = true
 }
 
-LightObjects[MT_LAMPPOST2] = {
-    color = SKINCOLOR_LEMON,
-    zoffset = -20,
-    alpha = FU/2,
-    floorlight = true
-}
+LightObjects[MT_LAMPPOST2] = LightObjects[MT_LAMPPOST1]
 
 ------------Projectiles
 
@@ -330,12 +309,7 @@ LightObjects[MT_SPINBOBERT_FIRE1] = {
     zoffset = -10
 }
 
-LightObjects[MT_SPINBOBERT_FIRE2] = {
-    color = SKINCOLOR_COBALT,
-    scale = FU/3,
-    alpha = FU/2,
-    zoffset = -10
-}
+LightObjects[MT_SPINBOBERT_FIRE2] = LightObjects[MT_SPINBOBERT_FIRE1]
 
 ------------Gold boxes
 local goldbox = {
