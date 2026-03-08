@@ -80,6 +80,7 @@ local function InitCorona(mo, type)
     --Will the corona spawn a floorlight as well?
     if cmobj and cmobj.floorlight then
         local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
+        floorlight.scale = corona.scale
 		floorlight.floor = true --and mark it as a floor light
         floorlight.target = corona
         floorlight.color = corona.color
@@ -87,7 +88,6 @@ local function InitCorona(mo, type)
         floorlight.renderflags = $|corona_rf
         floorlight.spritexscale = corona.spritexscale
         floorlight.spriteyscale = corona.spriteyscale
-        floorlight.scale = corona.scale
     end
 end
 rawset(_G, "InitCorona", InitCorona)
@@ -157,7 +157,7 @@ local function CoronaSplat(mo)
 
     --Distance checks to scale the floorsprite
     local targetscale = (t.spritexscale+t.spriteyscale)/2
-    local maxDistZ = 512 * targetscale
+    local maxDistZ = 512 * FixedMul(targetscale, t.scale)
     local maxScale = targetscale*3/2
     local minScale = targetscale / 2
     local distZ = R_PointToDist2(mo.z, mo.z, t.z, t.z)
@@ -170,6 +170,7 @@ local function CoronaSplat(mo)
     mo.flags2 = t.flags2
     mo.spritexscale = scale
     mo.spriteyscale = scale
+    mo.scale = t.scale
     if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.floorz)) then --move it
         P_MoveOrigin(mo, t.x, t.y, t.floorz)
     end
