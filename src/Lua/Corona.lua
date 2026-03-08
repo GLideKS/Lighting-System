@@ -21,6 +21,7 @@ local RF_BRIGHTMASK = RF_BRIGHTMASK
 rawset(_G, "corona_toggle", true) --true by default for testing
 local corona_size = CV_FindVar("corona_size")
 local fov = CV_FindVar("fov") --Romoney5 suggestion
+local LoadedObjects = {} --let's not allow the modification of this
 
 --This could be good in a future so I'm leaving this here
 /*
@@ -96,12 +97,12 @@ rawset(_G, "InitCorona", InitCorona)
 
 addHook("AddonLoaded", function()
     for i in pairs(LightObjects) do
-        if LightObjects[i].defined then continue end
+        if LoadedObjects[i] then continue end
         addHook("MobjSpawn", function(mo)
             if not corona_toggle then return end
             InitCorona(mo, i)
         end, i)
-        LightObjects[i].defined = true
+        LoadedObjects[i] = true
         LightObjects[i].scale = $ or FU
         LightObjects[i].zoffset = $ or 0
         print("Corona sucessfully added for object type "..i)
