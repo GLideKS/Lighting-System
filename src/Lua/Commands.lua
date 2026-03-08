@@ -41,8 +41,8 @@ CV_RegisterVar({
             if mo.type != MT_GKS_CORONA then continue end
 			--make sure it exists
 			if (mo and mo.valid) then
-				mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, mo.cmobj and mo.cmobj.scale or FU), FixedMul(sizesetting, mo.cmobj and mo.cmobj.scale or FU) --alternative stacked scale
-				mo.spriteyoffset = FixedDiv(mo.cmobj.zoffset * FU + FixedDiv(mo.target.height, mo.target.scale), mo.spriteyscale)
+				mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, mo.coronascale or FU), FixedMul(sizesetting, mo.coronascale or FU) --alternative stacked scale
+				mo.spriteyoffset = FixedDiv(mo.zoffset * FU + FixedDiv(mo.target.height, mo.target.scale), mo.spriteyscale)
 			end
 		end
 	end

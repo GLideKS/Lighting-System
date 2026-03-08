@@ -54,6 +54,8 @@ local function InitCorona(mo, type)
     corona.stayondeath = cmobj.stayondeath
     corona.states = cmobj.states
     corona.flicker = cmobj.flicker
+    corona.coronascale = cmobj.scale or FU
+    corona.zoffset = cmobj.zoffset or 0
 
     --set the color
     local color = (cmobj.states and cmobj.states[mo.state]
@@ -62,8 +64,8 @@ local function InitCorona(mo, type)
 
     corona.colorized = true
     corona.color = color
-	corona.spritexscale, corona.spriteyscale = FixedMul(sizesetting, cmobj.scale), FixedMul(sizesetting, cmobj.scale)
-	corona.spriteyoffset = FixedDiv(cmobj.zoffset * FU + FixedDiv(mo.height, mo.scale), corona.spriteyscale)
+	corona.spritexscale, corona.spriteyscale = FixedMul(sizesetting, corona.coronascale), FixedMul(sizesetting, corona.coronascale)
+	corona.spriteyoffset = FixedDiv(corona.zoffset * FU + FixedDiv(mo.height, mo.scale), corona.spriteyscale)
     corona.scale = mo.scale
     corona.renderflags = $|corona_rf
 	P_SetOrigin(corona, mo.x, mo.y, mo.z)
@@ -103,8 +105,6 @@ addHook("AddonLoaded", function()
             InitCorona(mo, i)
         end, i)
         LoadedObjects[i] = true
-        LightObjects[i].scale = $ or FU
-        LightObjects[i].zoffset = $ or 0
         print("Corona sucessfully added for object type "..i)
     end
 end)
