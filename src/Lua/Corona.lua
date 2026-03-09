@@ -71,7 +71,7 @@ local function InitCorona(mo, type)
     corona.scale = mo.scale
     corona.renderflags = $|corona_rf
 	P_SetOrigin(corona, mo.x, mo.y, mo.z)
-    if cmobj.alpha then corona.alpha = cmobj.alpha end
+    corona.alpha = (cmobj.alpha or FU)-1
 
     --Will it draw on the specific state?
     if cmobj and cmobj.states then
