@@ -330,7 +330,7 @@ LightObjects[MT_PITY_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_PITY_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -341,7 +341,7 @@ LightObjects[MT_ATTRACT_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_ATTRACT_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -352,7 +352,7 @@ LightObjects[MT_FORCE_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_FORCE_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -363,7 +363,7 @@ LightObjects[MT_ARMAGEDDON_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_ARMAGEDDON_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -374,7 +374,7 @@ LightObjects[MT_WHIRLWIND_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_WHIRLWIND_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -385,7 +385,7 @@ LightObjects[MT_ELEMENTAL_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_ELEMENTAL_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -396,7 +396,7 @@ LightObjects[MT_SNEAKERS_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_SNEAKERS_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -407,7 +407,7 @@ LightObjects[MT_INVULN_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_INVULN_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -418,7 +418,7 @@ LightObjects[MT_EGGMAN_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_EGGMAN_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -429,7 +429,7 @@ LightObjects[MT_GRAVITY_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_GRAVITY_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -440,7 +440,7 @@ LightObjects[MT_FLAMEAURA_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_FLAMEAURA_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -451,7 +451,7 @@ LightObjects[MT_BUBBLEWRAP_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_BUBBLEWRAP_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }
 
@@ -462,6 +462,6 @@ LightObjects[MT_THUNDERCOIN_GOLDBOX] = {
         [S_GOLDBOX_FLICKER] = {true},
         [S_THUNDERCOIN_GOLDBOX] = {true}
     },
-    alpha = goldbox.alpha, 
+    alpha = goldbox.alpha,
     zoffset = goldbox.zoffset
 }

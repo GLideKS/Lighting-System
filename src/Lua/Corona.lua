@@ -119,7 +119,7 @@ local function Corona(mo)
         P_RemoveMobj(mo)
         return
     end
-	
+
     if mo.scale - t.scale then mo.scale = t.scale end
     if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
         P_MoveOrigin(mo, t.x, t.y, t.z)
