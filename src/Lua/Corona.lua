@@ -120,7 +120,7 @@ local function Corona(mo)
         return
     end
 	
-	mo.scale = t.scale
+    if mo.scale - t.scale then mo.scale = t.scale end
     if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
         P_MoveOrigin(mo, t.x, t.y, t.z)
     end
@@ -171,9 +171,9 @@ local function CoronaSplat(mo)
     mo.color = t.color
     mo.alpha = t.alpha
     mo.flags2 = t.flags2
-    mo.spritexscale = scale
-    mo.spriteyscale = scale
-    mo.scale = t.scale
+    if mo.spritexscale - scale then mo.spritexscale = scale end
+    if mo.spriteyscale - scale then mo.spriteyscale = scale end
+    if mo.scale - t.scale then mo.scale = t.scale end
     if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.floorz)) then --move it
         P_MoveOrigin(mo, t.x, t.y, t.floorz)
     end
