@@ -20,6 +20,7 @@ local RF_BRIGHTMASK = RF_BRIGHTMASK
 
 rawset(_G, "corona_toggle", true) --true by default for testing
 rawset(_G, "lite_mode", true) --for performance reasons, true will be the default
+rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprites lol
 local corona_size = CV_FindVar("corona_size")
 local LoadedObjects = {} --let's not allow the modification of this
 
@@ -83,6 +84,7 @@ local function InitCorona(mo, type)
     end
 
     --Will the corona spawn a floorlight as well?
+    if not floorsprites then return end
     if cmobj and cmobj.floorlight then
         local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
         floorlight.scale = corona.scale
@@ -151,7 +153,7 @@ end
 --Corona floorsprite
 
 local function CoronaSplat(mo)
-    if not mo.target then
+    if not mo.target or not floorsprites then
         P_RemoveMobj(mo)
         return
     end

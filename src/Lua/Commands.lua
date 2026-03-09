@@ -60,6 +60,18 @@ COM_AddCommand("corona_litemode", function()
     end
 end, COM_LOCAL)
 
+--Lite mode isn't enough? disable floorsprites in that case
+COM_AddCommand("corona_floorlight", function()
+    if floorsprites then
+        floorsprites = false
+        print("\x85\Floor lights Disabled.")
+    else
+        floorsprites = true
+        print("\x83\Floor lights Enabled.")
+		print("\130NOTE:\128Some Floor lights will appear again switching corona_toggle again or in the next map load")
+    end
+end, COM_LOCAL)
+
 --Corona Size (acts as a multiplier)
 CV_RegisterVar({
 	name = "corona_size",
