@@ -3,14 +3,13 @@
 --set this if you have Lighting System inside a subfolder.
 --remember to end it with /
 
-if isdedicatedserver then return end --don't even load coronas for the dedicated server
-
 local LightingSystem_root = ""
 
 if not LightingSystem_loaded then rawset(_G, "LightingSystem_loaded", false) end
 
 if not LightingSystem_loaded then
 	dofile(LightingSystem_root.."Freeslots")
+	if isdedicatedserver then LightingSystem_loaded = true return end --don't even handle coronas for the dedicated server
 	dofile(LightingSystem_root.."Definitions")
 	dofile(LightingSystem_root.."Commands")
 	dofile(LightingSystem_root.."Corona")
