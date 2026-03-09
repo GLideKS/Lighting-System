@@ -21,11 +21,11 @@ local RF_BRIGHTMASK = RF_BRIGHTMASK
 rawset(_G, "corona_toggle", true) --true by default for testing
 rawset(_G, "lite_mode", true) --for performance reasons, true will be the default
 local corona_size = CV_FindVar("corona_size")
-local fov = CV_FindVar("fov") --Romoney5 suggestion
 local LoadedObjects = {} --let's not allow the modification of this
 
 --This could be good in a future so I'm leaving this here
 /*
+local fov = CV_FindVar("fov") --Romoney5 suggestion
 local function IsObjectOnSight(mo)
     if not camera then return end
     local ang = AngleFixed(camera.angle)
