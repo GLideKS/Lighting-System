@@ -53,7 +53,9 @@ COM_AddCommand("corona_litemode", function()
         for mo in mobjs.iterate() do
             local cmobj = LightObjects[mo.type]
             if not cmobj then continue end
-            InitCorona(mo, mo.type) --this is why the command is placed after the InitCorona function
+			if cmobj.hide_on_lite then
+            	InitCorona(mo, mo.type) --this is why the command is placed after the InitCorona function
+			end
         end
     end
 end, COM_LOCAL)
