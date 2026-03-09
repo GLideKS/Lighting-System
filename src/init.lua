@@ -2,6 +2,9 @@
 
 --set this if you have Lighting System inside a subfolder.
 --remember to end it with /
+
+if isdedicatedserver then return end --don't even load coronas for the dedicated server
+
 local LightingSystem_root = ""
 
 if not LightingSystem_loaded then rawset(_G, "LightingSystem_loaded", false) end
