@@ -9,10 +9,17 @@ LightObjects[MT_RING] = {
     scale = FU/4,
     zoffset = -5,
     stayondeath = false,
-    hide_on_lite = true
+    hide_on_lite = true,
+    nothink = true
 }
 
-LightObjects[MT_FLINGRING] = LightObjects[MT_RING]
+LightObjects[MT_FLINGRING] = {
+    color = SKINCOLOR_LEMON,
+    scale = FU/4,
+    zoffset = -5,
+    stayondeath = false,
+    hide_on_lite = true
+}
 
 LightObjects[MT_TOKEN] = {
     color = SKINCOLOR_SILVER,
@@ -20,14 +27,16 @@ LightObjects[MT_TOKEN] = {
     alpha = FU/3*2,
     floorlight = true,
     stayondeath = true,
-    zoffset = -5
+    zoffset = -5,
+    nothink = true
 }
 
 local emmy = { --Emeralds
     scale = FU/2,
     alpha = FU-(FU/3/2),
     floorlight = true,
-    zoffset = -10
+    zoffset = -10,
+    nothink = true
 }
 
 LightObjects[MT_EMERALD1] = {
@@ -35,7 +44,8 @@ LightObjects[MT_EMERALD1] = {
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
-    zoffset = emmy.zoffset
+    zoffset = emmy.zoffset,
+    nothink = emmy.nothink
 }
 
 LightObjects[MT_EMERALD2] = {
@@ -43,7 +53,8 @@ LightObjects[MT_EMERALD2] = {
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
-    zoffset = emmy.zoffset
+    zoffset = emmy.zoffset,
+    nothink = emmy.nothink
 }
 
 LightObjects[MT_EMERALD3] = {
@@ -51,7 +62,8 @@ LightObjects[MT_EMERALD3] = {
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
-    zoffset = emmy.zoffset
+    zoffset = emmy.zoffset,
+    nothink = emmy.nothink
 }
 
 LightObjects[MT_EMERALD4] = {
@@ -59,7 +71,8 @@ LightObjects[MT_EMERALD4] = {
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
-    zoffset = emmy.zoffset
+    zoffset = emmy.zoffset,
+    nothink = emmy.nothink
 }
 
 LightObjects[MT_EMERALD5] = {
@@ -67,7 +80,8 @@ LightObjects[MT_EMERALD5] = {
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
-    zoffset = emmy.zoffset
+    zoffset = emmy.zoffset,
+    nothink = emmy.nothink
 }
 
 LightObjects[MT_EMERALD6] = {
@@ -75,7 +89,8 @@ color = SKINCOLOR_SALMON,
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
-    zoffset = emmy.zoffset
+    zoffset = emmy.zoffset,
+    nothink = emmy.nothink
 }
 
 LightObjects[MT_EMERALD7] = {
@@ -83,7 +98,8 @@ LightObjects[MT_EMERALD7] = {
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
-    zoffset = emmy.zoffset
+    zoffset = emmy.zoffset,
+    nothink = emmy.nothink
 }
 
 LightObjects[MT_EMERHUNT] = {
@@ -91,7 +107,8 @@ LightObjects[MT_EMERHUNT] = {
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
-    zoffset = emmy.zoffset
+    zoffset = emmy.zoffset,
+    nothink = emmy.nothink
 }
 
 LightObjects[MT_FIREFLOWER] = {
@@ -105,7 +122,8 @@ LightObjects[MT_FIREFLOWER] = {
 LightObjects[MT_SPARK] = {
     color = SKINCOLOR_LEMON,
     scale = FU/2,
-    zoffset = -15
+    zoffset = -15,
+    nothink = emmy.nothink
 }
 LightObjects[MT_SUPERSPARK] = {
     color = SKINCOLOR_SILVER,
