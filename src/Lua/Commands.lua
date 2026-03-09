@@ -28,6 +28,36 @@ COM_AddCommand("corona_toggle", function()
     end
 end, COM_LOCAL)
 
+--Same as corona_toggle but for hide_on_lite objects
+COM_AddCommand("corona_litemode", function()
+    if not lite_mode then
+        lite_mode = true
+        print("\x83\Lite mode Enabled.")
+
+		--go through all coronas and delete them
+		if not corona_toggle then return end
+        if gamestate != GS_LEVEL then return end
+		for mo in mobjs.iterate() do
+			--make sure it exists
+			if (mo and mo.valid and mo.type == MT_GKS_CORONA)
+			and LightObjects[mo.target.type].hide_on_lite then
+				P_RemoveMobj(mo)
+			end
+		end
+    else
+        lite_mode = false
+        print("\x85\Lite mode Disabled.")
+
+		if not corona_toggle then return end
+        if gamestate != GS_LEVEL then return end
+        for mo in mobjs.iterate() do
+            local cmobj = LightObjects[mo.type]
+            if not cmobj then continue end
+            InitCorona(mo, mo.type) --this is why the command is placed after the InitCorona function
+        end
+    end
+end, COM_LOCAL)
+
 --Corona Size (acts as a multiplier)
 CV_RegisterVar({
 	name = "corona_size",

@@ -9,6 +9,7 @@ LightObjects[MT_RING] = {
     scale = FU/4,
     zoffset = -5,
     stayondeath = false,
+    hide_on_lite = true
 }
 
 LightObjects[MT_FLINGRING] = LightObjects[MT_RING]
@@ -158,7 +159,8 @@ LightObjects[MT_CANDLE] = {
     scale = FU,
     alpha = FU/3,
     zoffset = -10,
-    floorlight = true
+    floorlight = true,
+    hide_on_lite = true
 }
 
 LightObjects[MT_CANDLEPRICKET] = LightObjects[MT_CANDLE]
@@ -256,6 +258,7 @@ LightObjects[MT_FLAMEJETFLAME] = {
     scale = FU/2,
     alpha = FU/2,
     zoffset = 15,
+    hide_on_lite = true
 }
 
 LightObjects[MT_FLAMEJETFLAMEB] = {
@@ -263,6 +266,7 @@ LightObjects[MT_FLAMEJETFLAMEB] = {
     scale = FU,
     alpha = FU/3,
     zoffset = 5,
+    hide_on_lite = true
 }
 
 LightObjects[MT_GREENFLAME] = {

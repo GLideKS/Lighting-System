@@ -19,6 +19,7 @@ local RF_NOSPLATBILLBOARD = RF_NOSPLATBILLBOARD
 local RF_BRIGHTMASK = RF_BRIGHTMASK
 
 rawset(_G, "corona_toggle", true) --true by default for testing
+rawset(_G, "lite_mode", true) --for performance reasons, true will be the default
 local corona_size = CV_FindVar("corona_size")
 local fov = CV_FindVar("fov") --Romoney5 suggestion
 local LoadedObjects = {} --let's not allow the modification of this
@@ -47,6 +48,7 @@ end
 local function InitCorona(mo, type)
     local sizesetting = corona_size.value
     local cmobj = LightObjects[type]
+    if (cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
     local corona = P_SpawnMobjFromMobj(mo, 0,0,0, MT_GKS_CORONA)
     local corona_rf = RF_NOCOLORMAPS|RF_NOSPLATBILLBOARD|RF_BRIGHTMASK
     corona.target = mo
