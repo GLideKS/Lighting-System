@@ -39,17 +39,10 @@ LightObjects[MT_RING] = {
     scale = FU/4,
     zoffset = -5,
     stayondeath = false,
-    hide_on_lite = true,
-    nothink = true
-}
-
-LightObjects[MT_FLINGRING] = {
-    color = SKINCOLOR_LEMON,
-    scale = FU/4,
-    zoffset = -5,
-    stayondeath = false,
     hide_on_lite = true
 }
+
+LightObjects[MT_FLINGRING] = LightObjects[MT_RING]
 
 LightObjects[MT_TOKEN] = {
     color = SKINCOLOR_SILVER,
