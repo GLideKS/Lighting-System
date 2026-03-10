@@ -121,10 +121,10 @@ end)
 
 --Hacky way to load coronas on server mid-join
 local function LoadCoronaMidJoin()
+    if not consoleplayer then return end
     if not (multiplayer and netgame) then return end --Only do this for multiplayer servers
 
-    if (consoleplayer and consoleplayer.valid) --to the local player obviously
-    and (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
+    if (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
         for mo in mobjs.iterate() do
             if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
             local cmobj = LightObjects[mo.type]
