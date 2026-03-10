@@ -120,24 +120,19 @@ addHook("AddonLoaded", function()
 end)
 
 --Hacky way to load coronas on server mid-join
-local NET_coronasloaded
 local function LoadCoronaMidJoin()
     if not (multiplayer and netgame) then return end --Only do this for multiplayer servers
 
-    if (consoleplayer and consoleplayer.valid) then --to the local player obviously
-        if (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
-            for mo in mobjs.iterate() do
-                if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
-                local cmobj = LightObjects[mo.type]
-                if cmobj and not (cmobj.hide_on_lite and lite_mode) then --is lite mode on? don't spawn the hidden corona on lite mode
-                    InitCorona(mo, mo.type) --Finally Initialize corona
-                end
+    if (consoleplayer and consoleplayer.valid) --to the local player obviously
+    and (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
+        for mo in mobjs.iterate() do
+            if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
+            local cmobj = LightObjects[mo.type]
+            if cmobj and not (cmobj.hide_on_lite and lite_mode) then --is lite mode on? don't spawn the hidden corona on lite mode
+                InitCorona(mo, mo.type) --Finally Initialize corona
             end
-            NET_coronasloaded = true
-            consoleplayer.NET_coronasloaded = true
         end
-    elseif NET_coronasloaded then
-        NET_coronasloaded = false
+        consoleplayer.NET_coronasloaded = true
     end
 end
 
