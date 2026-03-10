@@ -14,9 +14,8 @@ local MT_GKS_CORONA_SPLAT = MT_GKS_CORONA_SPLAT
 local FixedMul = FixedMul
 local FixedDiv = FixedDiv
 local SILVER = SKINCOLOR_SILVER
-local RF_NOCOLORMAPS = RF_NOCOLORMAPS
-local RF_NOSPLATBILLBOARD = RF_NOSPLATBILLBOARD
-local RF_BRIGHTMASK = RF_BRIGHTMASK
+local corona_rf = RF_NOCOLORMAPS|RF_NOSPLATBILLBOARD|RF_BRIGHTMASK
+local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT
 
 rawset(_G, "corona_toggle", true) --true by default for testing
 rawset(_G, "lite_mode", true) --for performance reasons, true will be the default
@@ -51,7 +50,6 @@ local function InitCorona(mo, type)
     local cmobj = LightObjects[type]
     if (cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
     local corona = P_SpawnMobjFromMobj(mo, 0,0,0, MT_GKS_CORONA)
-    local corona_rf = RF_NOCOLORMAPS|RF_NOSPLATBILLBOARD|RF_BRIGHTMASK
     corona.target = mo
     corona.cmobj = cmobj --romoney5: remove the need of having to access the table in the thinker
     corona.stayondeath = cmobj.stayondeath
@@ -59,6 +57,7 @@ local function InitCorona(mo, type)
     corona.flicker = cmobj.flicker
     corona.coronascale = cmobj.scale or FU
     corona.zoffset = cmobj.zoffset or 0
+    corona.nothink = cmobj.nothink
 
     --set the color
     local color = (cmobj.states and cmobj.states[mo.state]
@@ -91,10 +90,15 @@ local function InitCorona(mo, type)
         local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
         floorlight.scale = corona.scale
 		floorlight.floor = true --and mark it as a floor light
+		floorlight.nothink = cmobj.nothink
         floorlight.target = corona
         floorlight.color = corona.color
         floorlight.alpha = corona.alpha
+		floorlight.radius = mo.radius
         floorlight.renderflags = $|corona_rf
+		if not lite_mode then
+			floorlight.renderflags = splat_rf
+		end
         floorlight.spritexscale = corona.spritexscale
         floorlight.spriteyscale = corona.spriteyscale
     end
@@ -145,6 +149,8 @@ local function Corona(mo)
         return
     end
 
+	if mo.nothink then return end
+
     if mo.scale - t.scale then mo.scale = t.scale end
     if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
         P_MoveOrigin(mo, t.x, t.y, t.z)
@@ -180,6 +186,8 @@ local function CoronaSplat(mo)
         P_RemoveMobj(mo)
         return
     end
+
+	if mo.nothink then return end
 
     local t = mo.target
 
