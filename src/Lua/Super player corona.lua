@@ -5,18 +5,6 @@ NOTE: This is NOT a separated corona! is a dummy object for the player.
 then the corona spawns if this object is defined on the LightObjects[MT_] table
 */
 
-freeslot("MT_PLAYERCORONA", "S_PLAYERCORONA")
-
-states[S_PLAYERCORONA] = {SPR_NULL, A, -1, nil, nil, 0, S_PLAYERCORONA}
-mobjinfo[MT_PLAYERCORONA] = {
-	doomednum = -1,
-	spawnstate = S_PLAYERCORONA,
-	radius = mobjinfo[MT_PLAYER].radius,
-	height = mobjinfo[MT_PLAYER].height,
-	dispoffset = 1,
-	flags = MF_NOBLOCKMAP|MF_NOGRAVITY|MF_SCENERY|MF_NOCLIPHEIGHT|MF_NOCLIP
-}
-
 LightObjects[MT_PLAYERCORONA] = {
     color = SKINCOLOR_LEMON,
     scale = FU/3,

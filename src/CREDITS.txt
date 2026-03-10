@@ -1,0 +1,10 @@
+Lighting System by: GLide KS
+
+Contributors:
+- Romoney5
+
+This addon is Open Assets. No need to ask me!
+
+Want to contribute? feel free to do a pull request!
+You found a problem? report the issue on the GitHub repository.
+https://github.com/GLideKS/Lighting-System

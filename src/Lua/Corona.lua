@@ -19,6 +19,7 @@ local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT
 
 rawset(_G, "corona_toggle", true) --true by default for testing
 rawset(_G, "lite_mode", true) --for performance reasons, true will be the default
+rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprites lol
 local corona_size = CV_FindVar("corona_size")
 local LoadedObjects = {} --let's not allow the modification of this
 
@@ -70,7 +71,7 @@ local function InitCorona(mo, type)
     corona.scale = mo.scale
     corona.renderflags = $|corona_rf
 	P_SetOrigin(corona, mo.x, mo.y, mo.z)
-    if cmobj.alpha then corona.alpha = cmobj.alpha end
+    corona.alpha = (cmobj.alpha or FU)-1
 
     --Will it draw on the specific state?
     if cmobj and cmobj.states then
@@ -81,7 +82,10 @@ local function InitCorona(mo, type)
         end
     end
 
+    mo.coronaspawned = true
+
     --Will the corona spawn a floorlight as well?
+    if not floorsprites then return end
     if cmobj and cmobj.floorlight then
         local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
         floorlight.scale = corona.scale
@@ -114,6 +118,27 @@ addHook("AddonLoaded", function()
         print("Corona sucessfully added for object type "..i)
     end
 end)
+
+--Hacky way to load coronas on server mid-join
+local NET_coronasloaded
+local function LoadCoronaMidJoin()
+    if not (multiplayer and netgame) then return end --Only do this for multiplayer servers
+
+    if (consoleplayer and consoleplayer.valid) then --to the local player obviously
+        if (corona_toggle and not NET_coronasloaded) then --don't bother to do this if coronas is off
+            for mo in mobjs.iterate() do
+                if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
+                local cmobj = LightObjects[mo.type]
+                if cmobj and not (cmobj.hide_on_lite and lite_mode) then --is lite mode on? don't spawn the hidden corona on lite mode
+                    InitCorona(mo, mo.type) --Finally Initialize corona
+                end
+            end
+            NET_coronasloaded = true
+        end
+    elseif NET_coronasloaded then
+        NET_coronasloaded = false
+    end
+end
 
 --Corona Logic
 ---@param mo mobj_t
@@ -157,7 +182,7 @@ end
 --Corona floorsprite
 
 local function CoronaSplat(mo)
-    if not mo.target then
+    if not mo.target or not floorsprites then
         P_RemoveMobj(mo)
         return
     end
@@ -190,3 +215,4 @@ end
 --Hook all
 addHook("MobjThinker", Corona, MT_GKS_CORONA)
 addHook("MobjThinker", CoronaSplat, MT_GKS_CORONA_SPLAT)
+addHook("ThinkFrame", LoadCoronaMidJoin)
