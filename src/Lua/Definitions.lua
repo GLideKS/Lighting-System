@@ -12,7 +12,9 @@ LightObjects[MT_SOMETHING] = { --MT_SOMETHING is the Object type to assign a cor
     scale = FU/2, --corona's scale. works the same as mobj_t.scale.
     states = { --if this field is defined, the corona will not render unless you define the states where it appears
         [S_STATE1] = true, --if true, the corona will only appear on this state
-        [S_STATE2] = {true, SKINCOLOR_RED} --var2: if a skincolor is given, will be the corona's color for this specific state.
+        [S_STATE2] = {color = SKINCOLOR_RED}, --if the state is a table, you don't need a true. Instead you can define the color and alpha for the specified state.
+        [S_STATE3] = {alpha = FU/2},
+        [S_STATE4] = {color = SKINCOLOR_BLUE, alpha = FU/2}
     },
     alpha = FU/3*2, --corona's alpha. works the same as mobj_t.alpha.
     flicker = true, --makes the corona constantly flicker

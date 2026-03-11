@@ -59,19 +59,21 @@ local function InitCorona(mo, mobjtype)
     corona.zoffset = cmobj.zoffset or 0
     corona.nothink = cmobj.nothink
 
-    --set the color
-    local color = (cmobj.states and cmobj.states[mo.state]
-                    and cmobj.states[mo.state][2])
-                    or cmobj.color or mo.color or SILVER
+    local state_is_table = (corona.states and type(corona.states[mo.state]) == "table")
+
+    --Set the color and alpha if available
+    local color = (state_is_table and corona.states[mo.state].color) or corona.cmobj.color or mo.color or SILVER
+    local alpha = ((state_is_table and corona.states[mo.state].alpha) or corona.cmobj.alpha or FU)-1
+
+    corona.color = color
+    corona.alpha = alpha
 
     corona.colorized = true
-    corona.color = color
 	corona.spritexscale, corona.spriteyscale = FixedMul(sizesetting, corona.coronascale), FixedMul(sizesetting, corona.coronascale)
 	corona.spriteyoffset = FixedDiv(corona.zoffset * FU + FixedDiv(mo.height, mo.scale), corona.spriteyscale)
     corona.scale = mo.scale
     corona.renderflags = $|corona_rf
 	P_SetOrigin(corona, mo.x, mo.y, mo.z)
-    corona.alpha = (cmobj.alpha or FU)-1
 
     --Will it draw on the specific state?
     if cmobj and cmobj.states then
@@ -169,9 +171,12 @@ local function Corona(mo)
         end
         local state_is_table = type(mo.states[t.state]) == "table"
 
-        --Set the color from the state if available
-        local color = (state_is_table and mo.states[t.state][2]) or mo.cmobj.color or t.color or SILVER
+        --Set the color and alpha from the state if available
+        local color = (state_is_table and mo.states[t.state].color) or mo.cmobj.color or t.color or SILVER
+        local alpha = ((state_is_table and mo.states[t.state].alpha) or mo.cmobj.alpha or FU)-1
+
         if mo.color != color then mo.color = color end
+        if mo.alpha != alpha then mo.alpha = alpha end
     else
         mo.flags2 = $|MF2_DONTDRAW
     end
