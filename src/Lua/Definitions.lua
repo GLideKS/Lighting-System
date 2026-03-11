@@ -194,6 +194,9 @@ LightObjects[MT_MSSHIELD_FRONT] = {
 LightObjects[MT_CANDLE] = {
     color = SKINCOLOR_ORANGE,
     scale = FU,
+    states = {
+        [S_CANDLE] = {sprite = SPR_CNDL}
+    },
     alpha = FU/3,
     zoffset = -10,
     floorlight = true,

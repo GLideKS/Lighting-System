@@ -83,7 +83,8 @@ local function InitCorona(mo, mobjtype)
 
     --Will it draw on the specific state?
     if cmobj and cmobj.states then
-        if cmobj.states[mo.state] then
+        local sprite = state_is_table and cmobj.states[mo.state].sprite
+        if ((sprite == mo.sprite) or (not sprite and cmobj.states[mo.state])) then
 			corona.flags2 = $ & ~MF2_DONTDRAW
         else
             corona.flags2 = $|MF2_DONTDRAW
@@ -169,11 +170,13 @@ local function Corona(mo)
     --Will it draw on the specific state?
     if not mo.states then return end
 
-    if mo.states[t.state] then
+    local state_is_table = type(mo.states[t.state]) == "table"
+
+    local sprite = state_is_table and mo.states[t.state].sprite
+    if (sprite == t.sprite) or (not sprite and mo.states[t.state]) then
         if not mo.flicker then
 		    mo.flags2 = $ & ~MF2_DONTDRAW
         end
-        local state_is_table = type(mo.states[t.state]) == "table"
 
         --Set the color and alpha from the state if available
         local color = (state_is_table and mo.states[t.state].color) or mo.cmobj.color or t.color or SILVER
