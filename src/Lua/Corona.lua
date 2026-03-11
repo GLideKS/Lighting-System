@@ -167,8 +167,10 @@ local function Corona(mo)
         if not mo.flicker then
 		    mo.flags2 = $ & ~MF2_DONTDRAW
         end
+        local state_is_table = type(mo.states[t.state]) == "table"
+
         --Set the color from the state if available
-        local color = mo.states[t.state][2] or mo.cmobj.color or t.color or SILVER
+        local color = (state_is_table and mo.states[t.state][2]) or mo.cmobj.color or t.color or SILVER
         if mo.color != color then mo.color = color end
     else
         mo.flags2 = $|MF2_DONTDRAW
