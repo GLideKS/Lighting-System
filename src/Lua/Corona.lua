@@ -151,7 +151,7 @@ local function Corona(mo)
         return
     end
 
-	if (mo.nothink or mo.flags & MF_NOTHINK) then return end
+	if (mo.nothink or (mo.flags & MF_NOTHINK)) then return end
 
     if mo.scale - t.scale then mo.scale = t.scale end
     if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
