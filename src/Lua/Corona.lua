@@ -146,7 +146,9 @@ end
 ---@param mo mobj_t
 local function Corona(mo)
     local t = mo.target
-    if not (t and (t.health or mo.stayondeath)) then
+    if not (t and (t.health or mo.stayondeath))
+    or not corona_toggle
+    or (mo.cmobj.hide_on_lite and lite_mode) then
         P_RemoveMobj(mo)
         return
     end
