@@ -46,34 +46,40 @@ end
 
 --Initialize corona for the mobj
 local function InitCorona(mo, mobjtype)
-    local sizesetting = corona_size.value
     local cmobj = LightObjects[mobjtype]
     if (cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
+
+    --Prepare corona
+    local sizesetting = corona_size.value
     local corona = P_SpawnMobjFromMobj(mo, 0,0,0, MT_GKS_CORONA)
     corona.target = mo
-    corona.cmobj = cmobj --romoney5: remove the need of having to access the table in the thinker
+    P_SetOrigin(corona, mo.x, mo.y, mo.z)
+    mo.coronaspawned = true
+
+    --Romoney5 Suggestion: Remove the need of having to access the table in the thinker
+    corona.cmobj = cmobj
     corona.stayondeath = cmobj.stayondeath
     corona.states = cmobj.states
     corona.flicker = cmobj.flicker
     corona.coronascale = cmobj.scale or FU
     corona.zoffset = cmobj.zoffset or 0
     corona.nothink = cmobj.nothink
-
     local state_is_table = (corona.states and type(corona.states[mo.state]) == "table")
 
     --Set the color and alpha if available
     local color = (state_is_table and corona.states[mo.state].color) or corona.cmobj.color or mo.color or SILVER
     local alpha = ((state_is_table and corona.states[mo.state].alpha) or corona.cmobj.alpha or FU)-1
 
-    corona.color = color
-    corona.alpha = alpha
-
-    corona.colorized = true
+    --Set corona scale
 	corona.spritexscale, corona.spriteyscale = FixedMul(sizesetting, corona.coronascale), FixedMul(sizesetting, corona.coronascale)
 	corona.spriteyoffset = FixedDiv(corona.zoffset * FU + FixedDiv(mo.height, mo.scale), corona.spriteyscale)
     corona.scale = mo.scale
+
+    --Set corona's visual properties
     corona.renderflags = $|corona_rf
-	P_SetOrigin(corona, mo.x, mo.y, mo.z)
+    corona.alpha = alpha
+    corona.color = color
+    corona.colorized = true
 
     --Will it draw on the specific state?
     if cmobj and cmobj.states then
@@ -83,8 +89,6 @@ local function InitCorona(mo, mobjtype)
             corona.flags2 = $|MF2_DONTDRAW
         end
     end
-
-    mo.coronaspawned = true
 
     --Will the corona spawn a floorlight as well?
     if not floorsprites then return end
