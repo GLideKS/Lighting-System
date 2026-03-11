@@ -144,12 +144,6 @@ LightObjects[MT_FIREFLOWER] = {
 
 ------------Effects
 
-LightObjects[MT_SPARK] = {
-    color = SKINCOLOR_LEMON,
-    scale = FU/2,
-    zoffset = -15,
-    nothink = emmy.nothink
-}
 LightObjects[MT_SUPERSPARK] = {
     color = SKINCOLOR_SILVER,
     scale = FU,
