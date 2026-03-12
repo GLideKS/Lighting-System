@@ -150,6 +150,12 @@ local function LoadCoronaMidJoin()
     end
 end
 
+local function P_FollowMobj(mo, t)
+    if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
+        P_MoveOrigin(mo, t.x, t.y, t.z)
+    end
+end
+
 --Corona Logic
 ---@param mo mobj_t
 local function Corona(mo)
@@ -163,9 +169,7 @@ local function Corona(mo)
 
     if mo.scale - t.scale then mo.scale = t.scale end
     if not mo.postthinkmove then
-        if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
-            P_MoveOrigin(mo, t.x, t.y, t.z)
-        end
+        P_FollowMobj(mo, t)
     end
 
     if mo.flicker then
@@ -239,9 +243,7 @@ local function PostThink()
 		--make sure it exists
         if (mo and mo.valid and mo.target) then
             local t = mo.target
-            if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then
-                P_MoveOrigin(mo, t.x, t.y, t.z)
-            end
+            P_FollowMobj(mo, t)
         else
             remove(postthink_coronas, i) --otherwise it's useless, remove it
         end
