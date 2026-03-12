@@ -207,6 +207,7 @@ LightObjects[MT_CANDLE] = {
 
 LightObjects[MT_CANDLEPRICKET] = LightObjects[MT_CANDLE]
 LightObjects[MT_FIRETORCH] = LightObjects[MT_CANDLE]
+LightObjects[MT_FIRETORCH].states = nil
 LightObjects[MT_FIRETORCH].zoffset = -20
 
 LightObjects[MT_DBALL] = {
