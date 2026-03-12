@@ -237,7 +237,7 @@ local function PostThink()
     for i = #postthink_coronas, 1, -1 do
 		local mo = postthink_coronas[i]
 		--make sure it exists
-        if (mo and mo.valid) then
+        if (mo and mo.valid and mo.target) then
             local t = mo.target
             if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then
                 P_MoveOrigin(mo, t.x, t.y, t.z)
