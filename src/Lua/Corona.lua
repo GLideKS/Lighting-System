@@ -88,6 +88,12 @@ local function InitCorona(mo, mobjtype)
     corona.color = color
     corona.colorized = true
 
+    --Adapt to flipped gravity
+    if (mo.eflags & MFE_VERTICALFLIP) and not mo.coronaflipped then
+        corona.eflags = $|MFE_VERTICALFLIP
+        corona.coronaflipped = true
+    end
+
     --Will it draw on the specific state?
     if cmobj and cmobj.states then
         local sprite = state_is_table and cmobj.states[mo.state].sprite
@@ -172,6 +178,18 @@ local function Corona(mo)
         P_FollowMobj(mo, t)
     end
 
+    --Adapt to flipped gravity
+    if (t.eflags & MFE_VERTICALFLIP) then
+        if not (mo.eflags & MFE_VERTICALFLIP)
+        and not mo.coronaflipped then
+            mo.eflags = $|MFE_VERTICALFLIP
+            mo.coronaflipped = true
+        end
+    elseif mo.coronaflipped then
+        mo.eflags = $ & ~MFE_VERTICALFLIP
+        mo.coronaflipped = false
+    end
+
     if mo.flicker then
         if (mo.flags2 & MF2_DONTDRAW) then
             mo.flags2 = $ & ~MF2_DONTDRAW
@@ -227,11 +245,14 @@ local function CoronaSplat(mo)
     mo.color = t.color
     mo.alpha = t.alpha
     mo.flags2 = t.flags2
+    mo.eflags = t.eflags
     if mo.spritexscale - scale then mo.spritexscale = scale end
     if mo.spriteyscale - scale then mo.spriteyscale = scale end
     if mo.scale - t.scale then mo.scale = t.scale end
-    if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.floorz)) then --move it
-        P_MoveOrigin(mo, t.x, t.y, t.floorz)
+    local flipped = P_MobjFlip(t) == -1
+    local z = (flipped and t.ceilingz) or t.floorz
+    if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - z)) then --move it
+        P_MoveOrigin(mo, t.x, t.y, z)
     end
 end
 
