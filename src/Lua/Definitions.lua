@@ -162,9 +162,6 @@ LightObjects[MT_IVSP] = {
 LightObjects[MT_JETFUME1] = {
     color = SKINCOLOR_BLUEBELL,
     scale = FU/2,
-    states = {
-        [S_JETFUME1] = true
-    },
     alpha = FU*3/2,
     stayondeath = false,
 }
