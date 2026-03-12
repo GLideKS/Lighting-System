@@ -335,8 +335,8 @@ LightObjects[MT_PYREFLY] = {
 LightObjects[MT_CACOLANTERN] = {
     color = SKINCOLOR_BLUE,
     states = {
-        [S_CACO_PREPARE2] = true,
-        [S_CACO_PREPARE3] = true,
+        [S_CACO_PREPARE2] = {alpha = FU/3},
+        [S_CACO_PREPARE3] = {alpha = FU/3},
         [S_CACO_SHOOT1] = true,
         [S_CACO_SHOOT2] = true
     },
