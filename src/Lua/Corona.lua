@@ -88,11 +88,8 @@ local function InitCorona(mo, mobjtype)
     corona.color = color
     corona.colorized = true
 
-    --Adapt to flipped gravity
-    if (mo.eflags & MFE_VERTICALFLIP) and not mo.coronaflipped then
-        corona.eflags = $|MFE_VERTICALFLIP
-        corona.coronaflipped = true
-    end
+    --Mostly for flipped gravity
+    corona.eflags = mo.eflags
 
     --Will it draw on the specific state?
     if cmobj and cmobj.states then
@@ -179,16 +176,7 @@ local function Corona(mo)
     end
 
     --Adapt to flipped gravity
-    if (t.eflags & MFE_VERTICALFLIP) then
-        if not (mo.eflags & MFE_VERTICALFLIP)
-        and not mo.coronaflipped then
-            mo.eflags = $|MFE_VERTICALFLIP
-            mo.coronaflipped = true
-        end
-    elseif mo.coronaflipped then
-        mo.eflags = $ & ~MFE_VERTICALFLIP
-        mo.coronaflipped = false
-    end
+    mo.eflags = t.eflags
 
     if mo.flicker then
         if (mo.flags2 & MF2_DONTDRAW) then
