@@ -13,6 +13,8 @@ local MT_GKS_CORONA = MT_GKS_CORONA
 local MT_GKS_CORONA_SPLAT = MT_GKS_CORONA_SPLAT
 local FixedMul = FixedMul
 local FixedDiv = FixedDiv
+local insert = table.insert
+local remove = table.remove
 local SILVER = SKINCOLOR_SILVER
 local corona_rf = RF_NOCOLORMAPS|RF_NOSPLATBILLBOARD|RF_BRIGHTMASK
 local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT
@@ -43,6 +45,7 @@ local function IsObjectOnSight(mo)
     return true
 end
 */
+local postthink_coronas = {}
 
 --Initialize corona for the mobj
 local function InitCorona(mo, mobjtype)
@@ -64,6 +67,10 @@ local function InitCorona(mo, mobjtype)
     corona.coronascale = cmobj.scale or FU
     corona.zoffset = cmobj.zoffset or 0
     corona.nothink = cmobj.nothink
+    corona.postthinkmove = cmobj.postthinkmove
+
+    if corona.postthinkmove then insert(postthink_coronas, corona) end
+
     local state_is_table = (corona.states and type(corona.states[mo.state]) == "table")
 
     --Set the color and alpha if available
@@ -155,8 +162,10 @@ local function Corona(mo)
 	if mo.nothink then return end
 
     if mo.scale - t.scale then mo.scale = t.scale end
-    if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
-        P_MoveOrigin(mo, t.x, t.y, t.z)
+    if not mo.postthinkmove then
+        if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
+            P_MoveOrigin(mo, t.x, t.y, t.z)
+        end
     end
 
     if mo.flicker then
@@ -222,7 +231,25 @@ local function CoronaSplat(mo)
     end
 end
 
+local function PostThink()
+    if gamestate != GS_LEVEL then return end
+    --go through all coronas
+    for i = #postthink_coronas, 1, -1 do
+		local mo = postthink_coronas[i]
+		--make sure it exists
+        if (mo and mo.valid) then
+            local t = mo.target
+            if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then
+                P_MoveOrigin(mo, t.x, t.y, t.z)
+            end
+        else
+            remove(postthink_coronas, i) --otherwise it's useless, remove it
+        end
+    end
+end
+
 --Hook all
 addHook("MobjThinker", Corona, MT_GKS_CORONA)
 addHook("MobjThinker", CoronaSplat, MT_GKS_CORONA_SPLAT)
 addHook("ThinkFrame", LoadCoronaMidJoin)
+addHook("PostThinkFrame", PostThink)
