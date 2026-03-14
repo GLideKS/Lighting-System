@@ -227,9 +227,6 @@ local function Corona(mo)
 			translation = "COLORSCALECLR" .. skincolors[translation].ramp[7]
 		end
 
-		local color = (state_is_table and mo.states[t.state].color) or mo.cmobj.color or t.color or SILVER
-		local alpha = ((state_is_table and mo.states[t.state].alpha) or mo.cmobj.alpha or FU)-1
-
 		local ff = states[mo.state].frame
 		ff = $ & ~FF_FRAMEMASK
 
