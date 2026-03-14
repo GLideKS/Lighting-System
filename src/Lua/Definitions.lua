@@ -366,41 +366,145 @@ local goldbox = {
     stayondeath = true
 }
 
-LightObjects[MT_PITY_GOLDBOX] = goldbox
-LightObjects[MT_PITY_GOLDBOX].states = {[S_PITY_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_PITY_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_PITY_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_ATTRACT_GOLDBOX] = goldbox
-LightObjects[MT_ATTRACT_GOLDBOX].states = {[S_ATTRACT_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_ATTRACT_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_ATTRACT_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_FORCE_GOLDBOX] = goldbox
-LightObjects[MT_FORCE_GOLDBOX].states = {[S_FORCE_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_FORCE_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_FORCE_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_ARMAGEDDON_GOLDBOX] = goldbox
-LightObjects[MT_ARMAGEDDON_GOLDBOX].states = {[S_ARMAGEDDON_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_ARMAGEDDON_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_ARMAGEDDON_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_WHIRLWIND_GOLDBOX] = goldbox
-LightObjects[MT_WHIRLWIND_GOLDBOX].states = {[S_WHIRLWIND_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_WHIRLWIND_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_WHIRLWIND_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_ELEMENTAL_GOLDBOX] = goldbox
-LightObjects[MT_ELEMENTAL_GOLDBOX].states = {[S_ELEMENTAL_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_ELEMENTAL_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_ELEMENTAL_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_SNEAKERS_GOLDBOX] = goldbox
-LightObjects[MT_SNEAKERS_GOLDBOX].states = {[S_SNEAKERS_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_SNEAKERS_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_SNEAKERS_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_INVULN_GOLDBOX] = goldbox
-LightObjects[MT_INVULN_GOLDBOX].states = {[S_INVULN_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_INVULN_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_INVULN_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_EGGMAN_GOLDBOX] = goldbox
-LightObjects[MT_EGGMAN_GOLDBOX].states = {[S_EGGMAN_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_EGGMAN_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_EGGMAN_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_GRAVITY_GOLDBOX] = goldbox
-LightObjects[MT_GRAVITY_GOLDBOX].states = {[S_GRAVITY_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_GRAVITY_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_GRAVITY_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_FLAMEAURA_GOLDBOX] = goldbox
-LightObjects[MT_FLAMEAURA_GOLDBOX].states = {[S_FLAMEAURA_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_FLAMEAURA_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_FLAMEAURA_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_BUBBLEWRAP_GOLDBOX] = goldbox
-LightObjects[MT_BUBBLEWRAP_GOLDBOX].states = {[S_BUBBLEWRAP_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_BUBBLEWRAP_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_BUBBLEWRAP_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
 
-LightObjects[MT_THUNDERCOIN_GOLDBOX] = goldbox
-LightObjects[MT_THUNDERCOIN_GOLDBOX].states = {[S_THUNDERCOIN_GOLDBOX] = true, [S_GOLDBOX_FLICKER] = true}
+LightObjects[MT_THUNDERCOIN_GOLDBOX] = {
+    stayondeath = goldbox.stayondeath,
+    color = goldbox.color,
+    states = {
+        [S_GOLDBOX_FLICKER] = true,
+        [S_THUNDERCOIN_GOLDBOX] = true
+    },
+    alpha = goldbox.alpha,
+    zoffset = goldbox.zoffset
+}
