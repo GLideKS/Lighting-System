@@ -46,6 +46,22 @@ LightObjects[MT_RING] = {
 
 LightObjects[MT_FLINGRING] = LightObjects[MT_RING]
 
+LightObjects[MT_BLUETEAMRING] = {
+    color = SKINCOLOR_COBALT,
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset,
+    stayondeath = LightObjects[MT_RING].stayondeath,
+    hide_on_lite = LightObjects[MT_RING].hide_on_lite
+}
+
+LightObjects[MT_REDTEAMRING] = {
+    color = SKINCOLOR_CHERRY,
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset,
+    stayondeath = LightObjects[MT_RING].stayondeath,
+    hide_on_lite = LightObjects[MT_RING].hide_on_lite
+}
+
 LightObjects[MT_TOKEN] = {
     color = SKINCOLOR_SILVER,
     scale = FU/2,
@@ -231,6 +247,15 @@ LightObjects[MT_MSSHIELD_FRONT] = {
     floorlight = true
 }
 
+LightObjects[MT_BOSSEXPLODE] = {
+    color = SKINCOLOR_ORANGE,
+    scale = FU/3,
+    alpha = FU/3*2,
+    stayondeath = true
+}
+
+LightObjects[MT_SONIC3KBOSSEXPLODE] = LightObjects[MT_BOSSEXPLODE]
+
 ------------Scenery
 
 LightObjects[MT_CANDLE] = {
@@ -310,6 +335,101 @@ LightObjects[MT_CYBRAKDEMON_MISSILE] = {
         [S_CYBRAKDEMONMISSILE_EXPLODE3] = true
     },
     floorlight = true
+}
+
+------------Weapons
+
+LightObjects[MT_EXPLOSIONRING] = {
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset,
+    stayondeath = LightObjects[MT_RING].stayondeath,
+}
+
+LightObjects[MT_AUTOMATICRING] = {
+    color = SKINCOLOR_EMERALD,
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset,
+    stayondeath = LightObjects[MT_RING].stayondeath,
+}
+
+LightObjects[MT_BOUNCERING] = {
+    color = SKINCOLOR_ORANGE,
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset,
+    stayondeath = LightObjects[MT_RING].stayondeath,
+}
+
+LightObjects[MT_RAILRING] = {
+    color = SKINCOLOR_BLUEBELL,
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset,
+    stayondeath = LightObjects[MT_RING].stayondeath,
+}
+
+LightObjects[MT_INFINITYRING] = {
+    color = SKINCOLOR_CHERRY,
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset,
+    stayondeath = LightObjects[MT_RING].stayondeath,
+}
+
+LightObjects[MT_GRENADERING] = {
+    color = SKINCOLOR_GREEN,
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset-4,
+    stayondeath = LightObjects[MT_RING].stayondeath,
+}
+
+LightObjects[MT_SCATTERRING] = {
+    color = SKINCOLOR_GALAXY,
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset,
+    stayondeath = LightObjects[MT_RING].stayondeath,
+}
+
+LightObjects[MT_LHRT] = {
+    color = SKINCOLOR_FANCY,
+    alpha = FU/2,
+    scale = FU/2,
+    zoffset = -10,
+}
+
+------------Thrown weapons
+
+LightObjects[MT_REDRING] = {
+    color = SKINCOLOR_CHERRY,
+    scale = FU/6,
+    zoffset = LightObjects[MT_RING].zoffset,
+    stayondeath = false
+}
+
+LightObjects[MT_THROWNEXPLOSION] = {
+    scale = LightObjects[MT_REDRING].scale,
+    zoffset = LightObjects[MT_REDRING].zoffset,
+}
+
+LightObjects[MT_THROWNAUTOMATIC] = {
+    color = LightObjects[MT_AUTOMATICRING].color,
+    scale = LightObjects[MT_REDRING].scale,
+    zoffset = LightObjects[MT_REDRING].zoffset,
+}
+
+LightObjects[MT_THROWNBOUNCE] = {
+    color = SKINCOLOR_ORANGE,
+    scale = LightObjects[MT_REDRING].scale,
+    zoffset = LightObjects[MT_REDRING].zoffset,
+}
+
+LightObjects[MT_THROWNINFINITY] = {
+    color = LightObjects[MT_INFINITYRING].color,
+    scale = LightObjects[MT_REDRING].scale,
+    zoffset = LightObjects[MT_REDRING].zoffset,
+}
+
+LightObjects[MT_THROWNSCATTER] = {
+    color = LightObjects[MT_SCATTERRING].color,
+    scale = LightObjects[MT_REDRING].scale,
+    zoffset = LightObjects[MT_REDRING].zoffset,
 }
 
 ------------Hazards
