@@ -142,6 +142,46 @@ LightObjects[MT_FIREFLOWER] = {
     floorlight = true
 }
 
+------------Enemies
+
+LightObjects[MT_GOLDBUZZ] = {
+    color = SKINCOLOR_LEMON,
+    alpha = FU/3,
+    states = {
+        [S_BUZZFLY2] = true,
+        [S_BUZZLOOK2] = true,
+        [S_RBUZZFLY2] = true,
+        [S_RBUZZLOOK2] = true
+    },
+    zoffset = -15
+}
+LightObjects[MT_REDBUZZ] = LightObjects[MT_GOLDBUZZ]
+
+LightObjects[MT_CRAWLACOMMANDER] = {
+    color = SKINCOLOR_RED,
+    alpha = FU*2/3,
+    scale = FU*2/3,
+    states = {
+        [S_CCOMMAND1] = true,
+        [S_CCOMMAND2] = {alpha = FU/2},
+        [S_CCOMMAND3] = {color = SKINCOLOR_LEMON},
+        [S_CCOMMAND4] = {color = SKINCOLOR_LEMON, alpha = FU/2}
+    },
+    zoffset = -10
+}
+
+------------Interactive objects
+
+LightObjects[MT_STARPOST] = {
+    scale = FU,
+    alpha = FU/2,
+    states = {
+        [S_STARPOST_FLASH] = true
+    },
+    zoffset = -30,
+    floorlight = true
+}
+
 ------------Effects
 
 LightObjects[MT_SUPERSPARK] = {
