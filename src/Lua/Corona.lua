@@ -132,7 +132,7 @@ addHook("AddonLoaded", function()
             InitCorona(mo, i)
         end, i)
         LoadedObjects[i] = true
-        print("Corona sucessfully added for object type "..i)
+        print("Corona added for object "..i)
     end
 end)
 
