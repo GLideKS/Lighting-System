@@ -183,46 +183,49 @@ local function Corona(mo)
 
 	if mo.nothink then return end
 
-    if mo.scale - t.scale then mo.scale = t.scale end
+    local tscale = t.scale
+    local teflags = t.eflags
+    local tstate = t.state
+
+    if mo.scale - t.scale then mo.scale = tscale end
     if not mo.postthinkmove then
         Corona_Follow(mo, t)
     end
 
     --Adapt to flipped gravity
-    if mo.eflags != t.eflags then mo.eflags = t.eflags end
+    if mo.eflags != teflags then mo.eflags = teflags end
 
     if mo.flicker then
-        if (mo.flags2 & MF2_DONTDRAW) then
-            mo.flags2 = $ & ~MF2_DONTDRAW
-        else
-            mo.flags2 = $|MF2_DONTDRAW
-        end
+        mo.flags2 = $ ^ MF2_DONTDRAW
     end
 
     --Will it draw on the specific state?
-    if not mo.states then return end
+    local mo_states = mo.states
+    if not mo_states then return end
 
     if Corona_State(mo) then
-        if not mo.flicker then
+        if not mo.flicker and (mo.flags2 & MF2_DONTDRAW) then
 		    mo.flags2 = $ & ~MF2_DONTDRAW
         end
 
         --Set the color and alpha from the state if available
-        local state_is_table = type(mo.states[t.state]) == "table"
-		local translation = (state_is_table and mo.states[t.state].translation) or mo.cmobj.translation
+        local state_ref = mo_states[tstate]
+		local translation = (type(state_ref) == "table" and state_ref.translation) or mo.cmobj.translation
+        local color = Corona_Color(mo)
+        local alpha = Corona_Alpha(mo)
 
 		if translation then
 			if mo.frame != 1|ff then mo.frame = 1|ff end
-			if mo.translation != Corona_Color(mo) then
-				mo.translation = Corona_Color(mo)
+			if mo.translation != color then
+				mo.translation = color
 			end
 		else
 			if mo.frame != 0|ff then mo.frame = 0|ff end
-			if mo.color != Corona_Color(mo) then mo.color = Corona_Color(mo) end
+			if mo.color != color then mo.color = color end
 		end
 
-		if mo.alpha != Corona_Alpha(mo) then mo.alpha = Corona_Alpha(mo) end
-    else
+		if mo.alpha != alpha then mo.alpha = alpha end
+    elseif not (mo.flags2 & MF2_DONTDRAW) then
         mo.flags2 = $|MF2_DONTDRAW
     end
 end
@@ -230,7 +233,8 @@ end
 --Corona floorsprite
 
 local function CoronaSplat(mo)
-    if not mo.target or not floorsprites then
+    local t = mo.target
+    if not (t and floorsprites) then
         P_RemoveMobj(mo)
         return
     end
@@ -240,13 +244,21 @@ local function CoronaSplat(mo)
     local t = mo.target
 
     --Distance checks to scale the floorsprite
-    local targetscale = (t.spritexscale+t.spriteyscale)/2
-    local maxDistZ = 512 * FixedMul(targetscale, t.scale)
-    local maxScale = targetscale*3/2
-    local minScale = targetscale / 2
-    local distZ = R_PointToDist2(mo.z, mo.z, t.z, t.z)
-    local ratio = FixedDiv(distZ, maxDistZ)
-    local scale = maxScale - FixedMul(ratio, maxScale - minScale)
+    local t_scale = t.scale
+    local tsx, tsy = t.spritexscale, t.spriteyscale
+    local targetscale = (tsx + tsy) / 2
+    local distZ = abs(mo.z - t.z)
+    local maxDistZ = 512 * FixedMul(targetscale, t_scale)
+
+    local scale
+    if distZ >= maxDistZ then
+        scale = targetscale / 2 -- minScale
+    else
+        local maxScale = (targetscale * 3) / 2
+        local minScale = targetscale / 2
+        local ratio = FixedDiv(distZ, maxDistZ)
+        scale = maxScale - FixedMul(ratio, maxScale - minScale)
+    end
 
     --Copy everything from the main corona
 	if mo.translation != t.translation then mo.translation = t.translation end
@@ -255,11 +267,8 @@ local function CoronaSplat(mo)
     if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
     if mo.eflags != t.eflags then mo.eflags = t.eflags end
 
-	if mo.translation then
-		mo.frame = 1|ff_splat
-	else
-		mo.frame = 0|ff_splat
-	end
+	local frame = (mo.translation and 1 or 0)|ff_splat
+    if mo.frame != frame then mo.frame = frame end
     if mo.spritexscale - scale then mo.spritexscale = scale end
     if mo.spriteyscale - scale then mo.spriteyscale = scale end
     if mo.scale - t.scale then mo.scale = t.scale end
