@@ -181,7 +181,10 @@ local function Corona(mo)
         return
     end
 
-	if mo.nothink then return end
+    if mo.nothink then
+        if (mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z) then P_RemoveMobj(mo) end
+        return
+    end
 
     local tscale = t.scale
     local teflags = t.eflags
