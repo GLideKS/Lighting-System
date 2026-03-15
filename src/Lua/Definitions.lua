@@ -40,17 +40,25 @@ LightObjects[MT_RING] = {
     translation = SKINCOLOR_YELLOW,
     scale = FU/4,
     zoffset = -5,
-    hide_on_lite = true
+    hide_on_lite = true,
+    nothink = true
 }
 
-LightObjects[MT_FLINGRING] = LightObjects[MT_RING]
+LightObjects[MT_FLINGRING] = {
+    translation = LightObjects[MT_RING].translation,
+    scale = LightObjects[MT_RING].scale,
+    zoffset = LightObjects[MT_RING].zoffset,
+    hide_on_lite = LightObjects[MT_RING].hide_on_lite,
+    nothink = false
+}
 
 LightObjects[MT_BLUETEAMRING] = {
     color = SKINCOLOR_COBALT,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
-    hide_on_lite = LightObjects[MT_RING].hide_on_lite
+    hide_on_lite = LightObjects[MT_RING].hide_on_lite,
+    nothink = LightObjects[MT_RING].nothink
 }
 
 LightObjects[MT_REDTEAMRING] = {
@@ -58,7 +66,8 @@ LightObjects[MT_REDTEAMRING] = {
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
-    hide_on_lite = LightObjects[MT_RING].hide_on_lite
+    hide_on_lite = LightObjects[MT_RING].hide_on_lite,
+    nothink = LightObjects[MT_RING].nothink
 }
 
 LightObjects[MT_TOKEN] = {
@@ -346,6 +355,7 @@ LightObjects[MT_EXPLOSIONRING] = {
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
+    nothink = LightObjects[MT_RING].nothink
 }
 
 LightObjects[MT_AUTOMATICRING] = {
@@ -353,6 +363,7 @@ LightObjects[MT_AUTOMATICRING] = {
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
+    nothink = LightObjects[MT_RING].nothink
 }
 
 LightObjects[MT_BOUNCERING] = {
@@ -360,6 +371,7 @@ LightObjects[MT_BOUNCERING] = {
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
+    nothink = LightObjects[MT_RING].nothink
 }
 
 LightObjects[MT_RAILRING] = {
@@ -367,6 +379,7 @@ LightObjects[MT_RAILRING] = {
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
+    nothink = LightObjects[MT_RING].nothink
 }
 
 LightObjects[MT_INFINITYRING] = {
@@ -374,6 +387,7 @@ LightObjects[MT_INFINITYRING] = {
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
+    nothink = LightObjects[MT_RING].nothink
 }
 
 LightObjects[MT_GRENADERING] = {
@@ -381,6 +395,7 @@ LightObjects[MT_GRENADERING] = {
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset-4,
     stayondeath = LightObjects[MT_RING].stayondeath,
+    nothink = LightObjects[MT_RING].nothink
 }
 
 LightObjects[MT_SCATTERRING] = {
@@ -388,6 +403,7 @@ LightObjects[MT_SCATTERRING] = {
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
+    nothink = LightObjects[MT_RING].nothink
 }
 
 LightObjects[MT_LHRT] = {
@@ -532,145 +548,16 @@ local goldbox = {
     stayondeath = true
 }
 
-LightObjects[MT_PITY_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_PITY_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_ATTRACT_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_ATTRACT_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_FORCE_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_FORCE_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_ARMAGEDDON_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_ARMAGEDDON_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_WHIRLWIND_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_WHIRLWIND_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_ELEMENTAL_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_ELEMENTAL_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_SNEAKERS_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_SNEAKERS_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_INVULN_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_INVULN_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_EGGMAN_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_EGGMAN_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_GRAVITY_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_GRAVITY_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_FLAMEAURA_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_FLAMEAURA_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_BUBBLEWRAP_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_BUBBLEWRAP_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
-
-LightObjects[MT_THUNDERCOIN_GOLDBOX] = {
-    stayondeath = goldbox.stayondeath,
-    color = goldbox.color,
-    states = {
-        [S_GOLDBOX_FLICKER] = true,
-        [S_THUNDERCOIN_GOLDBOX] = true
-    },
-    alpha = goldbox.alpha,
-    zoffset = goldbox.zoffset
-}
+LightObjects[MT_PITY_GOLDBOX] = goldbox
+LightObjects[MT_ATTRACT_GOLDBOX] = goldbox
+LightObjects[MT_FORCE_GOLDBOX] = goldbox
+LightObjects[MT_ARMAGEDDON_GOLDBOX] = goldbox
+LightObjects[MT_WHIRLWIND_GOLDBOX] = goldbox
+LightObjects[MT_ELEMENTAL_GOLDBOX] = goldbox
+LightObjects[MT_SNEAKERS_GOLDBOX] = goldbox
+LightObjects[MT_INVULN_GOLDBOX] = goldbox
+LightObjects[MT_EGGMAN_GOLDBOX] = goldbox
+LightObjects[MT_GRAVITY_GOLDBOX] = goldbox
+LightObjects[MT_FLAMEAURA_GOLDBOX] = goldbox
+LightObjects[MT_BUBBLEWRAP_GOLDBOX] = goldbox
+LightObjects[MT_THUNDERCOIN_GOLDBOX] = goldbox
