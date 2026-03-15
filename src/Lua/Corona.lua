@@ -199,7 +199,11 @@ local function Corona(mo)
     if mo.eflags != teflags then mo.eflags = teflags end
 
     if mo.flicker then
-        mo.flags2 = $ ^ MF2_DONTDRAW
+        if (mo.flags2 & MF2_DONTDRAW) then
+            mo.flags2 = $ & ~MF2_DONTDRAW
+        else
+            mo.flags2 = $|MF2_DONTDRAW
+        end
     end
 
     --Will it draw on the specific state?
