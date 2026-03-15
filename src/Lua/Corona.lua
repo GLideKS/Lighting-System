@@ -20,11 +20,6 @@ local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT
 local ff = FF_FULLBRIGHT|FF_ADD
 local ff_splat = FF_FULLBRIGHT|FF_ADD|FF_FLOORSPRITE
 
--- This is probably a trivial localdef
--- As this is only used like. once. so far
-local skincolors = skincolors
-local states = states
-
 rawset(_G, "corona_toggle", true)
 rawset(_G, "lite_mode", false)
 rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprites lol

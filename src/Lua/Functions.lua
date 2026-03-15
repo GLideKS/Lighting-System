@@ -19,6 +19,11 @@ local function Corona_Follow(mo, t)
     end
 end
 
+-- This is probably a trivial localdef
+-- As this is only used like. once. so far
+local skincolors = skincolors
+local states = states
+
 --Returns the translation or the color of the defined corona. if no color or translation is found, it returns the default color.
 ---@param mo mobj_t
 local function Corona_Color(mo)
