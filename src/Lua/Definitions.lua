@@ -37,7 +37,7 @@ if not LightObjects then rawset(_G, "LightObjects", {}) end
 ------------Collectibles
 
 LightObjects[MT_RING] = {
-    color = SKINCOLOR_LEMON,
+    translation = SKINCOLOR_YELLOW,
     scale = FU/4,
     zoffset = -5,
     stayondeath = false,
