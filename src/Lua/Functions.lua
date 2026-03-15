@@ -1,6 +1,16 @@
+local P_MoveOrigin = P_MoveOrigin
+local type = type
+local FU = FU
+local SILVER = SKINCOLOR_SILVER
+
 local function Corona_Follow(mo, t)
-    if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
-        P_MoveOrigin(mo, t.x, t.y, t.z)
+    local tx = t.x
+    local ty = t.y
+    local tz = t.z
+    local poscheck = (mo.x - tx) or (mo.y - ty) or (mo.z - tz)
+
+    if poscheck then
+        P_MoveOrigin(mo, tx, ty, tz)
     end
 end
 
@@ -21,7 +31,7 @@ local function Corona_Color(mo)
     elseif color then --then LightObjects[].color
         return color
     else
-        return SKINCOLOR_SILVER --if no color found on both, then set to default which is Silver
+        return SILVER --if no color found on both, then set to default which is Silver
     end
 end
 

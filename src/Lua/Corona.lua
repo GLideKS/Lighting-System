@@ -15,7 +15,6 @@ local FixedMul = FixedMul
 local FixedDiv = FixedDiv
 local insert = table.insert
 local remove = table.remove
-local SILVER = SKINCOLOR_SILVER
 local corona_rf = RF_NOCOLORMAPS|RF_NOSPLATBILLBOARD|RF_BRIGHTMASK
 local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT
 local ff = FF_FULLBRIGHT|FF_ADD
