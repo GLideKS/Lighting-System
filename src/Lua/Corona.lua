@@ -80,15 +80,6 @@ local function InitCorona(mo, mobjtype)
 
     local state_is_table = (corona.states and type(corona.states[mo.state]) == "table")
 
-    --Set the color and alpha if available
-	local translation = (state_is_table and corona.states[mo.state].translation) or corona.cmobj.translation
-	if type(translation) == "number" then
-		-- Maybe they defined a skincolor constant???
-		translation = "COLORSCALECLR" .. skincolors[translation].ramp[7]
-	end
-    local color = (state_is_table and corona.states[mo.state].color) or corona.cmobj.color or mo.color or SILVER
-    local alpha = ((state_is_table and corona.states[mo.state].alpha) or corona.cmobj.alpha or FU)-1
-
     --Set corona scale
 	corona.spritexscale, corona.spriteyscale = FixedMul(sizesetting, corona.coronascale), FixedMul(sizesetting, corona.coronascale)
 	corona.spriteyoffset = FixedDiv(corona.zoffset * FU + FixedDiv(mo.height, mo.scale), corona.spriteyscale)
@@ -96,15 +87,17 @@ local function InitCorona(mo, mobjtype)
 
     --Set corona's visual properties
     corona.renderflags = $|corona_rf
-    corona.alpha = alpha
+    corona.alpha = Corona_Alpha(corona)
+
+    local translation = (state_is_table and corona.states[mo.state].translation) or corona.cmobj.translation
 	if translation then
 		-- Translations over colors (probably redundant)
 		-- If someone passed a direct translation
 		-- That doesn't cross 0:31, that's on them
-		corona.translation = translation
+		corona.translation = Corona_Color(corona)
 		corona.frame = 1|ff
 	else
-		corona.color = color
+		corona.color = Corona_Color(corona)
 		corona.colorized = true
 		corona.frame = 0|ff
 	end
@@ -114,8 +107,7 @@ local function InitCorona(mo, mobjtype)
 
     --Will it draw on the specific state?
     if cmobj and cmobj.states then
-        local sprite = state_is_table and cmobj.states[mo.state].sprite
-        if ((sprite == mo.sprite) or (not sprite and cmobj.states[mo.state])) then
+        if Corona_State(corona) then
 			corona.flags2 = $ & ~MF2_DONTDRAW
         else
             corona.flags2 = $|MF2_DONTDRAW
@@ -130,7 +122,14 @@ local function InitCorona(mo, mobjtype)
 		floorlight.floor = true --and mark it as a floor light
 		floorlight.nothink = cmobj.nothink
         floorlight.target = corona
-        floorlight.color = corona.color
+
+        if corona.translation then
+            floorlight.translation = corona.translation
+		    floorlight.frame = 1|ff_splat
+        else
+            floorlight.color = corona.color
+        end
+
         floorlight.alpha = corona.alpha
 		floorlight.radius = mo.radius
         floorlight.renderflags = $|corona_rf
@@ -174,12 +173,6 @@ local function LoadCoronaMidJoin()
     end
 end
 
-local function P_FollowMobj(mo, t)
-    if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then --look i needed to shave off 20 microseconds
-        P_MoveOrigin(mo, t.x, t.y, t.z)
-    end
-end
-
 --Corona Logic
 ---@param mo mobj_t
 local function Corona(mo)
@@ -193,7 +186,7 @@ local function Corona(mo)
 
     if mo.scale - t.scale then mo.scale = t.scale end
     if not mo.postthinkmove then
-        P_FollowMobj(mo, t)
+        Corona_Follow(mo, t)
     end
 
     --Adapt to flipped gravity
@@ -210,34 +203,26 @@ local function Corona(mo)
     --Will it draw on the specific state?
     if not mo.states then return end
 
-    local state_is_table = type(mo.states[t.state]) == "table"
-
-    local sprite = state_is_table and mo.states[t.state].sprite
-    if (sprite == t.sprite) or (not sprite and mo.states[t.state]) then
+    if Corona_State(mo) then
         if not mo.flicker then
 		    mo.flags2 = $ & ~MF2_DONTDRAW
         end
 
         --Set the color and alpha from the state if available
-        local color = (state_is_table and mo.states[t.state].color) or mo.cmobj.color or t.color or SILVER
-        local alpha = ((state_is_table and mo.states[t.state].alpha) or mo.cmobj.alpha or FU)-1
-
+        local state_is_table = type(mo.states[t.state]) == "table"
 		local translation = (state_is_table and mo.states[t.state].translation) or mo.cmobj.translation
-		if type(translation) == "number" then
-			translation = "COLORSCALECLR" .. skincolors[translation].ramp[7]
-		end
 
 		if translation then
 			if mo.frame != 1|ff then mo.frame = 1|ff end
-			if mo.translation != translation then
-				mo.translation = translation
+			if mo.translation != Corona_Color(mo) then
+				mo.translation = Corona_Color(mo)
 			end
 		else
 			if mo.frame != 0|ff then mo.frame = 0|ff end
-			if mo.color != color then mo.color = color end
+			if mo.color != Corona_Color(mo) then mo.color = Corona_Color(mo) end
 		end
 
-		if mo.alpha != alpha then mo.alpha = alpha end
+		if mo.alpha != Corona_Alpha(mo) then mo.alpha = Corona_Alpha(mo) end
     else
         mo.flags2 = $|MF2_DONTDRAW
     end
@@ -294,7 +279,7 @@ local function PostThink()
 		--make sure it exists
         if (mo and mo.valid and mo.target) then
             local t = mo.target
-            P_FollowMobj(mo, t)
+            Corona_Follow(mo, t)
         else
             remove(postthink_coronas, i) --otherwise it's useless, remove it
         end

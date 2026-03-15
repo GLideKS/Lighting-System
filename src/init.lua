@@ -12,6 +12,7 @@ if not LightingSystem_loaded then
 	if isdedicatedserver then LightingSystem_loaded = true return end --don't even handle coronas for the dedicated server
 	dofile(LightingSystem_root.."Definitions")
 	dofile(LightingSystem_root.."Commands")
+	dofile(LightingSystem_root.."Functions")
 	dofile(LightingSystem_root.."Corona")
 	dofile(LightingSystem_root.."Super player corona")
 
