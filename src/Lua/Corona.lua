@@ -270,9 +270,6 @@ local function CoronaSplat(mo)
     mo.flags2 = t.flags2
     mo.eflags = t.eflags
 
-	local ff = states[mo.state].frame
-	ff = $ & ~FF_FRAMEMASK
-
 	if mo.translation then
 		mo.frame = 1|ff
 	else
