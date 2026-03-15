@@ -40,7 +40,6 @@ LightObjects[MT_RING] = {
     translation = SKINCOLOR_YELLOW,
     scale = FU/4,
     zoffset = -5,
-    stayondeath = false,
     hide_on_lite = true
 }
 
@@ -229,6 +228,7 @@ LightObjects[MT_METALJETFUME].postthinkmove = true
 
 LightObjects[MT_PROJECTORLIGHT] = {
     color = SKINCOLOR_GREEN,
+    nothink = true
 }
 
 LightObjects[MT_EGGROBO1JET] = {
@@ -267,7 +267,8 @@ LightObjects[MT_CANDLE] = {
     alpha = FU/3,
     zoffset = -10,
     floorlight = true,
-    hide_on_lite = true
+    hide_on_lite = true,
+    nothink = true
 }
 
 LightObjects[MT_CANDLEPRICKET] = LightObjects[MT_CANDLE]
@@ -277,14 +278,16 @@ LightObjects[MT_FIRETORCH].zoffset = -20
 
 LightObjects[MT_DBALL] = {
     zoffset = -40,
-    alpha = FU/2
+    alpha = FU/2,
+    nothink = true
 }
 
 LightObjects[MT_LAMPPOST1] = {
     color = SKINCOLOR_LEMON,
     zoffset = -20,
     alpha = FU/2,
-    floorlight = true
+    floorlight = true,
+    nothink = true
 }
 
 LightObjects[MT_LAMPPOST2] = LightObjects[MT_LAMPPOST1]
@@ -445,7 +448,8 @@ LightObjects[MT_SMALLFIREBAR] = {
     scale = FU,
     alpha = FU/2,
     zoffset = -15,
-    floorlight = true
+    floorlight = true,
+    nothink = true
 }
 
 LightObjects[MT_BIGFIREBAR] = {
@@ -453,7 +457,8 @@ LightObjects[MT_BIGFIREBAR] = {
     scale = FU*2,
     alpha = FU/2,
     zoffset = -40,
-    floorlight = true
+    floorlight = true,
+    nothink = true
 }
 
 LightObjects[MT_FLAMEJETFLAME] = {
@@ -477,7 +482,8 @@ LightObjects[MT_GREENFLAME] = {
     scale = FU,
     alpha = FU/2,
     zoffset = -15,
-    floorlight = true
+    floorlight = true,
+    nothink = true
 }
 
 LightObjects[MT_CYBRAKDEMON_ELECTRIC_BARRIER] = {
