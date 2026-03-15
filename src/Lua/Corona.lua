@@ -25,8 +25,8 @@ local ff_splat = FF_FULLBRIGHT|FF_ADD|FF_FLOORSPRITE
 local skincolors = skincolors
 local states = states
 
-rawset(_G, "corona_toggle", true) --true by default for testing
-rawset(_G, "lite_mode", true) --for performance reasons, true will be the default
+rawset(_G, "corona_toggle", true)
+rawset(_G, "lite_mode", false)
 rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprites lol
 local corona_size = CV_FindVar("corona_size")
 local LoadedObjects = {} --let's not allow the modification of this
