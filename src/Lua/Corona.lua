@@ -19,6 +19,7 @@ local SILVER = SKINCOLOR_SILVER
 local corona_rf = RF_NOCOLORMAPS|RF_NOSPLATBILLBOARD|RF_BRIGHTMASK
 local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT
 local ff = FF_FULLBRIGHT|FF_ADD
+local ff_splat = FF_FULLBRIGHT|FF_ADD|FF_FLOORSPRITE
 
 -- This is probably a trivial localdef
 -- As this is only used like. once. so far
@@ -271,9 +272,9 @@ local function CoronaSplat(mo)
     mo.eflags = t.eflags
 
 	if mo.translation then
-		mo.frame = 1|ff
+		mo.frame = 1|ff_splat
 	else
-		mo.frame = 0|ff
+		mo.frame = 0|ff_splat
 	end
     if mo.spritexscale - scale then mo.spritexscale = scale end
     if mo.spriteyscale - scale then mo.spriteyscale = scale end
