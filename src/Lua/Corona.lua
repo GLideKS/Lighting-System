@@ -248,8 +248,6 @@ local function CoronaSplat(mo)
 
 	if mo.nothink then return end
 
-    local t = mo.target
-
     --Distance checks to scale the floorsprite
     local t_scale = t.scale
     local tsx, tsy = t.spritexscale, t.spriteyscale
