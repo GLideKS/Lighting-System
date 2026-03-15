@@ -2,6 +2,7 @@ Lighting System by: GLide KS
 
 Contributors:
 - Romoney5
+- TwoTailedHero
 
 This addon is Open Assets. No need to ask me!
 
