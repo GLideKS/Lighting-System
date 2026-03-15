@@ -19,6 +19,10 @@ local SILVER = SKINCOLOR_SILVER
 local corona_rf = RF_NOCOLORMAPS|RF_NOSPLATBILLBOARD|RF_BRIGHTMASK
 local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT
 
+local ff = FF_FULLBRIGHT|FF_ADD
+local corona_A = ff|0
+local corona_B = ff|1
+
 -- This is probably a trivial localdef
 -- As this is only used like. once. so far
 local skincolors = skincolors
@@ -95,18 +99,16 @@ local function InitCorona(mo, mobjtype)
     --Set corona's visual properties
     corona.renderflags = $|corona_rf
     corona.alpha = alpha
-	local ff = states[corona.state].frame
-	ff = $ & ~FF_FRAMEMASK
 	if translation then
 		-- Translations over colors (probably redundant)
 		-- If someone passed a direct translation
 		-- That doesn't cross 0:31, that's on them
 		corona.translation = translation
-		corona.frame = 1|ff
+		corona.frame = corona_A
 	else
 		corona.color = color
 		corona.colorized = true
-		corona.frame = 0|ff
+		corona.frame = corona_B
 	end
 
     --Mostly for flipped gravity
@@ -227,16 +229,13 @@ local function Corona(mo)
 			translation = "COLORSCALECLR" .. skincolors[translation].ramp[7]
 		end
 
-		local ff = states[mo.state].frame
-		ff = $ & ~FF_FRAMEMASK
-
 		if translation then
-			mo.frame = 1|ff
+			if mo.frame != corona_B then mo.frame = corona_B end
 			if mo.translation != translation then
 				mo.translation = translation
 			end
 		else
-			mo.frame = 0|ff
+			if mo.frame != corona_A then mo.frame = corona_A end
 			if mo.color != color then mo.color = color end
 		end
 
