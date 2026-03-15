@@ -55,9 +55,8 @@ local postthink_coronas = {}
 
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
 ---@param mo mobj_t
----@param mobjtype integer
-local function InitCorona(mo, mobjtype)
-    local cmobj = LightObjects[mobjtype]
+local function InitCorona(mo)
+    local cmobj = LightObjects[mo.type]
     if (cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
 
     --Prepare corona
@@ -150,7 +149,7 @@ addHook("AddonLoaded", function()
         if LoadedObjects[i] then continue end
         addHook("MobjSpawn", function(mo)
             if not corona_toggle then return end
-            InitCorona(mo, i)
+            InitCorona(mo)
         end, i)
         LoadedObjects[i] = true
         print("Corona added for object "..i)
@@ -167,7 +166,7 @@ local function LoadCoronaMidJoin()
             if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
             local cmobj = LightObjects[mo.type]
             if cmobj and not (cmobj.hide_on_lite and lite_mode) then --is lite mode on? don't spawn the hidden corona on lite mode
-                InitCorona(mo, mo.type) --Finally Initialize corona
+                InitCorona(mo) --Finally Initialize corona
             end
         end
         consoleplayer.NET_coronasloaded = true
