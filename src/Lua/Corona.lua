@@ -18,6 +18,12 @@ local remove = table.remove
 local SILVER = SKINCOLOR_SILVER
 local corona_rf = RF_NOCOLORMAPS|RF_NOSPLATBILLBOARD|RF_BRIGHTMASK
 local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT
+local ff = FF_FULLBRIGHT|FF_ADD
+
+-- This is probably a trivial localdef
+-- As this is only used like. once. so far
+local skincolors = skincolors
+local states = states
 
 rawset(_G, "corona_toggle", true) --true by default for testing
 rawset(_G, "lite_mode", true) --for performance reasons, true will be the default
@@ -74,6 +80,11 @@ local function InitCorona(mo, mobjtype)
     local state_is_table = (corona.states and type(corona.states[mo.state]) == "table")
 
     --Set the color and alpha if available
+	local translation = (state_is_table and corona.states[mo.state].translation) or corona.cmobj.translation
+	if type(translation) == "number" then
+		-- Maybe they defined a skincolor constant???
+		translation = "COLORSCALECLR" .. skincolors[translation].ramp[7]
+	end
     local color = (state_is_table and corona.states[mo.state].color) or corona.cmobj.color or mo.color or SILVER
     local alpha = ((state_is_table and corona.states[mo.state].alpha) or corona.cmobj.alpha or FU)-1
 
@@ -85,8 +96,17 @@ local function InitCorona(mo, mobjtype)
     --Set corona's visual properties
     corona.renderflags = $|corona_rf
     corona.alpha = alpha
-    corona.color = color
-    corona.colorized = true
+	if translation then
+		-- Translations over colors (probably redundant)
+		-- If someone passed a direct translation
+		-- That doesn't cross 0:31, that's on them
+		corona.translation = translation
+		corona.frame = 1|ff
+	else
+		corona.color = color
+		corona.colorized = true
+		corona.frame = 0|ff
+	end
 
     --Mostly for flipped gravity
     corona.eflags = mo.eflags
@@ -201,8 +221,22 @@ local function Corona(mo)
         local color = (state_is_table and mo.states[t.state].color) or mo.cmobj.color or t.color or SILVER
         local alpha = ((state_is_table and mo.states[t.state].alpha) or mo.cmobj.alpha or FU)-1
 
-        if mo.color != color then mo.color = color end
-        if mo.alpha != alpha then mo.alpha = alpha end
+		local translation = (state_is_table and mo.states[t.state].translation) or mo.cmobj.translation
+		if type(translation) == "number" then
+			translation = "COLORSCALECLR" .. skincolors[translation].ramp[7]
+		end
+
+		if translation then
+			if mo.frame != 1|ff then mo.frame = 1|ff end
+			if mo.translation != translation then
+				mo.translation = translation
+			end
+		else
+			if mo.frame != 0|ff then mo.frame = 0|ff end
+			if mo.color != color then mo.color = color end
+		end
+
+		if mo.alpha != alpha then mo.alpha = alpha end
     else
         mo.flags2 = $|MF2_DONTDRAW
     end
@@ -230,10 +264,17 @@ local function CoronaSplat(mo)
     local scale = maxScale - FixedMul(ratio, maxScale - minScale)
 
     --Copy everything from the main corona
+	mo.translation = t.translation
     mo.color = t.color
     mo.alpha = t.alpha
     mo.flags2 = t.flags2
     mo.eflags = t.eflags
+
+	if mo.translation then
+		mo.frame = 1|ff
+	else
+		mo.frame = 0|ff
+	end
     if mo.spritexscale - scale then mo.spritexscale = scale end
     if mo.spriteyscale - scale then mo.spriteyscale = scale end
     if mo.scale - t.scale then mo.scale = t.scale end
