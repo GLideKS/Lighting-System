@@ -3,6 +3,11 @@ local type = type
 local FU = FU
 local SILVER = SKINCOLOR_SILVER
 
+--`mo` moves to `t` position only if the positions are different.
+--Probably an optimized version of P_MoveOrigin.
+--Does not work with splats yet
+---@param mo mobj_t
+---@param t mobj_t
 local function Corona_Follow(mo, t)
     local tx = t.x
     local ty = t.y
@@ -14,6 +19,8 @@ local function Corona_Follow(mo, t)
     end
 end
 
+--Returns the translation or the color of the defined corona. if no color or translation is found, it returns the default color.
+---@param mo mobj_t
 local function Corona_Color(mo)
     local t = mo.target
 
@@ -35,6 +42,8 @@ local function Corona_Color(mo)
     end
 end
 
+--Returns the alpha of the defined corona. if no alpha is found, it returns the default alpha (FRACUNIT)
+---@param mo mobj_t
 local function Corona_Alpha(mo)
     local t = mo.target
     local state_is_table = (mo.states and type(mo.states[t.state]) == "table")
@@ -48,6 +57,8 @@ local function Corona_Alpha(mo)
     end
 end
 
+--If the corona has states defined, returns true if the object's state matches with the defined states.
+---@param mo mobj_t
 local function Corona_State(mo)
     local t = mo.target
     if not mo.states then return false end

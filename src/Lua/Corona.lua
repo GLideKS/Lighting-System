@@ -53,7 +53,9 @@ end
 */
 local postthink_coronas = {}
 
---Initialize corona for the mobj
+--Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
+---@param mo mobj_t
+---@param mobjtype integer
 local function InitCorona(mo, mobjtype)
     local cmobj = LightObjects[mobjtype]
     if (cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
