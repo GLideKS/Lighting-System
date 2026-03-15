@@ -189,7 +189,7 @@ local function Corona(mo)
     end
 
     --Adapt to flipped gravity
-    mo.eflags = t.eflags
+    if mo.eflags != t.eflags then mo.eflags = t.eflags end
 
     if mo.flicker then
         if (mo.flags2 & MF2_DONTDRAW) then
@@ -249,11 +249,11 @@ local function CoronaSplat(mo)
     local scale = maxScale - FixedMul(ratio, maxScale - minScale)
 
     --Copy everything from the main corona
-	mo.translation = t.translation
-    mo.color = t.color
-    mo.alpha = t.alpha
-    mo.flags2 = t.flags2
-    mo.eflags = t.eflags
+	if mo.translation != t.translation then mo.translation = t.translation end
+    if mo.color != t.color then mo.color = t.color end
+    if mo.alpha != t.alpha then mo.alpha = t.alpha end
+    if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
+    if mo.eflags != t.eflags then mo.eflags = t.eflags end
 
 	if mo.translation then
 		mo.frame = 1|ff_splat
