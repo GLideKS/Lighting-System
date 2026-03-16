@@ -13,6 +13,12 @@ This addon is an experiment of how this lighting system could be made in Lua on 
 > [!IMPORTANT]
 > **As for SRB2 v2.2.15**, lights might look off in OpenGL on front of translucent platforms (FOFs). This is a SRB2 rendering issue.
 
+## Commands
+- `corona_toggle` : toggles lights on or off.
+- `corona_floorlight` : toggles lights appearing on the floor on or off. improves performance slightly if turned off. depends of the map.
+- `corona_size` : changes the size of the lights.
+- `corona_litemode` : if your device is weak, you can toggle this command on. disables lights for most common objects in the maps like rings and flame throwers.
+
 ## Recommended settings
 - Models: **Off**, as these are just sprite objects, lights on models will not look good.
 
