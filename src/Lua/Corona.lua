@@ -94,7 +94,6 @@ local function InitCorona(mo)
 	else
 		corona.color = Corona_Color(corona)
 		corona.colorized = true
-		corona.frame = 0|ff
 	end
 
     --Mostly for flipped gravity
