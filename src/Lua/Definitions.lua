@@ -416,7 +416,6 @@ LightObjects[MT_LHRT] = {
 ------------Thrown weapons
 
 LightObjects[MT_REDRING] = {
-    color = SKINCOLOR_CHERRY,
     scale = FU/6,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = false
