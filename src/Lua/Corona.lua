@@ -47,6 +47,19 @@ local function IsObjectOnSight(mo)
 end
 */
 local postthink_coronas = {}
+local nothink_coronas = {}
+
+local function RemoveOnMove(mo)
+    local t = mo.target
+
+    if not (t and (t.health or mo.stayondeath))
+    or (mo.floor and not floorsprites) then
+        P_RemoveMobj(mo)
+        return
+    end
+    local z = (mo.floor and t.floorz) or t.z
+    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then P_RemoveMobj(mo) end
+end
 
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
 ---@param mo mobj_t
@@ -70,6 +83,11 @@ local function InitCorona(mo)
     corona.zoffset = cmobj.zoffset or 0
     corona.nothink = cmobj.nothink
     corona.postthinkmove = cmobj.postthinkmove
+
+    if corona.nothink then
+        insert(nothink_coronas, corona)
+        corona.flags = $|MF_NOTHINK
+    end
 
     if corona.postthinkmove then insert(postthink_coronas, corona) end
 
@@ -119,8 +137,12 @@ local function InitCorona(mo)
         local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
         floorlight.scale = corona.scale
 		floorlight.floor = true --and mark it as a floor light
-		floorlight.nothink = cmobj.nothink
         floorlight.target = corona
+
+        if corona.nothink then
+            insert(nothink_coronas, floorlight)
+            floorlight.flags = $|MF_NOTHINK
+        end
 
         if corona.translation then
             floorlight.translation = corona.translation
@@ -174,14 +196,12 @@ end
 --Corona Logic
 ---@param mo mobj_t
 local function Corona(mo)
+    if mo.nothink then return end
+
     local t = mo.target
+
     if not (t and (t.health or mo.stayondeath)) then
         P_RemoveMobj(mo)
-        return
-    end
-
-    if mo.nothink then
-        if (mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z) then P_RemoveMobj(mo) end
         return
     end
 
@@ -195,24 +215,14 @@ local function Corona(mo)
     end
 
     --Adapt to flipped gravity
-    if mo.eflags != teflags then mo.eflags = teflags end
-
-    if mo.flicker then
-        if (mo.flags2 & MF2_DONTDRAW) then
-            mo.flags2 = $ & ~MF2_DONTDRAW
-        else
-            mo.flags2 = $|MF2_DONTDRAW
-        end
-    end
+    mo.eflags = t.eflags
 
     --Will it draw on the specific state?
     local mo_states = mo.states
     if not mo_states then return end
 
     if Corona_State(mo) then
-        if not mo.flicker and (mo.flags2 & MF2_DONTDRAW) then
-		    mo.flags2 = $ & ~MF2_DONTDRAW
-        end
+        mo.flags2 = $ & ~MF2_DONTDRAW
 
         --Set the color and alpha from the state if available
         local state_ref = mo_states[tstate]
@@ -235,13 +245,14 @@ end
 --Corona floorsprite
 
 local function CoronaSplat(mo)
+    if mo.nothink then return end
+
     local t = mo.target
+
     if not (t and floorsprites) then
         P_RemoveMobj(mo)
         return
     end
-
-	if mo.nothink then return end
 
     --Distance checks to scale the floorsprite
     local t_scale = t.scale
@@ -290,6 +301,16 @@ local function PostThink()
             Corona_Follow(mo, t)
         else
             remove(postthink_coronas, i) --otherwise it's useless, remove it
+        end
+    end
+
+    for i = #nothink_coronas, 1, -1 do
+		local mo = nothink_coronas[i]
+		--make sure it exists
+        if (mo and mo.valid and mo.target) then
+            RemoveOnMove(mo)
+        else
+            remove(nothink_coronas, i) --otherwise it's useless, remove it
         end
     end
 end
