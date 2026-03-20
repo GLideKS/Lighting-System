@@ -80,21 +80,26 @@ local function InitCorona(mo)
 	corona.spriteyoffset = FixedDiv(corona.zoffset * FU + FixedDiv(mo.height, mo.scale), corona.spriteyscale)
     corona.scale = mo.scale
 
-    --Set corona's visual properties
-    corona.renderflags = $|corona_rf
-    corona.alpha = Corona_Alpha(corona)
-
     local translation = (state_is_table and corona.states[mo.state].translation) or corona.cmobj.translation
 	if translation then
 		-- Translations over colors (probably redundant)
 		-- If someone passed a direct translation
 		-- That doesn't cross 0:31, that's on them
 		corona.translation = Corona_Color(corona)
-		corona.frame = 1|ff
+        corona.state = S_GKS_CORONA_B
 	else
 		corona.color = Corona_Color(corona)
 		corona.colorized = true
 	end
+
+    --Set corona's visual properties
+    corona.renderflags = $|corona_rf
+    corona.alpha = Corona_Alpha(corona)
+    if corona.flicker then
+        if corona.translation then corona.state = S_GKS_CORONA_B_FLICKER
+        else corona.state = S_GKS_CORONA_A_FLICKER
+        end
+    end
 
     --Mostly for flipped gravity
     corona.eflags = mo.eflags
@@ -119,14 +124,13 @@ local function InitCorona(mo)
 
         if corona.translation then
             floorlight.translation = corona.translation
-		    floorlight.frame = 1|ff_splat
         else
             floorlight.color = corona.color
         end
 
         floorlight.alpha = corona.alpha
 		floorlight.radius = mo.radius
-        floorlight.renderflags = $|corona_rf
+        floorlight.renderflags = $|corona_rf|FF_FLOORSPRITE
 		if not lite_mode then
 			floorlight.renderflags = splat_rf
 		end
@@ -216,15 +220,11 @@ local function Corona(mo)
         local color = Corona_Color(mo)
         local alpha = Corona_Alpha(mo)
 
-		if translation then
-			if mo.frame != 1|ff then mo.frame = 1|ff end
-			if mo.translation != color then
-				mo.translation = color
-			end
-		else
-			if mo.frame != 0|ff then mo.frame = 0|ff end
-			if mo.color != color then mo.color = color end
-		end
+        if translation then
+            mo.translation = color
+        else
+            mo.color = color
+        end
 
 		if mo.alpha != alpha then mo.alpha = alpha end
     elseif not (mo.flags2 & MF2_DONTDRAW) then
@@ -245,6 +245,7 @@ local function CoronaSplat(mo)
 
     --Distance checks to scale the floorsprite
     local t_scale = t.scale
+    local t_state = t.state
     local tsx, tsy = t.spritexscale, t.spriteyscale
     local targetscale = (tsx + tsy) / 2
     local distZ = abs(mo.z - t.z)
@@ -267,8 +268,7 @@ local function CoronaSplat(mo)
     if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
     if mo.eflags != t.eflags then mo.eflags = t.eflags end
 
-	local frame = (mo.translation and 1 or 0)|ff_splat
-    if mo.frame != frame then mo.frame = frame end
+    if mo.state != t_state then mo.state = t_state end
     if mo.spritexscale - scale then mo.spritexscale = scale end
     if mo.spriteyscale - scale then mo.spriteyscale = scale end
     if mo.scale - t.scale then mo.scale = t.scale end
