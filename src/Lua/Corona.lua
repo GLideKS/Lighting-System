@@ -16,9 +16,7 @@ local FixedDiv = FixedDiv
 local insert = table.insert
 local remove = table.remove
 local corona_rf = RF_NOCOLORMAPS|RF_NOSPLATBILLBOARD|RF_BRIGHTMASK
-local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT
-local ff = FF_FULLBRIGHT|FF_ADD
-local ff_splat = FF_FULLBRIGHT|FF_ADD|FF_FLOORSPRITE
+local splat_rf = corona_rf|RF_SLOPESPLAT|RF_OBJECTSLOPESPLAT|RF_FLOORSPRITE
 
 rawset(_G, "corona_toggle", true)
 rawset(_G, "lite_mode", false)
@@ -205,11 +203,7 @@ local function Corona(mo)
         return
     end
 
-    local tscale = t.scale
-    local teflags = t.eflags
-    local tstate = t.state
-
-    if mo.scale - t.scale then mo.scale = tscale end
+    if mo.scale - t.scale then mo.scale = t.scale end
     if not mo.postthinkmove then
         Corona_Follow(mo, t)
     end
@@ -218,14 +212,13 @@ local function Corona(mo)
     mo.eflags = t.eflags
 
     --Will it draw on the specific state?
-    local mo_states = mo.states
-    if not mo_states then return end
+    if not mo.states then return end
 
     if Corona_State(mo) then
         mo.flags2 = $ & ~MF2_DONTDRAW
 
         --Set the color and alpha from the state if available
-        local state_ref = mo_states[tstate]
+        local state_ref = mo.states[t.state]
 		local translation = (type(state_ref) == "table" and state_ref.translation) or mo.cmobj.translation
         local color = Corona_Color(mo)
         local alpha = Corona_Alpha(mo)
@@ -236,8 +229,8 @@ local function Corona(mo)
             mo.color = color
         end
 
-		if mo.alpha != alpha then mo.alpha = alpha end
-    elseif not (mo.flags2 & MF2_DONTDRAW) then
+		mo.alpha = alpha
+    else
         mo.flags2 = $|MF2_DONTDRAW
     end
 end
