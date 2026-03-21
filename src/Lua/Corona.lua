@@ -60,7 +60,7 @@ local function InitCorona(mo)
     local corona = P_SpawnMobjFromMobj(mo, 0,0,0, MT_GKS_CORONA)
     corona.target = mo
     insert(coronas, corona)
-    --P_SetOrigin(corona, mo.x, mo.y, mo.z)
+    P_SetOrigin(corona, mo.x, mo.y, mo.z)
     mo.coronaspawned = true
 
     --Romoney5 Suggestion: Remove the need of having to access the table in the thinker
