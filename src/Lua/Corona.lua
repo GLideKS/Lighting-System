@@ -52,6 +52,7 @@ end)
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
 ---@param mo mobj_t
 local function InitCorona(mo)
+    if not mo.valid then return end
     local cmobj = LightObjects[mo.type]
     if (cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
 
