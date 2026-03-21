@@ -157,6 +157,7 @@ end)
 local function LoadCoronaMidJoin()
     if not consoleplayer then return end
     if not (multiplayer and netgame) then return end --Only do this for multiplayer servers
+    if isserver then return end
 
     if (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
         for i, corona in ipairs(coronas) do
