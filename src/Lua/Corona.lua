@@ -155,6 +155,7 @@ end)
 
 --Hacky way to load coronas on server mid-join
 local function LoadCoronaMidJoin()
+    if gamestate != GS_LEVEL then return end
     if not consoleplayer then return end
     if not (multiplayer and netgame) then return end --Only do this for multiplayer servers
     if isserver then return end
@@ -270,6 +271,7 @@ local function CoronaSplat(mo)
 end
 
 local function PostThink()
+    if gamestate != GS_LEVEL then return end
     --go through all coronas
     for i in pairs(coronas) do
 		local mo = coronas[i]
