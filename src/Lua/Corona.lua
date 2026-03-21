@@ -267,7 +267,7 @@ local function PostThink()
 		local mo = coronas[i]
 
 		--make sure it exists
-        if (mo and mo.valid) then
+        if (mo and mo.valid and not mo.player) then
             if mo.target then
                 if mo.floor and mo.type == MT_GKS_CORONA_SPLAT then
                     CoronaSplat(mo)
