@@ -228,6 +228,13 @@ end
 local function CoronaSplat(mo)
     local t = mo.target
 
+    if not (t and floorsprites) then
+        P_RemoveMobj(mo)
+        return
+    elseif mo.nothink then
+        return
+    end
+
     --Distance checks to scale the floorsprite
     local t_scale = t.scale
     local t_state = t.state
@@ -274,13 +281,6 @@ local function PostThink()
         if (mo and mo.valid and not mo.player) then
             if mo.target then
                 if mo.floor and mo.type == MT_GKS_CORONA_SPLAT then
-                    if not floorsprites then
-                        P_RemoveMobj(mo)
-                        continue
-                    elseif mo.nothink then
-                        if (mo.x - mo.target.x) or (mo.y - mo.target.y) or (mo.z - mo.target.z) then P_RemoveMobj(mo) end
-                        continue
-                    end
                     CoronaSplat(mo)
                 elseif mo.type == MT_GKS_CORONA then
                     Corona(mo)
