@@ -159,6 +159,13 @@ local function LoadCoronaMidJoin()
     if not (multiplayer and netgame) then return end --Only do this for multiplayer servers
 
     if (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
+        for i, corona in ipairs(coronas) do
+			--make sure it exists
+			if (corona and corona.valid and (corona.type == MT_GKS_CORONA or corona.type == MT_GKS_CORONA_SPLAT)) then
+				P_RemoveMobj(corona)
+			end
+		end
+        coronas = {}
         for mo in mobjs.iterate() do
             if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
             local cmobj = LightObjects[mo.type]
