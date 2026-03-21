@@ -44,6 +44,13 @@ LightObjects[MT_RING] = {
     nothink = true
 }
 
+LightObjects[MT_THOK] = {
+    translation = SKINCOLOR_RED,
+    scale = FU/4,
+    zoffset = -5,
+    hide_on_lite = true
+}
+
 LightObjects[MT_FLINGRING] = {
     translation = LightObjects[MT_RING].translation,
     scale = LightObjects[MT_RING].scale,

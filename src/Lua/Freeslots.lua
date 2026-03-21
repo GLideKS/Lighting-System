@@ -37,7 +37,7 @@ mobjinfo[MT_GKS_CORONA] = {
 	radius = 16*FU,
 	height = 16*FU,
 	dispoffset = 50,
-	flags = MF_NOBLOCKMAP|MF_NOGRAVITY|MF_SCENERY|MF_NOCLIPHEIGHT|MF_NOCLIP
+	flags = MF_NOBLOCKMAP|MF_NOGRAVITY|MF_SCENERY|MF_NOCLIPHEIGHT|MF_NOCLIP|MF_NOTHINK
 }
 
 --Corona floorsprite, currently experimental
@@ -51,7 +51,7 @@ mobjinfo[MT_GKS_CORONA_SPLAT] = {
 	radius = 32*FU,
 	height = 8*FU,
 	dispoffset = 1,
-	flags = MF_NOBLOCKMAP|MF_NOGRAVITY|MF_SCENERY|MF_NOCLIPHEIGHT|MF_NOCLIP --Floorsprite coronas follows the corona's flags in the MobjThink
+	flags = MF_NOBLOCKMAP|MF_NOGRAVITY|MF_SCENERY|MF_NOCLIPHEIGHT|MF_NOCLIP|MF_NOTHINK --Floorsprite coronas follows the corona's flags in the MobjThink
 }
 
 --For the superform corona
