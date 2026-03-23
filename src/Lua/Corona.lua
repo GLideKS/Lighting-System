@@ -278,16 +278,11 @@ local function PostThink()
 		local mo = coronas[i]
 
 		--make sure it exists
-        if (mo and mo.valid and not mo.player) then
-            if mo.target then
-                if mo.floor and mo.type == MT_GKS_CORONA_SPLAT then
-                    CoronaSplat(mo)
-                elseif mo.type == MT_GKS_CORONA then
-                    Corona(mo)
-                end
+        if (mo and mo.valid) then
+            if mo.floor then
+                CoronaSplat(mo)
             else
-                P_RemoveMobj(mo)
-                remove(coronas, i)
+                Corona(mo)
             end
         else
             remove(coronas, i) --otherwise it's useless, remove it
