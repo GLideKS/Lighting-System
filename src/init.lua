@@ -5,7 +5,8 @@
 
 local LightingSystem_root = ""
 
-if not LightingSystem_loaded then rawset(_G, "LightingSystem_loaded", false) end
+if not LightingSystem_loaded then rawset(_G, "LightingSystem_loaded", false) end --Check for Lighting System's existence
+if not LightObjects then rawset(_G, "LightObjects", {}) end --Initialize table for light assignment per object.
 
 if not LightingSystem_loaded then
 	dofile(LightingSystem_root.."Freeslots")

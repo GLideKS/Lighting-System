@@ -32,8 +32,6 @@ LightObjects[MT_SOMETHING] = LightObjects[MT_RING]
 LightObjects[MT_SOMETHING].scale = FU
 */
 
-if not LightObjects then rawset(_G, "LightObjects", {}) end
-
 ------------Collectibles
 
 LightObjects[MT_RING] = {
