@@ -63,7 +63,7 @@ end
 ---@param mo mobj_t
 local function InitCorona(mo)
     local cmobj = LightObjects[mo.type]
-    if (cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
+    if (cmobj and cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
 
     --Prepare corona
     local sizesetting = corona_size.value
