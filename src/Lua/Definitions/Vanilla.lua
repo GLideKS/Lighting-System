@@ -1,5 +1,5 @@
+--Vanilla Objects (SRB2)
 --For the sake of performance, Coronas are defined per object
-
 
 /*
 // Example to define objects. you can copy this for your mod or something

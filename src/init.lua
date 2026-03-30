@@ -11,11 +11,15 @@ if not LightObjects then rawset(_G, "LightObjects", {}) end --Initialize table f
 if not LightingSystem_loaded then
 	dofile(LightingSystem_root.."Freeslots")
 	if isdedicatedserver then LightingSystem_loaded = true return end --don't even handle coronas for the dedicated server
-	dofile(LightingSystem_root.."Definitions")
+	
+	--Must load first
 	dofile(LightingSystem_root.."Commands")
 	dofile(LightingSystem_root.."Functions")
 	dofile(LightingSystem_root.."Corona")
 	dofile(LightingSystem_root.."Super player corona")
+	
+	--Light object assignment (Definitions)
+	dofile(LightingSystem_root.."Definitions/Vanilla") --Vanilla SRB2
 
 	print("\131LightingSystem loaded sucessfully!")
 	LightingSystem_loaded = true
