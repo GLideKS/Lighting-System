@@ -20,6 +20,7 @@ if not LightingSystem_loaded then
 	
 	--Light object assignment (Definitions)
 	dofile(LightingSystem_root.."Definitions/Vanilla") --Vanilla SRB2
+	dofile(LightingSystem_root.."Definitions/Extras") --Lighting System additions
 
 	print("\131LightingSystem loaded sucessfully!")
 	LightingSystem_loaded = true

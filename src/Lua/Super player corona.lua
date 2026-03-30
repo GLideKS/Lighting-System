@@ -5,14 +5,6 @@ NOTE: This is NOT a separated corona! is a dummy object for the player.
 then the corona spawns if this object is defined on the LightObjects[MT_] table
 */
 
-LightObjects[MT_PLAYERCORONA] = {
-    color = SKINCOLOR_LEMON,
-    scale = FU/3,
-    alpha = FU,
-    stayondeath = false,
-    floorlight = true
-}
-
 local function PlayerCoronaSpawn(mo)
     if not (mo and mo.player and mo.valid and mo.health) then return end
 
