@@ -1,5 +1,5 @@
+--Vanilla Objects (SRB2)
 --For the sake of performance, Coronas are defined per object
-
 
 /*
 // Example to define objects. you can copy this for your mod or something
@@ -31,8 +31,6 @@ LightObjects[MT_SOMETHING] = { --MT_SOMETHING is the Object type to assign a cor
 LightObjects[MT_SOMETHING] = LightObjects[MT_RING]
 LightObjects[MT_SOMETHING].scale = FU
 */
-
-if not LightObjects then rawset(_G, "LightObjects", {}) end
 
 ------------Collectibles
 
