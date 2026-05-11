@@ -44,8 +44,6 @@ local function IsObjectOnSight(mo)
     return true
 end
 */
-local postthink_coronas = {}
-local nothink_coronas = {}
 
 local function RemoveOnMove(mo)
     local t = mo.target
@@ -84,14 +82,6 @@ local function InitCorona(mo)
     corona.coronascale = cmobj.scale or FU
     corona.zoffset = cmobj.zoffset or 0
     corona.nothink = cmobj.nothink
-    corona.postthinkmove = cmobj.postthinkmove
-
-    if corona.nothink then
-        insert(nothink_coronas, corona)
-        corona.flags = $|MF_NOTHINK
-    end
-
-    if corona.postthinkmove then insert(postthink_coronas, corona) end
 
     local state_is_table = (corona.states and type(corona.states[mo.state]) == "table")
 
@@ -142,11 +132,6 @@ local function InitCorona(mo)
         floorlight.scale = corona.scale
 		floorlight.floor = true --and mark it as a floor light
         floorlight.target = corona
-
-        if corona.nothink then
-            insert(nothink_coronas, floorlight)
-            floorlight.flags = $|MF_NOTHINK
-        end
 
         if corona.translation then
             floorlight.translation = corona.translation
@@ -200,7 +185,7 @@ end
 --Corona Logic
 ---@param mo mobj_t
 local function Corona(mo)
-    if mo.nothink then return end
+    if mo.nothink then RemoveOnMove(mo) return end
 
     local t = mo.target
 
@@ -210,9 +195,7 @@ local function Corona(mo)
     end
 
     if mo.scale - t.scale then mo.scale = t.scale end
-    if not mo.postthinkmove then
-        Corona_Follow(mo, t)
-    end
+    Corona_Follow(mo, t)
 
     --Adapt to flipped gravity
     mo.eflags = t.eflags
@@ -244,7 +227,7 @@ end
 --Corona floorsprite
 
 local function CoronaSplat(mo)
-    if mo.nothink then return end
+    if mo.nothink then RemoveOnMove(mo) return end
 
     local t = mo.target
 
@@ -289,33 +272,7 @@ local function CoronaSplat(mo)
     end
 end
 
-local function PostThink()
-    if gamestate != GS_LEVEL then return end
-    --go through all coronas
-    for i = #postthink_coronas, 1, -1 do
-		local mo = postthink_coronas[i]
-		--make sure it exists
-        if (mo and mo.valid and mo.type == MT_GKS_CORONA and mo.target) then
-            local t = mo.target
-            Corona_Follow(mo, t)
-        else
-            remove(postthink_coronas, i) --otherwise it's useless, remove it
-        end
-    end
-
-    for i = #nothink_coronas, 1, -1 do
-		local mo = nothink_coronas[i]
-		--make sure it exists
-        if (mo and mo.valid and mo.health and mo.type == MT_GKS_CORONA) then
-            RemoveOnMove(mo)
-        else
-            remove(nothink_coronas, i) --otherwise it's useless, remove it
-        end
-    end
-end
-
 --Hook all
 addHook("MobjThinker", Corona, MT_GKS_CORONA)
 addHook("MobjThinker", CoronaSplat, MT_GKS_CORONA_SPLAT)
 addHook("ThinkFrame", LoadCoronaMidJoin)
-addHook("PostThinkFrame", PostThink)

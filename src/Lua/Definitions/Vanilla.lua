@@ -231,7 +231,6 @@ LightObjects[MT_JETFUME1] = {
 LightObjects[MT_METALJETFUME] = LightObjects[MT_JETFUME1]
 LightObjects[MT_METALJETFUME].floorlight = true
 LightObjects[MT_METALJETFUME].states = {[S_JETFUME1] = true, [S_JETFUMEFLASH] = {color = SKINCOLOR_YELLOW}}
-LightObjects[MT_METALJETFUME].postthinkmove = true
 
 LightObjects[MT_PROJECTORLIGHT] = {
     color = SKINCOLOR_GREEN,
