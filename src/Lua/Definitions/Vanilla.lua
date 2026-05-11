@@ -265,12 +265,9 @@ LightObjects[MT_SONIC3KBOSSEXPLODE] = LightObjects[MT_BOSSEXPLODE]
 
 ------------Scenery
 
-LightObjects[MT_CANDLE] = {
+LightObjects[MT_CANDLEPRICKET] = {
     color = SKINCOLOR_ORANGE,
     scale = FU,
-    states = {
-        [S_CANDLE] = {sprite = SPR_CNDL}
-    },
     alpha = FU/3,
     zoffset = -10,
     floorlight = true,
@@ -278,8 +275,7 @@ LightObjects[MT_CANDLE] = {
     nothink = true
 }
 
-LightObjects[MT_CANDLEPRICKET] = LightObjects[MT_CANDLE]
-LightObjects[MT_FIRETORCH] = LightObjects[MT_CANDLE]
+LightObjects[MT_FIRETORCH] = LightObjects[MT_CANDLEPRICKET]
 LightObjects[MT_FIRETORCH].states = nil
 LightObjects[MT_FIRETORCH].zoffset = -20
 

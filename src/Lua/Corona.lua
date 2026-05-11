@@ -54,6 +54,7 @@ end)
 local function InitCorona(mo)
     if not mo.valid then return end
     local cmobj = LightObjects[mo.type]
+	if not cmobj then return end
     if (cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
 
     --Prepare corona
