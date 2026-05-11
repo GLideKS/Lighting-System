@@ -56,7 +56,10 @@ local function RemoveOnMove(mo)
         return
     end
     local z = (mo.floor and t.floorz) or t.z
-    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then P_RemoveMobj(mo) end
+    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then P_RemoveMobj(mo) return end
+
+    --kill the corona if the defined state doesn't match
+    if mo.states and not Corona_State(mo) then P_RemoveMobj(mo) return end
 end
 
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
@@ -133,6 +136,8 @@ local function InitCorona(mo)
     --Will the corona spawn a floorlight as well?
     if not floorsprites then return end
     if cmobj and cmobj.floorlight then
+        if corona.states and corona.nothink and not Corona_State(corona) then return end --Don't even spawn the floorlight if state/sprite doesn't match
+
         local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
         floorlight.scale = corona.scale
 		floorlight.floor = true --and mark it as a floor light
