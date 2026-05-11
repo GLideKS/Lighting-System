@@ -106,7 +106,7 @@ local function InitCorona(mo)
     corona.eflags = mo.eflags
 
     --Will it draw on the specific state?
-    if cmobj and cmobj.states then
+    if corona.states then
         if Corona_State(corona) then
 			corona.flags2 = $ & ~MF2_DONTDRAW
         else

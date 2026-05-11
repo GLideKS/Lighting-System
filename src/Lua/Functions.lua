@@ -66,13 +66,20 @@ end
 ---@param mo mobj_t
 local function Corona_State(mo)
     local t = mo.target
-    if not mo.states then return false end
+    if not (mo and mo.states and t) then return false end
+    local definition = mo.states[t.state]
 
-    local state_is_table = type(mo.states[t.state]) == "table"
-    local sprite = state_is_table and mo.states[t.state].sprite
+    if not definition then return false end --Do not show if the state doesn't match
 
-    if (sprite == t.sprite) then return true end
-    if (not sprite and mo.states[t.state]) then return true end
+    if definition == true then return true end --It matches, return true
+
+    --The state is a table
+    if type(definition) == "table" then
+        local target_sprite = definition.sprite
+
+        if target_sprite == nil then return true end --doesn't have a sprite field assigned but the state is written anyways
+        if target_sprite == t.sprite then return true end --The sprite matches
+    end
     return false
 end
 
