@@ -25,5 +25,5 @@ if not LightingSystem_loaded then
 	print("\131LightingSystem loaded sucessfully!")
 	LightingSystem_loaded = true
 else
-	print("\x82\WARNING: LightingSystem already loaded, skipping.")
+	print("\x82".."WARNING: LightingSystem already loaded, skipping.")
 end
