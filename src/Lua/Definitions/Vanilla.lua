@@ -278,7 +278,15 @@ LightObjects[MT_CANDLE] = {
     nothink = true
 }
 
-LightObjects[MT_CANDLEPRICKET] = LightObjects[MT_CANDLE]
+LightObjects[MT_CANDLEPRICKET] = {
+    color = LightObjects[MT_CANDLE].color,
+    scale = LightObjects[MT_CANDLE].scale,
+    alpha = LightObjects[MT_CANDLE].alpha,
+    zoffset = LightObjects[MT_CANDLE].zoffset,
+    floorlight = LightObjects[MT_CANDLE].floorlight,
+    hide_on_lite = LightObjects[MT_CANDLE].hide_on_lite,
+    nothink = LightObjects[MT_CANDLE].nothink
+}
 
 LightObjects[MT_FIRETORCH] = {
     color = LightObjects[MT_CANDLE].color,

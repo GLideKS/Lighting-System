@@ -117,6 +117,8 @@ local function InitCorona(mo)
     --Will the corona spawn a floorlight as well?
     if not floorsprites then return end
     if cmobj and cmobj.floorlight then
+        if corona.states and corona.nothink and not Corona_State(corona) then return end --Don't even spawn the floorlight if state/sprite doesn't match
+
         local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
         floorlight.scale = corona.scale
 		floorlight.floor = true --and mark it as a floor light
