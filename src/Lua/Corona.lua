@@ -295,7 +295,7 @@ local function PostThink()
     for i = #postthink_coronas, 1, -1 do
 		local mo = postthink_coronas[i]
 		--make sure it exists
-        if (mo and mo.valid and mo.target) then
+        if (mo and mo.valid and mo.type == MT_GKS_CORONA and mo.target) then
             local t = mo.target
             Corona_Follow(mo, t)
         else
@@ -306,7 +306,7 @@ local function PostThink()
     for i = #nothink_coronas, 1, -1 do
 		local mo = nothink_coronas[i]
 		--make sure it exists
-        if (mo and mo.valid) then
+        if (mo and mo.valid and mo.health and mo.type == MT_GKS_CORONA) then
             RemoveOnMove(mo)
         else
             remove(nothink_coronas, i) --otherwise it's useless, remove it
