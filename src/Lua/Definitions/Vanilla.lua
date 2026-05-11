@@ -228,9 +228,14 @@ LightObjects[MT_JETFUME1] = {
     stayondeath = false,
 }
 
-LightObjects[MT_METALJETFUME] = LightObjects[MT_JETFUME1]
-LightObjects[MT_METALJETFUME].floorlight = true
-LightObjects[MT_METALJETFUME].states = {[S_JETFUME1] = true, [S_JETFUMEFLASH] = {color = SKINCOLOR_YELLOW}}
+LightObjects[MT_METALJETFUME] = {
+    color = LightObjects[MT_JETFUME1].color,
+    scale = LightObjects[MT_JETFUME1].scale,
+    alpha = LightObjects[MT_JETFUME1].alpha,
+    stayondeath = LightObjects[MT_JETFUME1].stayondeath,
+    floorlight = true,
+    states = {[S_JETFUME1] = true, [S_JETFUMEFLASH] = {color = SKINCOLOR_YELLOW}}
+}
 
 LightObjects[MT_PROJECTORLIGHT] = {
     color = SKINCOLOR_GREEN,
@@ -260,7 +265,12 @@ LightObjects[MT_BOSSEXPLODE] = {
     stayondeath = true
 }
 
-LightObjects[MT_SONIC3KBOSSEXPLODE] = LightObjects[MT_BOSSEXPLODE]
+LightObjects[MT_SONIC3KBOSSEXPLODE] = {
+    color = LightObjects[MT_BOSSEXPLODE].color,
+    scale = LightObjects[MT_BOSSEXPLODE].scale,
+    alpha = LightObjects[MT_BOSSEXPLODE].alpha,
+    stayondeath = LightObjects[MT_BOSSEXPLODE].stayondeath
+}
 
 ------------Scenery
 
@@ -311,7 +321,13 @@ LightObjects[MT_LAMPPOST1] = {
     nothink = true
 }
 
-LightObjects[MT_LAMPPOST2] = LightObjects[MT_LAMPPOST1]
+LightObjects[MT_LAMPPOST2] = {
+    color = LightObjects[MT_LAMPPOST1].color,
+    zoffset = LightObjects[MT_LAMPPOST1].zoffset,
+    alpha = LightObjects[MT_LAMPPOST1].alpha,
+    floorlight = LightObjects[MT_LAMPPOST1].floorlight,
+    nothink =  LightObjects[MT_LAMPPOST1].nothink
+}
 
 ------------Projectiles
 
@@ -549,7 +565,12 @@ LightObjects[MT_SPINBOBERT_FIRE1] = {
     zoffset = -10
 }
 
-LightObjects[MT_SPINBOBERT_FIRE2] = LightObjects[MT_SPINBOBERT_FIRE1]
+LightObjects[MT_SPINBOBERT_FIRE2] = {
+    color = LightObjects[MT_SPINBOBERT_FIRE1].color,
+    scale = LightObjects[MT_SPINBOBERT_FIRE1].scale,
+    alpha = LightObjects[MT_SPINBOBERT_FIRE1].alpha,
+    zoffset = LightObjects[MT_SPINBOBERT_FIRE1].zoffset
+}
 
 ------------Gold boxes
 local goldbox = {
