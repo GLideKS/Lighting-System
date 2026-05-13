@@ -22,13 +22,10 @@ end
 local function SuperCoronaThink(mo)
     local t = mo.target
     if not (t and t.player and t.player.powers[pw_super]) then P_KillMobj(mo) return end
-
-    if ((mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z)) then
-        P_MoveOrigin(mo, t.x, t.y, t.z)
-    end
     if mo.radius - t.radius then mo.radius = t.radius end
     if mo.height - t.height then mo.height = t.height end
     if mo.scale - t.scale then mo.scale = t.scale end
+    Corona_Follow(mo, t)
 end
 
 addHook("MobjThinker", PlayerCoronaSpawn, MT_PLAYER)
