@@ -29,9 +29,10 @@ local function Corona_Color(mo)
     local color = (state_is_table and corona_cmobj.states[t.state].color) or corona_cmobj.color or t.color
 
     if translation then --translation takes priority
-        if type(translation) == "number" then
+        if (type(translation) == "number" or type(translation) == "boolean") then
+            local ttype = (type(translation) == "number" and translation) or (type(translation) == "boolean" and t.color + 1)
             -- Maybe they defined a skincolor constant???
-            return "COLORSCALECLR" .. skincolors[translation].ramp[7]
+            return "COLORSCALECLR" .. skincolors[ttype].ramp[7]
         else
             return translation
         end
