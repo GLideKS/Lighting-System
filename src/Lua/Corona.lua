@@ -51,7 +51,7 @@ local function RemoveOnMove(mo)
     if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then P_RemoveMobj(mo) return end
 
     --kill the corona if the defined state doesn't match
-    if mo.states and not Corona_State(mo) then P_RemoveMobj(mo) return end
+    if corona_cmobj.states and not Corona_State(mo) then P_RemoveMobj(mo) return end
 end
 
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
