@@ -3,6 +3,8 @@
 --If you have still lag, use corona_toggle command to disable coronas
 
 --Localize for optimization
+local insert = table.insert
+local remove = table.remove
 local MT_GKS_CORONA = MT_GKS_CORONA
 local MT_GKS_CORONA_SPLAT = MT_GKS_CORONA_SPLAT
 local corona_rf = RF_NOCOLORMAPS|RF_BRIGHTMASK
@@ -34,6 +36,7 @@ local function IsObjectOnSight(mo)
     return true
 end
 */
+local postthink_coronas = {}
 
 local function RemoveOnMove(mo)
     local t = mo.target
@@ -67,6 +70,7 @@ local function InitCorona(mo)
     mo.coronaspawned = true --tell the assigned object that it's corona spawned. to be used when you get a resynch
     local corona_cmobj = corona.cmobj
     local state_is_table = (corona_cmobj.states and type(corona_cmobj.states[mo.state]) == "table")
+    if corona_cmobj.postthinkmove then insert(postthink_coronas, corona) end
 
     --Set corona scale
     local corona_zoffset = corona_cmobj.zoffset or 0
@@ -177,7 +181,7 @@ local function Corona(mo)
     end
 
     if mo.scale - t.scale then mo.scale = t.scale end
-    Corona_Follow(mo, t)
+    if not mo.postthinkmove then Corona_Follow(mo, t) end
 
     --Adapt to flipped gravity
     mo.eflags = t.eflags
@@ -248,7 +252,22 @@ local function CoronaSplat(mo)
     Corona_Follow(mo, t)
 end
 
+local function PostThink()
+    if gamestate != GS_LEVEL then return end
+    --go through all coronas
+    for i = #postthink_coronas, 1, -1 do
+		local mo = postthink_coronas[i]
+		--make sure it exists
+        if (mo and mo.valid and mo.target and (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT)) then
+            Corona_Follow(mo, mo.target)
+        else
+            remove(postthink_coronas, i) --otherwise it's useless, remove it
+        end
+    end
+end
+
 --Hook all
 addHook("MobjThinker", Corona, MT_GKS_CORONA)
 addHook("MobjThinker", CoronaSplat, MT_GKS_CORONA_SPLAT)
 addHook("ThinkFrame", LoadCoronaMidJoin)
+addHook("PostThinkFrame", PostThink)

@@ -234,7 +234,8 @@ LightObjects[MT_METALJETFUME] = {
     alpha = LightObjects[MT_JETFUME1].alpha,
     stayondeath = LightObjects[MT_JETFUME1].stayondeath,
     floorlight = true,
-    states = {[S_JETFUME1] = true, [S_JETFUMEFLASH] = {color = SKINCOLOR_YELLOW}}
+    states = {[S_JETFUME1] = true, [S_JETFUMEFLASH] = {color = SKINCOLOR_YELLOW}},
+    postthinkmove = true
 }
 
 LightObjects[MT_PROJECTORLIGHT] = {
