@@ -51,7 +51,7 @@ LightObjects[MT_FLINGRING] = {
 }
 
 LightObjects[MT_BLUETEAMRING] = {
-    color = SKINCOLOR_COBALT,
+    translation = SKINCOLOR_BLUE,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
@@ -60,7 +60,7 @@ LightObjects[MT_BLUETEAMRING] = {
 }
 
 LightObjects[MT_REDTEAMRING] = {
-    color = SKINCOLOR_CHERRY,
+    translation = SKINCOLOR_RED,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
@@ -69,7 +69,7 @@ LightObjects[MT_REDTEAMRING] = {
 }
 
 LightObjects[MT_TOKEN] = {
-    color = SKINCOLOR_SILVER,
+    translation = SKINCOLOR_SILVER,
     scale = FU/2,
     alpha = FU/3*2,
     floorlight = true,
@@ -87,7 +87,7 @@ local emmy = { --Emeralds
 }
 
 LightObjects[MT_EMERALD1] = {
-    color = SKINCOLOR_GREEN,
+    translation = SKINCOLOR_GREEN,
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
@@ -96,7 +96,7 @@ LightObjects[MT_EMERALD1] = {
 }
 
 LightObjects[MT_EMERALD2] = {
-    color = SKINCOLOR_PURPLE,
+    translation = SKINCOLOR_PURPLE,
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
@@ -105,7 +105,7 @@ LightObjects[MT_EMERALD2] = {
 }
 
 LightObjects[MT_EMERALD3] = {
-    color = SKINCOLOR_BLUE,
+    translation = SKINCOLOR_BLUE,
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
@@ -114,7 +114,7 @@ LightObjects[MT_EMERALD3] = {
 }
 
 LightObjects[MT_EMERALD4] = {
-    color = SKINCOLOR_BLUEBELL,
+    translation = SKINCOLOR_BLUEBELL,
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
@@ -123,7 +123,7 @@ LightObjects[MT_EMERALD4] = {
 }
 
 LightObjects[MT_EMERALD5] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_ORANGE,
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
@@ -132,7 +132,7 @@ LightObjects[MT_EMERALD5] = {
 }
 
 LightObjects[MT_EMERALD6] = {
-color = SKINCOLOR_SALMON,
+    translation = SKINCOLOR_SALMON,
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
@@ -141,7 +141,7 @@ color = SKINCOLOR_SALMON,
 }
 
 LightObjects[MT_EMERALD7] = {
-    color = SKINCOLOR_SILVER,
+    translation = SKINCOLOR_SILVER,
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
@@ -150,7 +150,7 @@ LightObjects[MT_EMERALD7] = {
 }
 
 LightObjects[MT_EMERHUNT] = {
-    color = SKINCOLOR_GREEN,
+    translation = SKINCOLOR_GREEN,
     scale = emmy.scale,
     alpha = emmy.alpha,
     floorlight = emmy.floorlight,
@@ -167,7 +167,7 @@ LightObjects[MT_FIREFLOWER] = {
 ------------Enemies
 
 LightObjects[MT_GOLDBUZZ] = {
-    color = SKINCOLOR_LEMON,
+    translation = SKINCOLOR_YELLOW,
     alpha = FU/3,
     states = {
         [S_BUZZFLY2] = true,
@@ -180,14 +180,14 @@ LightObjects[MT_GOLDBUZZ] = {
 LightObjects[MT_REDBUZZ] = LightObjects[MT_GOLDBUZZ]
 
 LightObjects[MT_CRAWLACOMMANDER] = {
-    color = SKINCOLOR_RED,
+    translation = SKINCOLOR_RED,
     alpha = FU*2/3,
     scale = FU*2/3,
     states = {
         [S_CCOMMAND1] = true,
         [S_CCOMMAND2] = {alpha = FU/2},
-        [S_CCOMMAND3] = {color = SKINCOLOR_LEMON},
-        [S_CCOMMAND4] = {color = SKINCOLOR_LEMON, alpha = FU/2}
+        [S_CCOMMAND3] = {translation = SKINCOLOR_YELLOW},
+        [S_CCOMMAND4] = {translation = SKINCOLOR_YELLOW, alpha = FU/2}
     },
     zoffset = -10
 }
@@ -195,8 +195,9 @@ LightObjects[MT_CRAWLACOMMANDER] = {
 ------------Interactive objects
 
 LightObjects[MT_STARPOST] = {
+    translation = SKINCOLOR_SILVER,
     scale = FU,
-    alpha = FU/2,
+    alpha = FU/3*2,
     states = {
         [S_STARPOST_FLASH] = true
     },
@@ -207,14 +208,15 @@ LightObjects[MT_STARPOST] = {
 ------------Effects
 
 LightObjects[MT_SUPERSPARK] = {
-    color = SKINCOLOR_SILVER,
-    scale = FU,
+    translation = SKINCOLOR_SILVER,
+    scale = FU/2,
     alpha = FU/2,
     stayondeath = true,
-    floorlight = true
+    floorlight = true,
+    zoffset = 15
 }
 LightObjects[MT_IVSP] = {
-    color = SKINCOLOR_BLUEBELL,
+    translation = SKINCOLOR_BLUEBELL,
     scale = FU/3,
     alpha = FU/2,
     stayondeath = false,
@@ -238,12 +240,12 @@ LightObjects[MT_METALJETFUME] = {
 }
 
 LightObjects[MT_PROJECTORLIGHT] = {
-    color = SKINCOLOR_GREEN,
+    translation = SKINCOLOR_GREEN,
     nothink = true
 }
 
 LightObjects[MT_EGGROBO1JET] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_ORANGE,
     scale = FU/2,
     alpha = FU/2,
     zoffset = -10,
@@ -251,7 +253,7 @@ LightObjects[MT_EGGROBO1JET] = {
 }
 
 LightObjects[MT_MSSHIELD_FRONT] = {
-    color = SKINCOLOR_GALAXY,
+    translation = SKINCOLOR_PURPLE,
     scale = FU*6/5,
     alpha = FU/2,
     zoffset = -20,
@@ -259,14 +261,14 @@ LightObjects[MT_MSSHIELD_FRONT] = {
 }
 
 LightObjects[MT_BOSSEXPLODE] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_ORANGE,
     scale = FU/3,
     alpha = FU/3*2,
     stayondeath = true
 }
 
 LightObjects[MT_SONIC3KBOSSEXPLODE] = {
-    color = LightObjects[MT_BOSSEXPLODE].color,
+    translation = LightObjects[MT_BOSSEXPLODE].translation,
     scale = LightObjects[MT_BOSSEXPLODE].scale,
     alpha = LightObjects[MT_BOSSEXPLODE].alpha,
     stayondeath = LightObjects[MT_BOSSEXPLODE].stayondeath
@@ -275,7 +277,7 @@ LightObjects[MT_SONIC3KBOSSEXPLODE] = {
 ------------Scenery
 
 LightObjects[MT_CANDLE] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_ORANGE,
     scale = FU,
     states = {
         [S_CANDLE] = {sprite = SPR_CNDL}
@@ -288,7 +290,7 @@ LightObjects[MT_CANDLE] = {
 }
 
 LightObjects[MT_CANDLEPRICKET] = {
-    color = LightObjects[MT_CANDLE].color,
+    translation = LightObjects[MT_CANDLE].translation,
     scale = LightObjects[MT_CANDLE].scale,
     alpha = LightObjects[MT_CANDLE].alpha,
     zoffset = LightObjects[MT_CANDLE].zoffset,
@@ -298,7 +300,7 @@ LightObjects[MT_CANDLEPRICKET] = {
 }
 
 LightObjects[MT_FIRETORCH] = {
-    color = LightObjects[MT_CANDLE].color,
+    translation = LightObjects[MT_CANDLE].translation,
     scale = LightObjects[MT_CANDLE].scale,
     alpha = LightObjects[MT_CANDLE].alpha,
     zoffset = -20,
@@ -308,13 +310,14 @@ LightObjects[MT_FIRETORCH] = {
 }
 
 LightObjects[MT_DBALL] = {
+    translation = SKINCOLOR_SILVER,
     zoffset = -40,
     alpha = FU/2,
     nothink = true
 }
 
 LightObjects[MT_LAMPPOST1] = {
-    color = SKINCOLOR_LEMON,
+    translation = SKINCOLOR_YELLOW,
     zoffset = -20,
     alpha = FU/2,
     floorlight = true,
@@ -322,7 +325,7 @@ LightObjects[MT_LAMPPOST1] = {
 }
 
 LightObjects[MT_LAMPPOST2] = {
-    color = LightObjects[MT_LAMPPOST1].color,
+    translation = LightObjects[MT_LAMPPOST1].translation,
     zoffset = LightObjects[MT_LAMPPOST1].zoffset,
     alpha = LightObjects[MT_LAMPPOST1].alpha,
     floorlight = LightObjects[MT_LAMPPOST1].floorlight,
@@ -332,7 +335,7 @@ LightObjects[MT_LAMPPOST2] = {
 ------------Projectiles
 
 LightObjects[MT_TURRETLASER] = {
-    color = SKINCOLOR_SALMON,
+    translation = SKINCOLOR_RED,
     scale = FU/5,
     alpha = FU/2,
     zoffset = -20,
@@ -340,32 +343,32 @@ LightObjects[MT_TURRETLASER] = {
 }
 
 LightObjects[MT_FIREBALL] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_ORANGE,
     alpha = FU/2,
     stayondeath = true,
     floorlight = true
 }
 
 LightObjects[MT_ENERGYBALL] = {
-    color = SKINCOLOR_SKY,
+    translation = SKINCOLOR_SKY,
     scale = FU*2,
     alpha = FU*5/6,
     states = {
         [S_ENERGYBALL1] = true
     },
-    zoffset = -50,
+    zoffset = -53,
     stayondeath = true,
     floorlight = true
 }
 
 LightObjects[MT_CACOFIRE] = {
-    color = SKINCOLOR_BLUE,
+    translation = SKINCOLOR_BLUE,
     scale = FU/3,
     zoffset = -13
 }
 
 LightObjects[MT_CYBRAKDEMON_MISSILE] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_FLAME,
     scale = FU,
     alpha = FU/2,
     zoffset = -10,
@@ -380,6 +383,7 @@ LightObjects[MT_CYBRAKDEMON_MISSILE] = {
 ------------Weapons
 
 LightObjects[MT_EXPLOSIONRING] = {
+    translation = SKINCOLOR_SILVER,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
@@ -387,7 +391,7 @@ LightObjects[MT_EXPLOSIONRING] = {
 }
 
 LightObjects[MT_AUTOMATICRING] = {
-    color = SKINCOLOR_EMERALD,
+    translation = SKINCOLOR_EMERALD,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
@@ -395,7 +399,7 @@ LightObjects[MT_AUTOMATICRING] = {
 }
 
 LightObjects[MT_BOUNCERING] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_ORANGE,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
@@ -403,7 +407,7 @@ LightObjects[MT_BOUNCERING] = {
 }
 
 LightObjects[MT_RAILRING] = {
-    color = SKINCOLOR_BLUEBELL,
+    translation = SKINCOLOR_BLUEBELL,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
@@ -411,7 +415,7 @@ LightObjects[MT_RAILRING] = {
 }
 
 LightObjects[MT_INFINITYRING] = {
-    color = SKINCOLOR_CHERRY,
+    translation = SKINCOLOR_CHERRY,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
@@ -419,7 +423,7 @@ LightObjects[MT_INFINITYRING] = {
 }
 
 LightObjects[MT_GRENADERING] = {
-    color = SKINCOLOR_GREEN,
+    translation = SKINCOLOR_GREEN,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset-4,
     stayondeath = LightObjects[MT_RING].stayondeath,
@@ -427,7 +431,7 @@ LightObjects[MT_GRENADERING] = {
 }
 
 LightObjects[MT_SCATTERRING] = {
-    color = SKINCOLOR_GALAXY,
+    translation = SKINCOLOR_GALAXY,
     scale = LightObjects[MT_RING].scale,
     zoffset = LightObjects[MT_RING].zoffset,
     stayondeath = LightObjects[MT_RING].stayondeath,
@@ -450,30 +454,31 @@ LightObjects[MT_REDRING] = {
 }
 
 LightObjects[MT_THROWNEXPLOSION] = {
+    translation = SKINCOLOR_SILVER,
     scale = LightObjects[MT_REDRING].scale,
     zoffset = LightObjects[MT_REDRING].zoffset,
 }
 
 LightObjects[MT_THROWNAUTOMATIC] = {
-    color = LightObjects[MT_AUTOMATICRING].color,
+    translation = LightObjects[MT_AUTOMATICRING].translation,
     scale = LightObjects[MT_REDRING].scale,
     zoffset = LightObjects[MT_REDRING].zoffset,
 }
 
 LightObjects[MT_THROWNBOUNCE] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_ORANGE,
     scale = LightObjects[MT_REDRING].scale,
     zoffset = LightObjects[MT_REDRING].zoffset,
 }
 
 LightObjects[MT_THROWNINFINITY] = {
-    color = LightObjects[MT_INFINITYRING].color,
+    translation = LightObjects[MT_INFINITYRING].translation,
     scale = LightObjects[MT_REDRING].scale,
     zoffset = LightObjects[MT_REDRING].zoffset,
 }
 
 LightObjects[MT_THROWNSCATTER] = {
-    color = LightObjects[MT_SCATTERRING].color,
+    translation = LightObjects[MT_SCATTERRING].translation,
     scale = LightObjects[MT_REDRING].scale,
     zoffset = LightObjects[MT_REDRING].zoffset,
 }
@@ -481,13 +486,13 @@ LightObjects[MT_THROWNSCATTER] = {
 ------------Hazards
 
 LightObjects[MT_PUMA] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_FLAME,
     alpha = FU/3,
     zoffset = -15
 }
 
 LightObjects[MT_SMALLFIREBAR] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_FLAME,
     scale = FU,
     alpha = FU/2,
     zoffset = -15,
@@ -496,7 +501,7 @@ LightObjects[MT_SMALLFIREBAR] = {
 }
 
 LightObjects[MT_BIGFIREBAR] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_FLAME,
     scale = FU*2,
     alpha = FU/2,
     zoffset = -40,
@@ -505,7 +510,7 @@ LightObjects[MT_BIGFIREBAR] = {
 }
 
 LightObjects[MT_FLAMEJETFLAME] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_FLAME,
     scale = FU/2,
     alpha = FU/2,
     zoffset = 15,
@@ -513,7 +518,7 @@ LightObjects[MT_FLAMEJETFLAME] = {
 }
 
 LightObjects[MT_FLAMEJETFLAMEB] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_FLAME,
     scale = FU,
     alpha = FU/3,
     zoffset = 5,
@@ -521,7 +526,7 @@ LightObjects[MT_FLAMEJETFLAMEB] = {
 }
 
 LightObjects[MT_GREENFLAME] = {
-    color = SKINCOLOR_EMERALD,
+    translation = SKINCOLOR_EMERALD,
     scale = FU,
     alpha = FU/2,
     zoffset = -15,
@@ -530,7 +535,7 @@ LightObjects[MT_GREENFLAME] = {
 }
 
 LightObjects[MT_CYBRAKDEMON_ELECTRIC_BARRIER] = {
-    color = SKINCOLOR_AQUAMARINE,
+    translation = SKINCOLOR_AQUAMARINE,
     scale = FU,
     alpha = FU/3,
     zoffset = -25,
@@ -540,7 +545,7 @@ LightObjects[MT_CYBRAKDEMON_ELECTRIC_BARRIER] = {
 ------------Enemies
 
 LightObjects[MT_PYREFLY] = {
-    color = SKINCOLOR_ORANGE,
+    translation = SKINCOLOR_FLAME,
     states = {
         [S_PYREFLY_BURN] = true
     },
@@ -548,7 +553,7 @@ LightObjects[MT_PYREFLY] = {
 }
 
 LightObjects[MT_CACOLANTERN] = {
-    color = SKINCOLOR_BLUE,
+    translation = SKINCOLOR_BLUE,
     states = {
         [S_CACO_PREPARE2] = {alpha = FU/3},
         [S_CACO_PREPARE3] = {alpha = FU/3},
@@ -559,14 +564,14 @@ LightObjects[MT_CACOLANTERN] = {
 }
 
 LightObjects[MT_SPINBOBERT_FIRE1] = {
-    color = SKINCOLOR_COBALT,
+    translation = SKINCOLOR_COBALT,
     scale = FU/3,
-    alpha = FU/2,
+    alpha = FU,
     zoffset = -10
 }
 
 LightObjects[MT_SPINBOBERT_FIRE2] = {
-    color = LightObjects[MT_SPINBOBERT_FIRE1].color,
+    translation = LightObjects[MT_SPINBOBERT_FIRE1].translation,
     scale = LightObjects[MT_SPINBOBERT_FIRE1].scale,
     alpha = LightObjects[MT_SPINBOBERT_FIRE1].alpha,
     zoffset = LightObjects[MT_SPINBOBERT_FIRE1].zoffset
@@ -574,7 +579,7 @@ LightObjects[MT_SPINBOBERT_FIRE2] = {
 
 ------------Gold boxes
 local goldbox = {
-    color = SKINCOLOR_SILVER,
+    translation = SKINCOLOR_SILVER,
     alpha = FU/2,
     zoffset = -20,
     stayondeath = true
