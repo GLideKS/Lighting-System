@@ -229,9 +229,8 @@ LightObjects[MT_JETFUME1] = {
 }
 
 LightObjects[MT_METALJETFUME] = {
-    color = LightObjects[MT_JETFUME1].color,
+    translation = true,
     scale = LightObjects[MT_JETFUME1].scale,
-    alpha = LightObjects[MT_JETFUME1].alpha,
     stayondeath = LightObjects[MT_JETFUME1].stayondeath,
     floorlight = true,
     states = {[S_JETFUME1] = true, [S_JETFUMEFLASH] = {color = SKINCOLOR_YELLOW}},
