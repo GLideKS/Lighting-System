@@ -10,7 +10,6 @@ freeslot(
 	"S_GKS_CORONA_B_FLICKER2",
 	"SPR_GKS_CORONA"
 )
-
 local MT_GKS_CORONA = MT_GKS_CORONA
 local S_GKS_CORONA_A = S_GKS_CORONA_A
 local S_GKS_CORONA_B = S_GKS_CORONA_B
@@ -40,10 +39,7 @@ mobjinfo[MT_GKS_CORONA] = {
 	flags = MF_NOBLOCKMAP|MF_NOGRAVITY|MF_SCENERY|MF_NOCLIPHEIGHT|MF_NOCLIP
 }
 
---Corona floorsprite, currently experimental
-
 freeslot("MT_GKS_CORONA_SPLAT")
-
 local MT_GKS_CORONA_SPLAT = MT_GKS_CORONA_SPLAT
 
 mobjinfo[MT_GKS_CORONA_SPLAT] = {
@@ -55,9 +51,7 @@ mobjinfo[MT_GKS_CORONA_SPLAT] = {
 }
 
 --For the superform corona
-
 freeslot("MT_PLAYERCORONA", "S_PLAYERCORONA")
-
 states[S_PLAYERCORONA] = {SPR_NULL, A, -1, nil, nil, 0, S_PLAYERCORONA}
 mobjinfo[MT_PLAYERCORONA] = {
 	doomednum = -1,

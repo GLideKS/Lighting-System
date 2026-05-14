@@ -1,8 +1,7 @@
-/*---Lighting System Beta by GLide KS---*/
+/*---Lighting System by GLide KS---*/
 
 --set this if you have Lighting System inside a subfolder.
 --remember to end it with /
-
 local LightingSystem_root = ""
 
 if not LightingSystem_loaded then rawset(_G, "LightingSystem_loaded", false) end --Check for Lighting System's existence
@@ -10,14 +9,14 @@ if not LightObjects then rawset(_G, "LightObjects", {}) end --Initialize table f
 
 if not LightingSystem_loaded then
 	dofile(LightingSystem_root.."Freeslots.lua")
-	if isdedicatedserver then LightingSystem_loaded = true return end --don't even handle coronas for the dedicated server
-	
+	if isdedicatedserver then LightingSystem_loaded = true return end --Or else players with different settings gets a time out
+
 	--Must load first
 	dofile(LightingSystem_root.."Commands.lua")
 	dofile(LightingSystem_root.."Functions.lua")
 	dofile(LightingSystem_root.."Corona.lua")
 	dofile(LightingSystem_root.."Super player corona.lua")
-	
+
 	--Light object assignment (Definitions)
 	dofile(LightingSystem_root.."Definitions/Vanilla.lua") --Vanilla SRB2
 	dofile(LightingSystem_root.."Definitions/Extras.lua") --Lighting System additions

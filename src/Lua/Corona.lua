@@ -60,17 +60,16 @@ local function InitCorona(mo)
     local cmobj = LightObjects[mo.type]
     local sizesetting = corona_size.value
 
-	if not cmobj then return end
     if (cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
 
     --Prepare corona
     local corona = P_SpawnMobjFromMobj(mo, 0,0,0, MT_GKS_CORONA)
     corona.target = mo
     corona.cmobj = cmobj
-    mo.coronaspawned = true --tell the assigned object that it's corona spawned. to be used when you get a resynch
     local corona_cmobj = corona.cmobj
     local state_is_table = (corona_cmobj.states and type(corona_cmobj.states[mo.state]) == "table")
     if corona_cmobj.postthinkmove then insert(postthink_coronas, corona) end
+    mo.coronaspawned = true --tell the assigned object that it's corona spawned. to be used when you get a resynch
 
     --Set corona scale
     local corona_zoffset = corona_cmobj.zoffset or 0
@@ -105,10 +104,8 @@ local function InitCorona(mo)
 
     --Will it draw on the specific state?
     if corona_cmobj.states then
-        if Corona_State(corona) then
-			corona.flags2 = $ & ~MF2_DONTDRAW
-        else
-            corona.flags2 = $|MF2_DONTDRAW
+        if Corona_State(corona) then corona.flags2 = $ & ~MF2_DONTDRAW
+        else corona.flags2 = $|MF2_DONTDRAW
         end
     end
 
@@ -118,11 +115,11 @@ local function InitCorona(mo)
         if corona_cmobj.states and corona_cmobj.nothink and not Corona_State(corona) then return end --Don't even spawn the floorlight if state/sprite doesn't match
 
         local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
+        floorlight.floor = true --mark it as a floor light
         floorlight.scale = corona.scale
-		floorlight.floor = true --mark it as a floor light
         floorlight.target = corona
         floorlight.alpha = corona.alpha
-		floorlight.radius = mo.radius
+		floorlight.radius = corona.radius
         floorlight.renderflags = $|corona_rf|splat_rf
         floorlight.spritexscale = corona.spritexscale
         floorlight.spriteyscale = corona.spriteyscale
@@ -181,7 +178,7 @@ local function Corona(mo)
     end
 
     if mo.scale - t.scale then mo.scale = t.scale end
-    if not mo.postthinkmove then Corona_Follow(mo, t) end
+    if not corona_cmobj.postthinkmove then Corona_Follow(mo, t) end
 
     --Adapt to flipped gravity
     mo.eflags = t.eflags
