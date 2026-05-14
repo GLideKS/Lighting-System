@@ -124,8 +124,12 @@ local function InitCorona(mo)
         floorlight.spritexscale = corona.spritexscale
         floorlight.spriteyscale = corona.spriteyscale
 
-        if corona.translation then floorlight.translation = corona.translation
-        else floorlight.color = corona.color
+        if translation then
+            floorlight.translation = Corona_Color(corona)
+            floorlight.state = S_GKS_CORONA_B
+        else
+            floorlight.color = Corona_Color(corona)
+            floorlight.colorized = true
         end
     end
 end
