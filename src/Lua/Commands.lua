@@ -6,7 +6,7 @@ end, COM_LOCAL)*/
 COM_AddCommand("corona_toggle", function()
     if corona_toggle then
         corona_toggle = false
-        print("\x85\Coronas Disabled.")
+        print("\x85".."Coronas Disabled.")
 
 		--go through all coronas and delete them
         if gamestate != GS_LEVEL then return end
@@ -21,7 +21,7 @@ COM_AddCommand("corona_toggle", function()
 		coronas = {}
     else
         corona_toggle = true
-        print("\x83\Coronas Enabled.")
+        print("\x83".."Coronas Enabled.")
         if gamestate != GS_LEVEL then return end
         for mo in mobjs.iterate() do
             local cmobj = LightObjects[mo.type]
@@ -35,7 +35,7 @@ end, COM_LOCAL)
 COM_AddCommand("corona_litemode", function()
     if not lite_mode then
         lite_mode = true
-        print("\x83\Lite mode Enabled.")
+        print("\x83".."Lite mode Enabled.")
 
 		--go through all coronas and delete them
 		if not corona_toggle then return end
@@ -49,7 +49,7 @@ COM_AddCommand("corona_litemode", function()
 		end
     else
         lite_mode = false
-        print("\x85\Lite mode Disabled.")
+        print("\x85".."Lite mode Disabled.")
 
 		if not corona_toggle then return end
         if gamestate != GS_LEVEL then return end
@@ -67,10 +67,10 @@ end, COM_LOCAL)
 COM_AddCommand("corona_floorlight", function()
     if floorsprites then
         floorsprites = false
-        print("\x85\Floor lights Disabled.")
+        print("\x85".."Floor lights Disabled.")
     else
         floorsprites = true
-        print("\x83\Floor lights Enabled.")
+        print("\x83".."Floor lights Enabled.")
 		print("\130NOTE:\128Some Floor lights will appear again switching corona_toggle again or in the next map load")
     end
 end, COM_LOCAL)
@@ -86,9 +86,11 @@ CV_RegisterVar({
 		local sizesetting = cvar.value
 		for i, mo in ipairs(coronas) do
 			--make sure it exists
-			if (mo and mo.valid and (mo.type == MT_GKS_CORONA)) then
-				mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, mo.coronascale or FU), FixedMul(sizesetting, mo.coronascale or FU) --alternative stacked scale
-				mo.spriteyoffset = FixedDiv(mo.zoffset * FU + FixedDiv(mo.target.height, mo.target.scale), mo.spriteyscale)
+			if (mo and mo.valid) then
+                local corona_cmobj = mo.cmobj
+                local t = mo.target
+				mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, corona_cmobj.scale or FU), FixedMul(sizesetting, corona_cmobj.scale or FU) --alternative stacked scale
+				mo.spriteyoffset = FixedDiv(corona_cmobj.zoffset * FU + FixedDiv(t.height, t.scale), mo.spriteyscale)
 			end
 		end
 	end

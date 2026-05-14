@@ -1,49 +1,45 @@
-local P_MoveOrigin = P_MoveOrigin
-local type = type
-local FU = FU
-local SILVER = SKINCOLOR_SILVER
-
 --`mo` moves to `t` position only if the positions are different.
 --Probably an optimized version of P_MoveOrigin.
---Does not work with splats yet
 ---@param mo mobj_t
 ---@param t mobj_t
 local function Corona_Follow(mo, t)
+    local flipped = P_MobjFlip(t) == -1
     local tx = t.x
     local ty = t.y
-    local tz = t.z
-    local poscheck = (mo.x - tx) or (mo.y - ty) or (mo.z - tz)
+    local tz
 
-    if poscheck then
-        P_MoveOrigin(mo, tx, ty, tz)
+    --Because for some reason if floor height is 0, the floorlight moves to the corona position instead
+    --so i can't do tz = (mo.floor and ((flipped and t.ceilingz) or t.floorz)) or t.z
+    if mo.floor then tz = (flipped and t.ceilingz) or t.floorz
+    else tz = t.z
     end
-end
 
--- This is probably a trivial localdef
--- As this is only used like. once. so far
-local skincolors = skincolors
-local states = states
+    local poscheck = (mo.x - tx) or (mo.y - ty) or (mo.z - tz)
+    if poscheck then P_MoveOrigin(mo, tx, ty, tz) end
+end
 
 --Returns the translation or the color of the defined corona. if no color or translation is found, it returns the default color.
 ---@param mo mobj_t
 local function Corona_Color(mo)
     local t = mo.target
+    local corona_cmobj = mo.cmobj
 
-    local state_is_table = (mo.states and type(mo.states[t.state]) == "table")
-    local translation = (state_is_table and mo.states[t.state].translation) or mo.cmobj.translation
-    local color = (state_is_table and mo.states[t.state].color) or mo.cmobj.color or t.color
+    local state_is_table = (corona_cmobj.states and type(corona_cmobj.states[t.state]) == "table")
+    local translation = (state_is_table and corona_cmobj.states[t.state].translation) or corona_cmobj.translation
+    local color = (state_is_table and corona_cmobj.states[t.state].color) or corona_cmobj.color or t.color
 
     if translation then --translation takes priority
-        if type(translation) == "number" then
+        if (type(translation) == "number" or type(translation) == "boolean") then
+            local ttype = (type(translation) == "number" and translation) or (type(translation) == "boolean" and t.color + 1)
             -- Maybe they defined a skincolor constant???
-            return "COLORSCALECLR" .. skincolors[translation].ramp[7]
+            return "COLORSCALECLR" .. skincolors[ttype].ramp[7]
         else
             return translation
         end
     elseif color then --then LightObjects[].color
         return color
     else
-        return SILVER --if no color found on both, then set to default which is Silver
+        return SKINCOLOR_SILVER --if no color found on both, then set to default which is Silver
     end
 end
 
@@ -51,12 +47,13 @@ end
 ---@param mo mobj_t
 local function Corona_Alpha(mo)
     local t = mo.target
-    local state_is_table = (mo.states and type(mo.states[t.state]) == "table")
+    local corona_cmobj = mo.cmobj
+    local state_is_table = (corona_cmobj.states and type(corona_cmobj.states[t.state]) == "table")
 
-    if (state_is_table and mo.states[t.state].alpha) then
-        return mo.states[t.state].alpha
-    elseif mo.cmobj.alpha then
-        return mo.cmobj.alpha
+    if (state_is_table and corona_cmobj.states[t.state].alpha) then
+        return corona_cmobj.states[t.state].alpha
+    elseif corona_cmobj.alpha then
+        return corona_cmobj.alpha
     else
         return FU
     end
@@ -66,8 +63,9 @@ end
 ---@param mo mobj_t
 local function Corona_State(mo)
     local t = mo.target
-    if not (mo and mo.states and t) then return false end
-    local definition = mo.states[t.state]
+    local corona_cmobj = mo.cmobj
+    if not (mo and corona_cmobj.states and t) then return false end
+    local definition = corona_cmobj.states[t.state]
 
     if not definition then return false end --Do not show if the state doesn't match
 
