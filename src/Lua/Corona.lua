@@ -209,14 +209,9 @@ end
 
 --Corona floorsprite
 local function CoronaSplat(mo)
-    if mo.nothink then RemoveOnMove(mo) return end
-
     local t = mo.target
-
-    if not (t and floorsprites) then
-        P_RemoveMobj(mo)
-        return
-    end
+    if not (t and floorsprites) then P_RemoveMobj(mo) return end
+    if t.cmobj.nothink then return end
 
     --Distance checks to scale the floorsprite
     local t_scale = t.scale
