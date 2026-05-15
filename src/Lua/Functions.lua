@@ -81,7 +81,37 @@ local function Corona_State(mo)
     return false
 end
 
+--Scales floorlight (Corona Splat) according to the corona z distance
+---@param floorlight mobj_t
+local function CoronaSplatScale(floorlight)
+    if not floorlight.floor then return end --This is only for floorlights
+
+    local t = floorlight.target
+
+    --Distance checks to scale the floorsprite
+    local t_scale = t.scale
+    local tsx, tsy = t.spritexscale, t.spriteyscale
+    local targetscale = (tsx + tsy) / 2
+    local distZ = abs(floorlight.z - t.z)
+    local maxDistZ = 512 * FixedMul(targetscale, t_scale)
+
+    local scale
+    if distZ >= maxDistZ then
+        scale = targetscale / 2 -- minScale
+    else
+        local maxScale = (targetscale * 3) / 2
+        local minScale = targetscale / 2
+        local ratio = FixedDiv(distZ, maxDistZ)
+        scale = maxScale - FixedMul(ratio, maxScale - minScale)
+    end
+
+    --Set the splat visual scale
+    if floorlight.spritexscale - scale then floorlight.spritexscale = scale end
+    if floorlight.spriteyscale - scale then floorlight.spriteyscale = scale end
+end
+
 rawset(_G, "Corona_Follow", Corona_Follow)
 rawset(_G, "Corona_Color", Corona_Color)
 rawset(_G, "Corona_Alpha", Corona_Alpha)
 rawset(_G, "Corona_State", Corona_State)
+rawset(_G, "CoronaSplatScale", CoronaSplatScale)

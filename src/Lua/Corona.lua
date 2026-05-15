@@ -218,23 +218,7 @@ local function CoronaSplat(mo)
     if not (t and floorsprites) then P_RemoveMobj(mo) return end
     if t.cmobj.nothink then return end
 
-    --Distance checks to scale the floorsprite
-    local t_scale = t.scale
     local t_state = t.state
-    local tsx, tsy = t.spritexscale, t.spriteyscale
-    local targetscale = (tsx + tsy) / 2
-    local distZ = abs(mo.z - t.z)
-    local maxDistZ = 512 * FixedMul(targetscale, t_scale)
-
-    local scale
-    if distZ >= maxDistZ then
-        scale = targetscale / 2 -- minScale
-    else
-        local maxScale = (targetscale * 3) / 2
-        local minScale = targetscale / 2
-        local ratio = FixedDiv(distZ, maxDistZ)
-        scale = maxScale - FixedMul(ratio, maxScale - minScale)
-    end
 
     --Copy everything from the main corona
 	if mo.translation != t.translation then mo.translation = t.translation end
@@ -243,9 +227,8 @@ local function CoronaSplat(mo)
     if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
     if mo.eflags != t.eflags then mo.eflags = t.eflags end
     if mo.state != t_state then mo.state = t_state end
-    if mo.spritexscale - scale then mo.spritexscale = scale end
-    if mo.spriteyscale - scale then mo.spriteyscale = scale end
     if mo.scale - t.scale then mo.scale = t.scale end
+    CoronaSplatScale(mo)
     Corona_Follow(mo, t)
 end
 
