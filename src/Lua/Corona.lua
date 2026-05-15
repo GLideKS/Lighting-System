@@ -93,6 +93,7 @@ local function InitCorona(mo)
     --Set corona's visual properties
     corona.renderflags = $|corona_rf
     corona.alpha = Corona_Alpha(corona)
+    if corona_cmobj.fullbright then mo.renderflags = $|RF_FULLBRIGHT end --Make the object fullbright if defined
     if corona_cmobj.flicker then
         if corona.translation then corona.state = S_GKS_CORONA_B_FLICKER
         else corona.state = S_GKS_CORONA_A_FLICKER
