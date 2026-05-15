@@ -21,7 +21,7 @@ if not LightingSystem_loaded then
 	dofile(LightingSystem_root.."Definitions/Vanilla.lua") --Vanilla SRB2
 	dofile(LightingSystem_root.."Definitions/Extras.lua") --Lighting System additions
 
-	print("\131LightingSystem loaded sucessfully!")
+	print("\131Lighting System loaded sucessfully!")
 	LightingSystem_loaded = true
 else
 	print("\x82".."WARNING: LightingSystem already loaded, skipping.")
