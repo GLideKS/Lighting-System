@@ -124,6 +124,7 @@ local function InitCorona(mo)
         floorlight.renderflags = $|corona_rf|splat_rf
         floorlight.spritexscale = corona.spritexscale
         floorlight.spriteyscale = corona.spriteyscale
+        CoronaSplatScale(floorlight)
 
         if translation then
             floorlight.translation = Corona_Color(corona)
