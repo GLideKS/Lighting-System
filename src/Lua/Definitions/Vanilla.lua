@@ -215,6 +215,16 @@ LightObjects[MT_SUPERSPARK] = {
     floorlight = true,
     zoffset = 15
 }
+
+LightObjects[MT_SPARK] = {
+    translation = SKINCOLOR_YELLOW,
+    scale = FU/4,
+    alpha = FU/2,
+    stayondeath = true,
+    zoffset = -15,
+    fullbright = true
+}
+
 LightObjects[MT_IVSP] = {
     translation = SKINCOLOR_BLUEBELL,
     scale = FU/3,
