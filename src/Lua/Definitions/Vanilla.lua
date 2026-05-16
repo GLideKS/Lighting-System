@@ -215,6 +215,16 @@ LightObjects[MT_SUPERSPARK] = {
     floorlight = true,
     zoffset = 15
 }
+
+LightObjects[MT_SPARK] = {
+    translation = SKINCOLOR_YELLOW,
+    scale = FU/4,
+    alpha = FU/2,
+    stayondeath = true,
+    zoffset = -15,
+    fullbright = true
+}
+
 LightObjects[MT_IVSP] = {
     translation = SKINCOLOR_BLUEBELL,
     scale = FU/3,
@@ -224,9 +234,9 @@ LightObjects[MT_IVSP] = {
 }
 
 LightObjects[MT_JETFUME1] = {
-    color = SKINCOLOR_BLUEBELL,
+    translation = "lightsys_jetfume",
     scale = FU/2,
-    alpha = FU*3/2,
+    alpha = FU/3*2,
     stayondeath = false,
 }
 
@@ -235,7 +245,7 @@ LightObjects[MT_METALJETFUME] = {
     scale = LightObjects[MT_JETFUME1].scale,
     stayondeath = LightObjects[MT_JETFUME1].stayondeath,
     floorlight = true,
-    states = {[S_JETFUME1] = true, [S_JETFUMEFLASH] = {color = SKINCOLOR_YELLOW}},
+    states = {[S_JETFUME1] = true, [S_JETFUMEFLASH] = {translation = SKINCOLOR_YELLOW}},
     postthinkmove = true
 }
 
@@ -439,9 +449,9 @@ LightObjects[MT_SCATTERRING] = {
 }
 
 LightObjects[MT_LHRT] = {
-    color = SKINCOLOR_FANCY,
+    translation = "lightsys_amyheart",
     alpha = FU/2,
-    scale = FU/2,
+    scale = FU/3,
     zoffset = -10,
 }
 
