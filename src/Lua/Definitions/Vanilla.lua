@@ -295,7 +295,7 @@ LightObjects[MT_CANDLE] = {
     alpha = FU/3,
     zoffset = -10,
     floorlight = true,
-    hide_on_lite = true,
+    hide_on_lite = false,
     nothink = true
 }
 
