@@ -183,6 +183,15 @@ local function Corona(mo)
         return
     end
 
+    local state_ref = corona_cmobj.states and corona_cmobj.states[t.state]
+	local translation = (type(state_ref) == "table" and state_ref.translation) or corona_cmobj.translation
+    local color = Corona_Color(mo)
+    local alpha = Corona_Alpha(mo)
+
+    if translation then mo.translation = color --use the translation if defined
+    else mo.color = color --give it a normal color then
+    end
+    mo.alpha = alpha
     if mo.scale - t.scale then mo.scale = t.scale end
     if not corona_cmobj.postthinkmove then Corona_Follow(mo, t) end
 
@@ -191,23 +200,8 @@ local function Corona(mo)
 
     --Will it draw on the specific state?
     if not corona_cmobj.states then return end
-
     if Corona_State(mo) then
         mo.flags2 = $ & ~MF2_DONTDRAW
-
-        --Set the color and alpha from the state if available
-        local state_ref = corona_cmobj.states[t.state]
-		local translation = (type(state_ref) == "table" and state_ref.translation) or corona_cmobj.translation
-        local color = Corona_Color(mo)
-        local alpha = Corona_Alpha(mo)
-
-        if translation then
-            mo.translation = color --use the translation if defined
-        else
-            mo.color = color --give it a normal color then
-        end
-
-		mo.alpha = alpha
     else
         mo.flags2 = $|MF2_DONTDRAW
     end
