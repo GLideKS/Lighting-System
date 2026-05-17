@@ -30,9 +30,9 @@ local function Corona_Color(mo)
 
     if translation then --translation takes priority
         if (type(translation) == "number" or type(translation) == "boolean") then
-            local ttype = (type(translation) == "number" and translation) or (type(translation) == "boolean" and t.color + 1)
+            local ttype = (type(translation) == "number" and translation) or (type(translation) == "boolean" and t.color)
             -- Maybe they defined a skincolor constant???
-            return "COLORSCALECLR" .. skincolors[ttype].ramp[7]
+            return "COLORSCALECLR" .. skincolors[ttype or SKINCOLOR_GREEN].ramp[7]
         else
             return translation
         end
