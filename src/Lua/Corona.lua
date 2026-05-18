@@ -187,12 +187,14 @@ local function Corona(mo)
 	local translation = (type(state_ref) == "table" and state_ref.translation) or corona_cmobj.translation
     local color = Corona_Color(mo)
     local alpha = Corona_Alpha(mo)
+    local zoffset = Corona_UpdateZOffset(mo, t)
 
     if translation then mo.translation = color --use the translation if defined
     else mo.color = color --give it a normal color then
     end
     mo.alpha = alpha
     if mo.scale - t.scale then mo.scale = t.scale end
+    if mo.spriteyoffset - zoffset then mo.spriteyoffset = zoffset end
     if not corona_cmobj.postthinkmove then Corona_Follow(mo, t) end
 
     --Adapt to flipped gravity
