@@ -82,13 +82,17 @@ CV_RegisterVar({
 		if gamestate != GS_LEVEL then return end
 		local sizesetting = cvar.value
 		for mo in mobjs.iterate() do
-            if mo.type != MT_GKS_CORONA then continue end
+            if not (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT) then continue end
 			--make sure it exists
 			if (mo and mo.valid) then
-                local corona_cmobj = mo.cmobj
-                local t = mo.target
-				mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, corona_cmobj.scale or FU), FixedMul(sizesetting, corona_cmobj.scale or FU) --alternative stacked scale
-				mo.spriteyoffset = Corona_UpdateZOffset(mo, t)
+                if mo.floor then
+                    CoronaSplatScale(mo)
+                else
+                    local corona_cmobj = mo.cmobj
+                    local t = mo.target
+                    mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, corona_cmobj.scale or FU), FixedMul(sizesetting, corona_cmobj.scale or FU) --alternative stacked scale
+                    mo.spriteyoffset = Corona_UpdateZOffset(mo, t)
+                end
 			end
 		end
 	end
