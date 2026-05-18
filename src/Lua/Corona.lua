@@ -75,7 +75,7 @@ local function InitCorona(mo)
     local corona_zoffset = corona_cmobj.zoffset or 0
     local corona_scale = corona_cmobj.scale or FU
 	corona.spritexscale, corona.spriteyscale = FixedMul(sizesetting, corona_scale), FixedMul(sizesetting, corona_scale)
-	corona.spriteyoffset = FixedDiv(corona_zoffset * FU + FixedDiv(mo.height, mo.scale), corona.spriteyscale)
+	corona.spriteyoffset = Corona_UpdateZOffset(corona, mo)
     corona.scale = mo.scale
 
     -- Translations over colors (probably redundant)

@@ -87,9 +87,8 @@ CV_RegisterVar({
 			if (mo and mo.valid) then
                 local corona_cmobj = mo.cmobj
                 local t = mo.target
-                local zoffset = corona_cmobj.zoffset or 0
 				mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, corona_cmobj.scale or FU), FixedMul(sizesetting, corona_cmobj.scale or FU) --alternative stacked scale
-				mo.spriteyoffset = FixedDiv(zoffset * FU + FixedDiv(t.height, t.scale), mo.spriteyscale)
+				mo.spriteyoffset = Corona_UpdateZOffset(mo, t)
 			end
 		end
 	end

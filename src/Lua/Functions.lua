@@ -81,6 +81,14 @@ local function Corona_State(mo)
     return false
 end
 
+--Adjust zoffset according to the object's height (because I don't want to copy paste the same line again)
+---@param corona mobj_t
+---@param target mobj_t
+local function Corona_UpdateZOffset(corona, target)
+    local corona_zoffset = corona.cmobj.zoffset or 0
+    return FixedDiv(corona_zoffset * FU + FixedDiv(target.height, target.scale), corona.spriteyscale)
+end
+
 --Scales floorlight (Corona Splat) according to the corona z distance
 ---@param floorlight mobj_t
 local function CoronaSplatScale(floorlight)
@@ -115,3 +123,4 @@ rawset(_G, "Corona_Color", Corona_Color)
 rawset(_G, "Corona_Alpha", Corona_Alpha)
 rawset(_G, "Corona_State", Corona_State)
 rawset(_G, "CoronaSplatScale", CoronaSplatScale)
+rawset(_G, "Corona_UpdateZOffset", Corona_UpdateZOffset)
