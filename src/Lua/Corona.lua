@@ -158,7 +158,7 @@ local function Corona(mo)
     if corona_cmobj.nothink then RemoveOnMove(mo) return end
 
     local t = mo.target
-    if not (t and (t.health or mo.stayondeath)) then
+    if not (t and (t.health or corona_cmobj.stayondeath)) then
         P_RemoveMobj(mo)
         return
     end
