@@ -67,12 +67,10 @@ local function InitCorona(mo)
     corona.target = mo
     corona.cmobj = cmobj
     local corona_cmobj = corona.cmobj
-    local state_is_table = (corona_cmobj.states and type(corona_cmobj.states[mo.state]) == "table")
     if corona_cmobj.postthinkmove then insert(postthink_coronas, corona) end
     mo.coronaspawned = true --tell the assigned object that it's corona spawned. to be used when you get a resynch
 
     --Set corona scale
-    local corona_zoffset = corona_cmobj.zoffset or 0
     local corona_scale = corona_cmobj.scale or FU
 	corona.spritexscale, corona.spriteyscale = FixedMul(sizesetting, corona_scale), FixedMul(sizesetting, corona_scale)
 	corona.spriteyoffset = Corona_UpdateZOffset(corona, mo)
@@ -81,24 +79,13 @@ local function InitCorona(mo)
     -- Translations over colors (probably redundant)
 	-- If someone passed a direct translation
 	-- That doesn't cross 0:31, that's on them
-    local translation = (state_is_table and corona_cmobj.states[mo.state].translation) or corona_cmobj.translation
-	if translation then
-		corona.translation = Corona_Color(corona)
-        corona.state = S_GKS_CORONA_B
-	else
-		corona.color = Corona_Color(corona)
-		corona.colorized = true
-	end
+	corona.translation = Corona_Color(corona)
 
     --Set corona's visual properties
     corona.renderflags = $|corona_rf
     corona.alpha = Corona_Alpha(corona)
     if corona_cmobj.fullbright then mo.renderflags = $|RF_FULLBRIGHT end --Make the object fullbright if defined
-    if corona_cmobj.flicker then
-        if corona.translation then corona.state = S_GKS_CORONA_B_FLICKER
-        else corona.state = S_GKS_CORONA_A_FLICKER
-        end
-    end
+    if corona_cmobj.flicker then corona.state = S_GKS_CORONA_FLICKER end
 
     --Mostly for flipped gravity
     corona.eflags = mo.eflags
@@ -124,15 +111,8 @@ local function InitCorona(mo)
         floorlight.renderflags = $|corona_rf|splat_rf
         floorlight.spritexscale = corona.spritexscale
         floorlight.spriteyscale = corona.spriteyscale
+        floorlight.translation = corona.translation
         CoronaSplatScale(floorlight)
-
-        if translation then
-            floorlight.translation = Corona_Color(corona)
-            floorlight.state = S_GKS_CORONA_B
-        else
-            floorlight.color = Corona_Color(corona)
-            floorlight.colorized = true
-        end
     end
 end
 rawset(_G, "InitCorona", InitCorona)
@@ -183,16 +163,9 @@ local function Corona(mo)
         return
     end
 
-    local state_ref = corona_cmobj.states and corona_cmobj.states[t.state]
-	local translation = (type(state_ref) == "table" and state_ref.translation) or corona_cmobj.translation
-    local color = Corona_Color(mo)
-    local alpha = Corona_Alpha(mo)
     local zoffset = Corona_UpdateZOffset(mo, t)
-
-    if translation then mo.translation = color --use the translation if defined
-    else mo.color = color --give it a normal color then
-    end
-    mo.alpha = alpha
+    if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
+    if mo.alpha - Corona_Alpha(mo) then mo.alpha = Corona_Alpha(mo) end
     if mo.scale - t.scale then mo.scale = t.scale end
     if mo.spriteyoffset - zoffset then mo.spriteyoffset = zoffset end
     if not corona_cmobj.postthinkmove then Corona_Follow(mo, t) end
@@ -219,7 +192,6 @@ local function CoronaSplat(mo)
 
     --Copy everything from the main corona
 	if mo.translation != t.translation then mo.translation = t.translation end
-    if mo.color != t.color then mo.color = t.color end
     if mo.alpha != t.alpha then mo.alpha = t.alpha end
     if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
     if mo.eflags != t.eflags then mo.eflags = t.eflags end

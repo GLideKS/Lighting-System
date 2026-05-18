@@ -24,23 +24,15 @@ local function Corona_Color(mo)
     local t = mo.target
     local corona_cmobj = mo.cmobj
 
-    local state_is_table = (corona_cmobj.states and type(corona_cmobj.states[t.state]) == "table")
-    local translation = (state_is_table and corona_cmobj.states[t.state].translation) or corona_cmobj.translation
-    local color = (state_is_table and corona_cmobj.states[t.state].color) or corona_cmobj.color or t.color
+    local default_color = t.color or SKINCOLOR_WHITE
+    local color = corona_cmobj.translation or corona_cmobj.color or default_color
+    local color_result = (type(color) == "number" and "COLORSCALECLR" .. skincolors[color].ramp[7]) or color
 
-    if translation then --translation takes priority
-        if (type(translation) == "number" or type(translation) == "boolean") then
-            local ttype = (type(translation) == "number" and translation) or (type(translation) == "boolean" and t.color)
-            -- Maybe they defined a skincolor constant???
-            return "COLORSCALECLR" .. skincolors[ttype or SKINCOLOR_GREEN].ramp[7]
-        else
-            return translation
-        end
-    elseif color then --then LightObjects[].color
-        return color
-    else
-        return SKINCOLOR_SILVER --if no color found on both, then set to default which is Silver
+    if corona_cmobj.states then
+        if type(corona_cmobj.states[t.state]) != "table" then return color_result end
+        color = corona_cmobj.states[t.state].translation or corona_cmobj.states[t.state].color or default_color
     end
+    return color_result
 end
 
 --Returns the alpha of the defined corona. if no alpha is found, it returns the default alpha (FRACUNIT)
@@ -48,36 +40,30 @@ end
 local function Corona_Alpha(mo)
     local t = mo.target
     local corona_cmobj = mo.cmobj
-    local state_is_table = (corona_cmobj.states and type(corona_cmobj.states[t.state]) == "table")
+    local alpha = corona_cmobj.alpha or FU
 
-    if (state_is_table and corona_cmobj.states[t.state].alpha) then
-        return corona_cmobj.states[t.state].alpha
-    elseif corona_cmobj.alpha then
-        return corona_cmobj.alpha
-    else
-        return FU
+    if corona_cmobj.states then
+        if type(corona_cmobj.states[t.state]) != "table" then return alpha end
+        alpha = corona_cmobj.states[t.state].alpha or FU
     end
+    return alpha
 end
 
 --If the corona has states defined, returns true if the object's state matches with the defined states.
 ---@param mo mobj_t
 local function Corona_State(mo)
-    local t = mo.target
     local corona_cmobj = mo.cmobj
-    if not (mo and corona_cmobj.states and t) then return false end
-    local definition = corona_cmobj.states[t.state]
+    if not corona_cmobj.states then return false end
 
-    if not definition then return false end --Do not show if the state doesn't match
+    local t = mo.target
+    local state = corona_cmobj.states
 
-    if definition == true then return true end --It matches, return true
+    if type(state[t.state]) == "table" then --the defined state has specific properties
+        local sprite = state[t.state].sprite
+        if sprite == nil then return true end --not a sprite defined. doesn't matter, show the corona
+        if sprite == t.sprite then return true else return false end --the sprite matches. show the corona, don't if it doesn't.
+    elseif state[t.state] then return true end --the state at least matches, show it.
 
-    --The state is a table
-    if type(definition) == "table" then
-        local target_sprite = definition.sprite
-
-        if target_sprite == nil then return true end --doesn't have a sprite field assigned but the state is written anyways
-        if target_sprite == t.sprite then return true end --The sprite matches
-    end
     return false
 end
 
