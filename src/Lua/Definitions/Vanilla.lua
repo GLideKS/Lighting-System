@@ -588,10 +588,26 @@ LightObjects[MT_SPINBOBERT_FIRE2] = {
 
 ------------Gold boxes
 local goldbox = {
-    color = SKINCOLOR_SILVER,
-    alpha = FU/2,
+    alpha = FU/3,
+    states = {
+        [S_PITY_GOLDBOX] = true,
+        [S_ATTRACT_GOLDBOX] = true,
+        [S_FORCE_GOLDBOX] = true,
+        [S_ARMAGEDDON_GOLDBOX] = true,
+        [S_WHIRLWIND_GOLDBOX] = true,
+        [S_ELEMENTAL_GOLDBOX] = true,
+        [S_SNEAKERS_GOLDBOX] = true,
+        [S_INVULN_GOLDBOX] = true,
+        [S_EGGMAN_GOLDBOX] = true,
+        [S_GRAVITY_GOLDBOX] = true,
+        [S_FLAMEAURA_GOLDBOX] = true,
+        [S_BUBBLEWRAP_GOLDBOX] = true,
+        [S_THUNDERCOIN_GOLDBOX] = true,
+        [S_GOLDBOX_FLICKER] = true
+    },
     zoffset = -20,
-    stayondeath = true
+    stayondeath = true,
+    floorlight = true
 }
 
 LightObjects[MT_PITY_GOLDBOX] = goldbox
