@@ -72,7 +72,8 @@ end
 ---@param target mobj_t
 local function Corona_UpdateZOffset(corona, target)
     local corona_zoffset = corona.cmobj.zoffset or 0
-    return FixedDiv(corona_zoffset * FU + FixedDiv(target.height, target.scale), corona.spriteyscale)
+    local height_offset = (corona.cmobj.centered_offset and target.height/2) or target.height
+    return FixedDiv(corona_zoffset * FU + FixedDiv(height_offset, target.scale), corona.spriteyscale)
 end
 
 --Scales floorlight (Corona Splat) according to the corona z distance
