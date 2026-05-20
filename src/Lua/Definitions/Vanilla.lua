@@ -36,6 +36,7 @@ LightObjects[MT_SOMETHING].scale = FU
 
 LightObjects[MT_RING] = {
     color = SKINCOLOR_YELLOW,
+    alpha = FU*3/4,
     scale = FU/4,
     zoffset = -5,
     hide_on_lite = true,
