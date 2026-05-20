@@ -87,11 +87,14 @@ CV_RegisterVar({
 		for i, mo in ipairs(coronas) do
 			--make sure it exists
 			if (mo and mo.valid) then
-                local corona_cmobj = mo.cmobj
-                local t = mo.target
-                local zoffset = corona_cmobj.zoffset or 0
-				mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, corona_cmobj.scale or FU), FixedMul(sizesetting, corona_cmobj.scale or FU) --alternative stacked scale
-				mo.spriteyoffset = FixedDiv(zoffset * FU + FixedDiv(t.height, t.scale), mo.spriteyscale)
+                if mo.floor then
+                    CoronaSplatScale(mo)
+                else
+                    local corona_cmobj = mo.cmobj
+                    local t = mo.target
+                    mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, corona_cmobj.scale or FU), FixedMul(sizesetting, corona_cmobj.scale or FU) --alternative stacked scale
+                    mo.spriteyoffset = Corona_UpdateZOffset(mo, t)
+                end
 			end
 		end
 	end
