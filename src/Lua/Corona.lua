@@ -103,7 +103,7 @@ local function InitCorona(mo)
         floorlight.translation = corona.translation
         CoronaSplatScale(floorlight)
         insert(coronas, floorlight)
-        P_SetOrigin(floorlight, corona.x, corona.y, corona.z) --Fixes interpolation issues
+        P_SetOrigin(floorlight, corona.x, corona.y, corona.floorz) --Fixes interpolation issues
     end
 end
 rawset(_G, "InitCorona", InitCorona)
