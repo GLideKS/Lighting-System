@@ -73,7 +73,6 @@ local function InitCorona(mo)
     --Set corona scale
     local corona_scale = corona_cmobj.scale or FU
 	corona.spritexscale, corona.spriteyscale = FixedMul(sizesetting, corona_scale), FixedMul(sizesetting, corona_scale)
-	corona.spriteyoffset = Corona_UpdateZOffset(corona, mo)
     corona.scale = mo.scale
 
     -- Translations over colors (probably redundant)
@@ -84,6 +83,7 @@ local function InitCorona(mo)
     --Set corona's visual properties
     corona.renderflags = $|corona_rf
     corona.alpha = Corona_Alpha(corona)
+    corona.spriteyoffset = Corona_UpdateZOffset(corona, mo)
     if corona_cmobj.fullbright then mo.renderflags = $|RF_FULLBRIGHT end --Make the object fullbright if defined
     if corona_cmobj.flicker then corona.state = S_GKS_CORONA_FLICKER end
 
