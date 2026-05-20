@@ -114,7 +114,7 @@ local function InitCorona(mo)
         floorlight.spriteyscale = corona.spriteyscale
         floorlight.translation = corona.translation
         CoronaSplatScale(floorlight)
-        P_SetOrigin(floorlight, corona.x, corona.y, corona.z) --Fixes interpolation issues
+        P_SetOrigin(floorlight, corona.x, corona.y, corona.floorz) --Fixes interpolation issues
     end
 end
 rawset(_G, "InitCorona", InitCorona)
