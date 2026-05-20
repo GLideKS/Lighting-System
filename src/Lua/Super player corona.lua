@@ -32,9 +32,19 @@ local function SuperCoronaThink(mo)
     if mo.radius - t.radius then mo.radius = t.radius end
     if mo.height - t.height then mo.height = t.height end
     if mo.scale - t.scale then mo.scale = t.scale end
-    if mo.color != t.color then mo.color = t.color end
     Corona_Follow(mo, t)
 end
 
+local function ColorAssign()
+    for p in players.iterate()
+        if not p.mo then continue end
+        if not (p.mo.supercorona and p.mo.supercorona.valid) then continue end
+
+        local scorona = p.mo.supercorona
+        if scorona.color != p.mo.color then scorona.color = p.mo.color end
+    end
+end
+
 addHook("PlayerThink", PlayerCoronaSpawn)
+addHook("PostThinkFrame", ColorAssign)
 addHook("MobjThinker", SuperCoronaThink, MT_PLAYERCORONA)
