@@ -69,6 +69,7 @@ local function InitCorona(mo)
     local corona_cmobj = corona.cmobj
     if corona_cmobj.postthinkmove then insert(postthink_coronas, corona) end
     mo.coronaspawned = true --tell the assigned object that it's corona spawned. to be used when you get a resynch
+    P_SetOrigin(corona, mo.x, mo.y, mo.z) --Fixes interpolation issues
 
     --Set corona scale
     local corona_scale = corona_cmobj.scale or FU
@@ -113,6 +114,7 @@ local function InitCorona(mo)
         floorlight.spriteyscale = corona.spriteyscale
         floorlight.translation = corona.translation
         CoronaSplatScale(floorlight)
+        P_SetOrigin(floorlight, corona.x, corona.y, corona.z) --Fixes interpolation issues
     end
 end
 rawset(_G, "InitCorona", InitCorona)
