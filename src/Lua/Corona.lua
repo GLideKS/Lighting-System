@@ -39,31 +39,38 @@ end
 local postthink_coronas = {}
 
 local function RemoveOnMove(mo)
+    if not mo and mo.valid then return end
+    if not corona_toggle then P_RemoveMobj(mo) end
+
     local t = mo.target
     local corona_cmobj = mo.cmobj
 
-    if not (t and (t.health or corona_cmobj.stayondeath))
+    --Only remove under these conditions
+    if not (t and (t.health or corona_cmobj.stayondeath)) --the usual conditions
     or (mo.floor and not floorsprites) then
         P_RemoveMobj(mo)
         return
     end
-    local z = (mo.floor and t.floorz) or t.z
-    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then P_RemoveMobj(mo) return end
 
-    --kill the corona if the defined state doesn't match
-    if corona_cmobj.states and not Corona_State(mo) then P_RemoveMobj(mo) return end
+    local z = (mo.floor and t.floorz) or t.z
+    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then P_RemoveMobj(mo) return end --when it's moving
+
+    if corona_cmobj.states and not Corona_State(mo) then P_RemoveMobj(mo) return end --when the state or sprite doesn't match
 end
 
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
 ---@param mo mobj_t
 local function InitCorona(mo)
-    if not (mo and mo.valid) then return end --for some reason an object sometimes don't exist at spawn??? what is this game
-    local cmobj = LightObjects[mo.type]
-    local sizesetting = corona_size.value
+    if not corona_toggle then return end --Coronas are off, don't run
 
+    if not (mo and mo.valid) then return end --for some reason an object sometimes don't exist at spawn??? what is this game
+    if mo.coronaspawned then return end --Already spawned, don't run this again
+
+    local cmobj = LightObjects[mo.type]
     if (cmobj and cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
 
     --Prepare corona
+    local sizesetting = corona_size.value
     local corona = P_SpawnMobjFromMobj(mo, 0,0,0, MT_GKS_CORONA)
     corona.target = mo
     corona.cmobj = cmobj
@@ -127,7 +134,6 @@ addHook("AddonLoaded", function()
         if LoadedObjects[i] then continue end --Is already defined, skip
 
         addHook("MobjSpawn", function(mo)
-            if not corona_toggle then return end
             InitCorona(mo) --initialize corona
         end, i)
         LoadedObjects[i] = true --local table

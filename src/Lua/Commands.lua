@@ -7,15 +7,6 @@ COM_AddCommand("corona_toggle", function()
     if corona_toggle then
         corona_toggle = false
         print("\x85".."Coronas Disabled.")
-
-		--go through all coronas and delete them
-        if gamestate != GS_LEVEL then return end
-		for mo in mobjs.iterate() do
-			--make sure it exists
-			if (mo and mo.valid and mo.type == MT_GKS_CORONA) then
-				P_RemoveMobj(mo)
-			end
-		end
     else
         corona_toggle = true
         print("\x83".."Coronas Enabled.")
