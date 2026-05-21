@@ -155,7 +155,7 @@ local function LoadCoronaMidJoin()
     if (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
         for mo in mobjs.iterate() do
             if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
-            if LoadedObjects[mo.type].specifichide then continue end
+            if (LoadedObjects[mo.type] and LoadedObjects[mo.type].specifichide) then continue end
             local cmobj = LightObjects[mo.type]
             if cmobj and not (cmobj.hide_on_lite and lite_mode) then --is lite mode on? don't spawn the hidden corona on lite mode
                 InitCorona(mo) --Finally Initialize corona
