@@ -196,7 +196,7 @@ end
 --Corona floorsprite
 local function CoronaSplat(mo)
     local t = mo.target
-    if not (t and floorsprites) then P_RemoveMobj(mo) return end
+    if not (t and floorsprites) then RemoveCorona(mo) return end
     if t.cmobj.nothink then return end
 
     local t_state = t.state
