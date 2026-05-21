@@ -14,7 +14,7 @@ rawset(_G, "corona_toggle", true)
 rawset(_G, "lite_mode", false)
 rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprites lol
 local corona_size = CV_FindVar("corona_size")
-local LoadedObjects = {} --let's not allow the modification of this
+rawset(_G, "LoadedObjects", {}) --do NOT modify
 
 --This could be good in a future so I'm leaving this here
 /*
@@ -48,6 +48,9 @@ local function InitCorona(mo)
 
     if not (mo and mo.valid) then return end --for some reason an object sometimes don't exist at spawn??? what is this game
     if mo.coronaspawned then return end --Already spawned, don't run this again
+
+    --if it's set to be hidden for this specific object, don't continue.
+    if LoadedObjects[mo.type].specifichide then return end
 
     local cmobj = LightObjects[mo.type]
     if (cmobj and cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
@@ -120,7 +123,7 @@ addHook("AddonLoaded", function()
         addHook("MobjSpawn", function(mo)
             InitCorona(mo) --initialize corona
         end, i)
-        LoadedObjects[i] = true --local table
+        LoadedObjects[i] = {}
 
         print("Corona added for object "..i)
     end
@@ -143,6 +146,7 @@ local function LoadCoronaMidJoin()
         coronas = {}
         for mo in mobjs.iterate() do
             if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
+            if LoadedObjects[mo.type].specifichide then continue end
             local cmobj = LightObjects[mo.type]
             if cmobj and not (cmobj.hide_on_lite and lite_mode) then --is lite mode on? don't spawn the hidden corona on lite mode
                 InitCorona(mo) --Finally Initialize corona
