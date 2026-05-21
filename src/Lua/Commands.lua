@@ -2,11 +2,39 @@
 	print("#Coronas: "..#coronas)
 end, COM_LOCAL)*/
 
+
+local function P_GetObjectName(name)
+    local object = "MT_"..string.upper(name)
+
+    if mobjinfo[_G[object]] then return _G[object]
+    else return false
+    end
+end
+
 --Command to toggle coronas. Coronas are net safe!
-COM_AddCommand("corona_toggle", function()
+COM_AddCommand("corona_toggle", function(p, arg)
     if corona_toggle then
-        corona_toggle = false
-        print("\x85".."Coronas Disabled.")
+        if not arg then
+            corona_toggle = false
+            print("\x85".."Coronas Disabled.")
+        else
+            if P_GetObjectName(arg) then
+                if gamestate != GS_LEVEL then return end
+                for mo in mobjs.iterate() do
+                    if not (mo and mo.valid and mo.type == MT_GKS_CORONA) then continue end
+                    if not mo.target then continue end
+                    local t = mo.target
+
+                    if t.type != P_GetObjectName(arg) then continue end
+                    if not LightObjects[P_GetObjectName(arg)] then continue end
+
+                    RemoveCorona(mo)
+                    LoadedObjects[t.type].specifichide = true
+                end
+            else
+                CONS_Printf(p, "ERROR: This object doesn't exist")
+            end
+        end
     else
         corona_toggle = true
         print("\x83".."Coronas Enabled.")
@@ -14,6 +42,7 @@ COM_AddCommand("corona_toggle", function()
         for mo in mobjs.iterate() do
             local cmobj = LightObjects[mo.type]
             if not cmobj then continue end
+            if LoadedObjects[mo.type].specifichide then LoadedObjects[mo.type].specifichide = false end
             InitCorona(mo) --this is why the command is placed after the InitCorona function
         end
     end
