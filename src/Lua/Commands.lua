@@ -20,7 +20,7 @@ COM_AddCommand("corona_toggle", function(p, arg)
         else
             if P_GetObjectName(arg) then
                 if gamestate != GS_LEVEL then return end
-                for mo in mobjs.iterate() do
+                for i, mo in ipairs(coronas) do
                     if not (mo and mo.valid and mo.type == MT_GKS_CORONA) then continue end
                     if not mo.target then continue end
                     local t = mo.target
