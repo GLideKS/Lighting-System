@@ -105,9 +105,17 @@ local function CoronaSplatScale(floorlight)
     if floorlight.spriteyscale - scale then floorlight.spriteyscale = scale end
 end
 
+local function RemoveCorona(mo)
+    if (mo.target and mo.target.valid) then
+        mo.target.coronaspawned = false
+    end
+    P_RemoveMobj(mo)
+end
+
 rawset(_G, "Corona_Follow", Corona_Follow)
 rawset(_G, "Corona_Color", Corona_Color)
 rawset(_G, "Corona_Alpha", Corona_Alpha)
 rawset(_G, "Corona_State", Corona_State)
 rawset(_G, "CoronaSplatScale", CoronaSplatScale)
 rawset(_G, "Corona_UpdateZOffset", Corona_UpdateZOffset)
+rawset(_G, "RemoveCorona", RemoveCorona)

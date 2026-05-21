@@ -32,7 +32,7 @@ COM_AddCommand("corona_litemode", function()
 			--make sure it exists
 			if (mo and mo.valid and mo.type == MT_GKS_CORONA)
 			and LightObjects[mo.target.type].hide_on_lite then
-				P_RemoveMobj(mo)
+				RemoveCorona(mo)
 			end
 		end
     else

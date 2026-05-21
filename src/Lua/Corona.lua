@@ -40,7 +40,7 @@ local postthink_coronas = {}
 
 local function RemoveOnMove(mo)
     if not mo and mo.valid then return end
-    if not corona_toggle then P_RemoveMobj(mo) end
+    if not corona_toggle then RemoveCorona(mo) return end
 
     local t = mo.target
     local corona_cmobj = mo.cmobj
@@ -48,14 +48,16 @@ local function RemoveOnMove(mo)
     --Only remove under these conditions
     if not (t and (t.health or corona_cmobj.stayondeath)) --the usual conditions
     or (mo.floor and not floorsprites) then
-        P_RemoveMobj(mo)
+        RemoveCorona(mo)
         return
     end
 
-    local z = (mo.floor and t.floorz) or t.z
-    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then P_RemoveMobj(mo) return end --when it's moving
+    if t.corona_specifichide then RemoveCorona(mo) end
 
-    if corona_cmobj.states and not Corona_State(mo) then P_RemoveMobj(mo) return end --when the state or sprite doesn't match
+    local z = (mo.floor and t.floorz) or t.z
+    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then RemoveCorona(mo) return end --when it's moving
+
+    if corona_cmobj.states and not Corona_State(mo) then RemoveCorona(mo) return end --when the state or sprite doesn't match
 end
 
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
@@ -168,7 +170,7 @@ local function Corona(mo)
 
     local t = mo.target
     if not (t and (t.health or corona_cmobj.stayondeath)) then
-        P_RemoveMobj(mo)
+        RemoveCorona(mo)
         return
     end
 
