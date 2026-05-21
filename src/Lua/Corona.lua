@@ -44,13 +44,16 @@ end)
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
 ---@param mo mobj_t
 local function InitCorona(mo)
-    if not mo.valid then return end
-    local cmobj = LightObjects[mo.type]
-    local sizesetting = corona_size.value
+    if not corona_toggle then return end --Coronas are off, don't run
 
+    if not (mo and mo.valid) then return end --for some reason an object sometimes don't exist at spawn??? what is this game
+    if mo.coronaspawned then return end --Already spawned, don't run this again
+
+    local cmobj = LightObjects[mo.type]
     if (cmobj and cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
 
     --Prepare corona
+    local sizesetting = corona_size.value
     local corona = P_SpawnMobjFromMobj(mo, 0,0,0, MT_GKS_CORONA)
     corona.target = mo
     corona.cmobj = cmobj
@@ -115,7 +118,6 @@ addHook("AddonLoaded", function()
         if LoadedObjects[i] then continue end --Is already defined, skip
 
         addHook("MobjSpawn", function(mo)
-            if not corona_toggle then return end
             InitCorona(mo) --initialize corona
         end, i)
         LoadedObjects[i] = true --local table
@@ -134,8 +136,8 @@ local function LoadCoronaMidJoin()
     if (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
         for i, corona in ipairs(coronas) do
 			--make sure it exists
-			if (corona and corona.valid and (corona.type == MT_GKS_CORONA or corona.type == MT_GKS_CORONA_SPLAT)) then
-				P_RemoveMobj(corona)
+			if (corona and corona.valid) then
+				RemoveCorona(corona)
 			end
 		end
         coronas = {}
@@ -154,10 +156,12 @@ end
 --TODO: Add a reduced thinker as well...?
 ---@param mo mobj_t
 local function Corona(mo)
+    if not corona_toggle then RemoveCorona(mo) return end
+
     local t = mo.target
     local corona_cmobj = mo.cmobj
     if not (t and (t.health or corona_cmobj.stayondeath)) then
-        P_RemoveMobj(mo)
+        RemoveCorona(mo)
         return
     elseif corona_cmobj.nothink then
         if (mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z) then P_RemoveMobj(mo) end
@@ -187,7 +191,7 @@ end
 local function CoronaSplat(mo)
     local t = mo.target
     if not (t and floorsprites) then
-        P_RemoveMobj(mo)
+        RemoveCorona(mo)
         return
     elseif t.cmobj.nothink then
         return

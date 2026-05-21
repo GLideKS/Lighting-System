@@ -7,18 +7,6 @@ COM_AddCommand("corona_toggle", function()
     if corona_toggle then
         corona_toggle = false
         print("\x85".."Coronas Disabled.")
-
-		--go through all coronas and delete them
-        if gamestate != GS_LEVEL then return end
-		for i, mo in ipairs(coronas) do
-			--make sure it exists
-			if (mo and mo.valid and (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT)) then
-				P_RemoveMobj(mo)
-			end
-		end
-
-        --and clear it
-		coronas = {}
     else
         corona_toggle = true
         print("\x83".."Coronas Enabled.")
@@ -43,8 +31,8 @@ COM_AddCommand("corona_litemode", function()
         for i, mo in ipairs(coronas) do
 			--make sure it exists
 			if (mo and mo.valid and mo.type == MT_GKS_CORONA)
-            and LightObjects[mo.target.type].hide_on_lite then
-				P_RemoveMobj(mo)
+			and LightObjects[mo.target.type].hide_on_lite then
+				RemoveCorona(mo)
 			end
 		end
     else

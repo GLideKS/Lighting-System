@@ -13,16 +13,17 @@ end
 
 local function PlayerCoronaSpawn(p)
     if not (p.mo and p and p.mo.valid and p.mo.health) then return end
+    local pmo = p.mo
 
     if SuperCheck(p) then
-        if not p.mo.supercorona then
-            p.mo.supercorona = P_SpawnMobjFromMobj(p.mo, 0,0,0, MT_PLAYERCORONA)
-            p.mo.supercorona.target = p.mo
-            p.mo.supercorona.scale = p.mo.scale
-            p.mo.supercorona.color = p.mo.color
+        if not pmo.supercorona then
+            pmo.supercorona = P_SpawnMobjFromMobj(pmo, 0,0,0, MT_PLAYERCORONA)
+            pmo.supercorona.target = pmo
+            pmo.supercorona.scale = pmo.scale
+            pmo.supercorona.color = pmo.color
         end
-    elseif p.mo.supercorona then
-        p.mo.supercorona = nil
+    elseif pmo.supercorona then
+        pmo.supercorona = nil
     end
 end
 
@@ -36,12 +37,13 @@ local function SuperCoronaThink(mo)
 end
 
 local function ColorAssign()
-    for p in players.iterate()
+    for p in players.iterate() do
         if not p.mo then continue end
-        if not (p.mo.supercorona and p.mo.supercorona.valid) then continue end
+        local pmo = p.mo
+        if not (pmo.supercorona and pmo.supercorona.valid) then continue end
 
-        local scorona = p.mo.supercorona
-        if scorona.color != p.mo.color then scorona.color = p.mo.color end
+        local scorona = pmo.supercorona
+        if scorona.color != pmo.color then scorona.color = pmo.color end
     end
 end
 
