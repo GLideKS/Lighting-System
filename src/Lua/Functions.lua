@@ -106,7 +106,7 @@ local function CoronaSplatScale(floorlight)
 end
 
 local function RemoveCorona(mo)
-    if (mo.target and mo.target.valid) then
+    if not mo.floor and (mo.target and mo.target.valid) then
         mo.target.coronaspawned = false
     end
     P_RemoveMobj(mo)
