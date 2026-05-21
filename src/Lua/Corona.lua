@@ -57,6 +57,7 @@ end
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
 ---@param mo mobj_t
 local function InitCorona(mo)
+    if not (mo and mo.valid) then return end --for some reason an object sometimes don't exist at spawn??? what is this game
     local cmobj = LightObjects[mo.type]
     local sizesetting = corona_size.value
 
