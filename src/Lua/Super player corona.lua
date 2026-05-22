@@ -21,6 +21,8 @@ local function PlayerCoronaSpawn(p)
             pmo.supercorona.target = pmo
             pmo.supercorona.scale = pmo.scale
             pmo.supercorona.color = pmo.color
+            pmo.supercorona.height = pmo.height
+            pmo.supercorona.eflags = pmo.eflags
         end
     elseif pmo.supercorona then
         pmo.supercorona = nil
@@ -32,6 +34,7 @@ local function SuperCoronaThink(mo)
     if not (t and t.player and SuperCheck(t.player)) then P_KillMobj(mo) return end
     if mo.radius - t.radius then mo.radius = t.radius end
     if mo.height - t.height then mo.height = t.height end
+    if mo.eflags != t.eflags then mo.eflags = t.eflags end
     if mo.scale - t.scale then mo.scale = t.scale end
     Corona_Follow(mo, t)
 end
