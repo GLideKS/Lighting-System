@@ -25,12 +25,12 @@ local function Corona_Color(mo)
     local corona_cmobj = mo.cmobj
 
     local default_color = t.color or SKINCOLOR_WHITE
-    local color = corona_cmobj.translation or corona_cmobj.color or default_color
+    local color = corona_cmobj.color or default_color
     local color_result = (type(color) == "number" and "COLORSCALECLR" .. skincolors[color].ramp[7]) or color
 
     if corona_cmobj.states then
         if type(corona_cmobj.states[t.state]) != "table" then return color_result end
-        color = corona_cmobj.states[t.state].translation or corona_cmobj.states[t.state].color or default_color
+        color = corona_cmobj.states[t.state].color or default_color
     end
     return color_result
 end
