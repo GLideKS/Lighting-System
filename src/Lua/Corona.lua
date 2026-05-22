@@ -16,26 +16,6 @@ rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprit
 local corona_size = CV_FindVar("corona_size")
 rawset(_G, "LoadedObjects", {}) --do NOT modify
 
---This could be good in a future so I'm leaving this here
-/*
-local fov = CV_FindVar("fov") --Romoney5 suggestion
-local function IsObjectOnSight(mo)
-    if not camera then return end
-    local ang = AngleFixed(camera.angle)
-    local mang = AngleFixed(R_PointToAngle(mo.x, mo.y))
-
-    if ang - mang < FU * -180 then mang = $ - FU * 360
-    elseif ang - mang > FU * 180 then mang = $ + FU * 360 end
-
-    local diff = (ang - mang)
-    local pfov = fov.value
-
-    if abs(diff) >= pfov then
-        return false --out of sight
-    end
-    return true
-end
-*/
 local postthink_coronas = {}
 
 local function RemoveOnMove(mo)

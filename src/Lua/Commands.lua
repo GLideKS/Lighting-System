@@ -1,8 +1,3 @@
-/*COM_AddCommand("corona_debug", function() --Get coronas count
-	print("#Coronas: "..#coronas)
-end, COM_LOCAL)*/
-
-
 local function P_GetObjectName(name)
     local object = "MT_"..string.upper(name)
 
