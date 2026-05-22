@@ -103,6 +103,7 @@ local function InitCorona(mo)
 
     --Mostly for flipped gravity
     corona.eflags = mo.eflags
+    corona.height = mo.height
 
     --Will it draw on the specific state?
     if corona_cmobj.states then
@@ -182,6 +183,7 @@ local function Corona(mo)
     if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
     if mo.alpha - Corona_Alpha(mo) then mo.alpha = Corona_Alpha(mo) end
     if mo.scale - t.scale then mo.scale = t.scale end
+    if mo.height - t.height then mo.height = t.height end
     if mo.spriteyoffset - zoffset then mo.spriteyoffset = zoffset end
     if not corona_cmobj.postthinkmove then Corona_Follow(mo, t) end
 
