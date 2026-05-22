@@ -18,7 +18,7 @@ local function Corona_Follow(mo, t)
     if poscheck then P_MoveOrigin(mo, tx, ty, tz) end
 end
 
---Returns the translation or the color of the defined corona. if no color or translation is found, it returns the default color.
+--Returns the color of the defined corona. if no color is found, it returns the default color.
 ---@param mo mobj_t
 local function Corona_Color(mo)
     local t = mo.target
@@ -67,7 +67,7 @@ local function Corona_State(mo)
     return false
 end
 
---Adjust zoffset according to the object's height (because I don't want to copy paste the same line again)
+--Adjust zoffset according to the object's height or object's center if centered_offset is true.
 ---@param corona mobj_t
 ---@param target mobj_t
 local function Corona_UpdateZOffset(corona, target)
@@ -105,6 +105,8 @@ local function CoronaSplatScale(floorlight)
     if floorlight.spriteyscale - scale then floorlight.spriteyscale = scale end
 end
 
+--Removes the corona properly from the object. This is not just a P_RemoveMobj
+---@param mo mobj_t
 local function RemoveCorona(mo)
     if not mo.floor and (mo.target and mo.target.valid) then
         mo.target.coronaspawned = false
