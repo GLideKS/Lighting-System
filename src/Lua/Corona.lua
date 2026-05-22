@@ -185,6 +185,7 @@ local function CoronaSplat(mo)
     if not (t and floorsprites) then RemoveCorona(mo) return end
 
     Corona_Follow(mo, t)
+    CoronaSplatScale(mo)
 
     if t.cmobj.nothink then return end
 
@@ -197,7 +198,6 @@ local function CoronaSplat(mo)
     if mo.eflags != t.eflags then mo.eflags = t.eflags end
     if mo.state != t_state then mo.state = t_state end
     if mo.scale - t.scale then mo.scale = t.scale end
-    CoronaSplatScale(mo)
 end
 
 local function PostThink()
