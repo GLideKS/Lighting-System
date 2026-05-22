@@ -1,36 +1,5 @@
---Vanilla Objects (SRB2)
---For the sake of performance, Coronas are defined per object
-
-/*
-// Example to define objects. you can copy this for your mod or something
-// if you want to make it compatible with Lighting System
-
-if not LightObjects then rawset(_G, "LightObjects", {}) end
-
-LightObjects[MT_SOMETHING] = { --MT_SOMETHING is the Object type to assign a corona
-    color = SKINCOLOR_SILVER, --corona color
-    scale = FU/2, --corona's scale. works the same as mobj_t.scale.
-    states = { --if this field is defined, the corona will not render unless you define the states where it appears
-        [S_STATE1] = true, --if true, the corona will only appear on this state
-        [S_STATE2] = {color = SKINCOLOR_RED}, --if the state is a table, you don't need a true. Instead you can define the color and alpha for the specified state.
-        [S_STATE3] = {alpha = FU/2},
-        [S_STATE4] = {color = SKINCOLOR_BLUE, alpha = FU/2}
-    },
-    alpha = FU/3*2, --corona's alpha. works the same as mobj_t.alpha.
-    flicker = true, --makes the corona constantly flicker
-    floorlight = true, --will the object have a floorsprite corona as well?
-    stayondeath = true, --if true, the corona will remain on it's death states
-    zoffset = -5, --vertical offset of the corona
-    hide_on_lite = true --Used on corona_litemode. if true, the corona will not appear if lite mode is on.
-}
-
-
-// You can copy existing corona definitions for your object too and add other values as well.
-// like this example:
-
-LightObjects[MT_SOMETHING] = LightObjects[MT_RING]
-LightObjects[MT_SOMETHING].scale = FU
-*/
+-- Vanilla Objects (SRB2)
+-- For the sake of performance, Coronas are defined per object
 
 ------------Collectibles
 
