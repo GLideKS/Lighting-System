@@ -161,11 +161,12 @@ local function Corona(mo)
 
     local t = mo.target
 
-    if LoadedObjects[t.type].specifichide then RemoveCorona(mo) return end
     if not (t and (t.health or corona_cmobj.stayondeath)) then
         RemoveCorona(mo)
         return
     end
+
+    if LoadedObjects[t.type].specifichide then RemoveCorona(mo) return end
 
     local zoffset = Corona_UpdateZOffset(mo, t)
     if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
