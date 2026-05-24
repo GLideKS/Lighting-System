@@ -150,6 +150,7 @@ end
 --TODO: Add a reduced thinker as well...?
 ---@param mo mobj_t
 local function Corona(mo)
+    if not (mo and mo.valid) then return end --This game is dumb
     if not corona_toggle then RemoveCorona(mo) return end
 
     local corona_cmobj = mo.cmobj
