@@ -26,13 +26,13 @@ local function RemoveOnMove(mo)
     local corona_cmobj = mo.cmobj
 
     --Only remove under these conditions
+    if LoadedObjects[t.type].specifichide then RemoveCorona(mo) end
+
     if not (t and (t.health or corona_cmobj.stayondeath)) --the usual conditions
     or (mo.floor and not floorsprites) then
         RemoveCorona(mo)
         return
     end
-
-    if t.corona_specifichide then RemoveCorona(mo) end
 
     local z = (mo.floor and t.floorz) or t.z
     if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then RemoveCorona(mo) return end --when it's moving
@@ -150,10 +150,14 @@ end
 --TODO: Add a reduced thinker as well...?
 ---@param mo mobj_t
 local function Corona(mo)
+    if not corona_toggle then RemoveCorona(mo) return end
+
     local corona_cmobj = mo.cmobj
     if corona_cmobj.nothink then RemoveOnMove(mo) return end
 
     local t = mo.target
+
+    if LoadedObjects[t.type].specifichide then RemoveCorona(mo) return end
     if not (t and (t.health or corona_cmobj.stayondeath)) then
         RemoveCorona(mo)
         return

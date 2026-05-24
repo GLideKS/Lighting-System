@@ -13,22 +13,10 @@ COM_AddCommand("corona_toggle", function(p, arg)
             corona_toggle = false
             print("\x85".."Coronas Disabled.")
         else
-            if P_GetObjectName(arg) then
-                if gamestate != GS_LEVEL then return end
-                for mo in mobjs.iterate() do
-                    if not (mo and mo.valid and mo.type == MT_GKS_CORONA) then continue end
-                    if not mo.target then continue end
-                    local t = mo.target
+            local obj = P_GetObjectName(arg) --get the object's type
 
-                    if t.type != P_GetObjectName(arg) then continue end
-                    if not LightObjects[P_GetObjectName(arg)] then continue end
-
-                    RemoveCorona(mo)
-                    LoadedObjects[t.type].specifichide = true
-                end
-            else
-                CONS_Printf(p, "ERROR: This object doesn't exist")
-            end
+            --Mark it as it's specifically hidden, until you toggle corona_toggle again.
+            LoadedObjects[obj].specifichide = true
         end
     else
         corona_toggle = true
