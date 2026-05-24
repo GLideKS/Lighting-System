@@ -131,6 +131,7 @@ end)
 
 --Hacky way to load coronas on server mid-join
 local function LoadCoronaMidJoin()
+    if gamestate != GS_LEVEL then return end
     if not consoleplayer then return end
     if not (multiplayer and netgame) then return end --Only do this for multiplayer servers
     if consoleplayer.NET_coronasloaded then return end
