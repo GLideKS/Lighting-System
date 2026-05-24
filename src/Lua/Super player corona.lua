@@ -8,6 +8,7 @@ then the corona spawns if this object is defined on the LightObjects[MT_] table
 local function SuperCheck(p)
     if p.powers[pw_super] then return true end --Vanilla Super Form
     if (p.solchar and p.solchar.istransformed) then return true end --Sol Forms
+    if (p.powers[pw_carry] == CR_NIGHTSMODE) then return true end --NiGHTS Mode
     return false
 end
 
@@ -15,7 +16,7 @@ local function PlayerCoronaSpawn(p)
     if not (p.mo and p and p.mo.valid and p.mo.health) then return end
     local pmo = p.mo
 
-    if SuperCheck(p) then
+    if (SuperCheck(p) and corona_toggle) then
         if not pmo.supercorona then
             pmo.supercorona = P_SpawnMobjFromMobj(pmo, 0,0,0, MT_PLAYERCORONA)
             pmo.supercorona.target = pmo
@@ -25,6 +26,7 @@ local function PlayerCoronaSpawn(p)
             pmo.supercorona.eflags = pmo.eflags
         end
     elseif pmo.supercorona then
+        P_RemoveMobj(pmo.supercorona)
         pmo.supercorona = nil
     end
 end

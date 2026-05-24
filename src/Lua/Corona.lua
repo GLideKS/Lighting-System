@@ -115,9 +115,9 @@ local function LoadCoronaMidJoin()
     if gamestate != GS_LEVEL then return end
     if not consoleplayer then return end
     if not (multiplayer and netgame) then return end --Only do this for multiplayer servers
-    if isserver then return end
+    if consoleplayer.NET_coronasloaded then return end
 
-    if (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
+    if corona_toggle then --don't bother to do this if coronas is off
         for i, corona in ipairs(coronas) do
 			--make sure it exists
 			if (corona and corona.valid) then
@@ -141,17 +141,24 @@ end
 --TODO: Add a reduced thinker as well...?
 ---@param mo mobj_t
 local function Corona(mo)
+    if not (mo and mo.valid) then return end --This game is dumb
     if not corona_toggle then RemoveCorona(mo) return end
 
-    local t = mo.target
     local corona_cmobj = mo.cmobj
+    if corona_cmobj.hide_on_lite and lite_mode then RemoveCorona(mo) return end
+
+    local t = mo.target
+
     if not (t and (t.health or corona_cmobj.stayondeath)) then
         RemoveCorona(mo)
         return
     elseif corona_cmobj.nothink then
         if (mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z) then P_RemoveMobj(mo) end
+        if LoadedObjects[t.type].specifichide then RemoveCorona(mo) return end
         return
     end
+
+    if LoadedObjects[t.type].specifichide then RemoveCorona(mo) return end
 
     local zoffset = Corona_UpdateZOffset(mo, t)
     if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
