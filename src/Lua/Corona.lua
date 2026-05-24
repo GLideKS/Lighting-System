@@ -132,8 +132,9 @@ end)
 local function LoadCoronaMidJoin()
     if not consoleplayer then return end
     if not (multiplayer and netgame) then return end --Only do this for multiplayer servers
+    if consoleplayer.NET_coronasloaded then return end
 
-    if (corona_toggle and not consoleplayer.NET_coronasloaded) then --don't bother to do this if coronas is off
+    if corona_toggle then --don't bother to do this if coronas is off
         for mo in mobjs.iterate() do
             if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
             if (LoadedObjects[mo.type] and LoadedObjects[mo.type].specifichide) then continue end
