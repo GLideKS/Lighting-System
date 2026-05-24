@@ -27,6 +27,7 @@ local function RemoveOnMove(mo)
 
     --Only remove under these conditions
     if LoadedObjects[t.type].specifichide then RemoveCorona(mo) return end
+    if corona_cmobj.hide_on_lite and lite_mode then RemoveCorona(mo) return end
 
     if not (t and (t.health or corona_cmobj.stayondeath)) --the usual conditions
     or (mo.floor and not floorsprites) then
