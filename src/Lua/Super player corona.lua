@@ -16,7 +16,7 @@ local function PlayerCoronaSpawn(p)
     if not (p.mo and p and p.mo.valid and p.mo.health) then return end
     local pmo = p.mo
 
-    if SuperCheck(p) then
+    if (SuperCheck(p) and corona_toggle) then
         if not pmo.supercorona then
             pmo.supercorona = P_SpawnMobjFromMobj(pmo, 0,0,0, MT_PLAYERCORONA)
             pmo.supercorona.target = pmo
@@ -26,6 +26,7 @@ local function PlayerCoronaSpawn(p)
             pmo.supercorona.eflags = pmo.eflags
         end
     elseif pmo.supercorona then
+        P_RemoveMobj(pmo.supercorona)
         pmo.supercorona = nil
     end
 end
