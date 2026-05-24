@@ -155,6 +155,7 @@ local function Corona(mo)
 
     local corona_cmobj = mo.cmobj
     if corona_cmobj.nothink then RemoveOnMove(mo) return end
+    if corona_cmobj.hide_on_lite and lite_mode then RemoveCorona(mo) return end
 
     local t = mo.target
 
