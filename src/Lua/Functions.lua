@@ -43,8 +43,8 @@ local function Corona_Alpha(mo)
     local corona_cmobj = mo.cmobj
     local alpha = corona_cmobj.alpha or FU
 
-    if corona_cmobj.states then
-        if type(corona_cmobj.states[t.state]) != "table" then return alpha end
+    if corona_cmobj.states and type(corona_cmobj.states[t.state]) == "table"
+    and corona_cmobj.states[t.state].alpha then
         alpha = corona_cmobj.states[t.state].alpha or FU
     end
     return alpha
