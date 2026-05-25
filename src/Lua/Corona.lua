@@ -29,11 +29,9 @@ local function InitCorona(mo)
     if not (mo and mo.valid) then return end --for some reason an object sometimes don't exist at spawn??? what is this game
     if mo.coronaspawned then return end --Already spawned, don't run this again
 
-    --if it's set to be hidden for this specific object, don't continue.
-    if LoadedObjects[mo.type].specifichide then return end
-
     local cmobj = LightObjects[mo.type]
     if (cmobj and cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
+    if (cmobj and cmobj.specifichide) then return end --if it's set to be hidden for this specific object, don't continue.
 
     --Prepare corona
     local sizesetting = corona_size.value
