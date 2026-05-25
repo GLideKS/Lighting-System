@@ -27,7 +27,8 @@ local function Corona_Color(mo)
     local default_color = t.color or SKINCOLOR_WHITE
     local color = corona_cmobj.color or default_color
 
-    if corona_cmobj.states and type(corona_cmobj.states[t.state]) == "table" then
+    if corona_cmobj.states and type(corona_cmobj.states[t.state]) == "table"
+    and corona_cmobj.states[t.state].color then
         color = corona_cmobj.states[t.state].color or default_color
     end
 
