@@ -87,3 +87,26 @@ CV_RegisterVar({
 		end
 	end
 })
+
+--Corona Intensity. adjusts how bright are the coronas.
+CV_RegisterVar({
+	name = "corona_intensity",
+	defaultvalue = 1,
+	PossibleValue = {MIN=0, MAX=FU},
+    flags = CV_FLOAT|CV_CALL,
+    func = function()
+		if gamestate != GS_LEVEL then return end
+		for mo in mobjs.iterate() do
+            if not (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT) then continue end
+
+			if (mo and mo.valid) then
+                --Update once
+                if not mo.floor then
+                    mo.alpha = Corona_Alpha(mo)
+                else
+                    mo.alpha = mo.target.alpha
+                end
+			end
+		end
+	end
+})

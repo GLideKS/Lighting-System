@@ -35,6 +35,8 @@ local function Corona_Color(mo)
     return color_result
 end
 
+local intensity = CV_FindVar("corona_intensity")
+
 --Returns the alpha of the defined corona. if no alpha is found, it returns the default alpha (FRACUNIT)
 ---@param mo mobj_t
 local function Corona_Alpha(mo)
@@ -48,7 +50,7 @@ local function Corona_Alpha(mo)
         alpha = corona_cmobj.states[t.state].alpha or FU
     end
 
-    return alpha
+    return FixedMul(intensity.value, alpha)
 end
 
 --If the corona has states defined, returns true if the object's state matches with the defined states.
