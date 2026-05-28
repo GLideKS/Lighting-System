@@ -13,7 +13,10 @@ local function SuperCheck(p)
 end
 
 local function PlayerCoronaSpawn(p)
-    if not (p.mo and p and p.mo.valid and p.mo.health) then return end
+    if not (p.mo and p and p.mo.valid and p.mo.health) then
+        return
+    end
+
     local pmo = p.mo
 
     if (SuperCheck(p) and corona_toggle) then
@@ -33,7 +36,12 @@ end
 
 local function SuperCoronaThink(mo)
     local t = mo.target
-    if not (t and t.player and SuperCheck(t.player)) then P_KillMobj(mo) return end
+
+    if not (t and t.player and SuperCheck(t.player)) then
+        P_KillMobj(mo)
+        return
+    end
+
     if mo.radius - t.radius then mo.radius = t.radius end
     if mo.height - t.height then mo.height = t.height end
     if mo.eflags != t.eflags then mo.eflags = t.eflags end
@@ -45,10 +53,13 @@ local function ColorAssign()
     for p in players.iterate() do
         if not p.mo then continue end
         local pmo = p.mo
-        if not (pmo.supercorona and pmo.supercorona.valid) then continue end
-
         local scorona = pmo.supercorona
-        if scorona.color != pmo.color then scorona.color = pmo.color end
+
+        if not (scorona and scorona.valid) then continue end
+
+        if scorona.color != pmo.color then
+            scorona.color = pmo.color
+        end
     end
 end
 

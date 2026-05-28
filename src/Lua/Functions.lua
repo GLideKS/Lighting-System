@@ -6,16 +6,13 @@ local function Corona_Follow(mo, t)
     local flipped = P_MobjFlip(t) == -1
     local tx = t.x
     local ty = t.y
-    local tz
+    local tz = t.z
 
     --Because for some reason if floor height is 0, the floorlight moves to the corona position instead
     --so i can't do tz = (mo.floor and ((flipped and t.ceilingz) or t.floorz)) or t.z
-    if mo.floor then tz = (flipped and t.ceilingz) or t.floorz
-    else tz = t.z
-    end
+    if mo.floor then tz = (flipped and t.ceilingz) or t.floorz end
 
-    local poscheck = (mo.x - tx) or (mo.y - ty) or (mo.z - tz)
-    if poscheck then P_MoveOrigin(mo, tx, ty, tz) end
+    P_MoveOrigin(mo, tx, ty, tz)
 end
 
 --Returns the color of the defined corona. if no color is found, it returns the default color.
@@ -27,12 +24,14 @@ local function Corona_Color(mo)
     local default_color = t.color or SKINCOLOR_WHITE
     local color = corona_cmobj.color or default_color
 
-    if corona_cmobj.states and type(corona_cmobj.states[t.state]) == "table"
+    if corona_cmobj.states
+    and type(corona_cmobj.states[t.state]) == "table"
     and corona_cmobj.states[t.state].color then
         color = corona_cmobj.states[t.state].color or default_color
     end
 
     local color_result = (type(color) == "number" and "COLORSCALECLR" .. skincolors[color].ramp[7]) or color
+
     return color_result
 end
 
@@ -43,10 +42,12 @@ local function Corona_Alpha(mo)
     local corona_cmobj = mo.cmobj
     local alpha = corona_cmobj.alpha or FU
 
-    if corona_cmobj.states and type(corona_cmobj.states[t.state]) == "table"
+    if corona_cmobj.states
+    and type(corona_cmobj.states[t.state]) == "table"
     and corona_cmobj.states[t.state].alpha then
         alpha = corona_cmobj.states[t.state].alpha or FU
     end
+
     return alpha
 end
 
@@ -61,9 +62,20 @@ local function Corona_State(mo)
 
     if type(state[t.state]) == "table" then --the defined state has specific properties
         local sprite = state[t.state].sprite
-        if sprite == nil then return true end --not a sprite defined. doesn't matter, show the corona
-        if sprite == t.sprite then return true else return false end --the sprite matches. show the corona, don't if it doesn't.
-    elseif state[t.state] then return true end --the state at least matches, show it.
+
+        if sprite == nil then --not a sprite defined. doesn't matter, show the corona
+            return true
+        end
+
+        if sprite == t.sprite then --the sprite matches. show the corona, don't if it doesn't.
+            return true
+        else
+            return false
+        end
+
+    elseif state[t.state] then --the state at least matches, show it.
+        return true
+    end
 
     return false
 end
@@ -74,13 +86,16 @@ end
 local function Corona_UpdateZOffset(corona, target)
     local corona_zoffset = corona.cmobj.zoffset or 0
     local height_offset = (corona.cmobj.centered_offset and target.height/2) or target.height
+
     return FixedDiv(corona_zoffset * FU + FixedDiv(height_offset, target.scale), corona.spriteyscale)
 end
 
 --Scales floorlight (Corona Splat) according to the corona z distance
 ---@param floorlight mobj_t
-local function CoronaSplatScale(floorlight)
-    if not floorlight.floor then return end --This is only for floorlights
+local function CoronaSplatScale(floorlight) --This is only for floorlights
+    if not floorlight.floor then
+        return
+    end
 
     local t = floorlight.target
 
@@ -102,8 +117,13 @@ local function CoronaSplatScale(floorlight)
     end
 
     --Set the splat visual scale
-    if floorlight.spritexscale - scale then floorlight.spritexscale = scale end
-    if floorlight.spriteyscale - scale then floorlight.spriteyscale = scale end
+    if floorlight.spritexscale - scale then
+        floorlight.spritexscale = scale
+    end
+
+    if floorlight.spriteyscale - scale then
+        floorlight.spriteyscale = scale
+    end
 end
 
 --Removes the corona properly from the object. This is not just a P_RemoveMobj
@@ -112,6 +132,7 @@ local function RemoveCorona(mo)
     if not mo.floor and (mo.target and mo.target.valid) then
         mo.target.coronaspawned = false
     end
+
     P_RemoveMobj(mo)
 end
 
