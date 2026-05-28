@@ -16,6 +16,7 @@ if not LightingSystem_loaded then
 	--Light object assignment (Definitions)
 	dofile("Definitions/Vanilla.lua") --Vanilla SRB2
 	dofile("Definitions/Extras.lua") --Lighting System additions
+	dofile("Definitions/Colored Rings.lua") --Colored rings support
 
 	print("\131Lighting System loaded sucessfully!")
 	LightingSystem_loaded = true

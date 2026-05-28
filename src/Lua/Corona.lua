@@ -40,6 +40,11 @@ local function RemoveOnMove(mo)
         then RemoveCorona(mo)
         return
     end
+
+    if not ringstyles then return end
+
+    --Sync at least these
+    if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
 end
 
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
