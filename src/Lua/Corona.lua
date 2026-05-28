@@ -13,73 +13,89 @@ local splat_rf = RF_SLOPESPLAT|RF_NOSPLATBILLBOARD|RF_OBJECTSLOPESPLAT|RF_FLOORS
 rawset(_G, "corona_toggle", true)
 rawset(_G, "lite_mode", false)
 rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprites lol
-local corona_size = CV_FindVar("corona_size")
 rawset(_G, "LoadedObjects", {}) --do NOT modify
+local corona_size = CV_FindVar("corona_size")
 
 local postthink_coronas = {}
 
+--nothink coronas thinker. funny right?
 local function RemoveOnMove(mo)
-    if not mo and mo.valid then return end
-    if not corona_toggle then RemoveCorona(mo) return end
+    if not mo and mo.valid then
+        return
+    end
 
     local t = mo.target
+    local z = (mo.floor and t.floorz) or t.z
     local corona_cmobj = mo.cmobj
 
     --Only remove under these conditions
-    if corona_cmobj.hide_on_lite and lite_mode then RemoveCorona(mo) return end
 
-    if not (t and (t.health or corona_cmobj.stayondeath)) --the usual conditions
-    or (mo.floor and not floorsprites) then
+    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then --when it's moving
         RemoveCorona(mo)
         return
     end
 
-    if LoadedObjects[t.type].specifichide then RemoveCorona(mo) return end
-
-    local z = (mo.floor and t.floorz) or t.z
-    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then RemoveCorona(mo) return end --when it's moving
-
-    if corona_cmobj.states and not Corona_State(mo) then RemoveCorona(mo) return end --when the state or sprite doesn't match
+    if corona_cmobj.states --when the state or sprite doesn't match
+    and not Corona_State(mo)
+        then RemoveCorona(mo)
+        return
+    end
 end
 
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
 ---@param mo mobj_t
 local function InitCorona(mo)
-    if not corona_toggle then return end --Coronas are off, don't run
-
-    if not (mo and mo.valid) then return end --for some reason an object sometimes don't exist at spawn??? what is this game
-    if mo.coronaspawned then return end --Already spawned, don't run this again
+    if not corona_toggle then --Coronas are off, don't run
+        return
+    end
 
     local cmobj = LightObjects[mo.type]
-    if (cmobj and cmobj.hide_on_lite and lite_mode) then return end --do not spawn on lite mode
-    if (cmobj and cmobj.specifichide) then return end --if it's set to be hidden for this specific object, don't continue.
+
+    if not (mo and mo.valid) --for some reason an object sometimes don't exist at spawn??? what is this game
+    or mo.coronaspawned then --Already spawned, don't run this again
+        return
+    end
+
+    if cmobj then
+        if (cmobj.hide_on_lite and lite_mode) --do not spawn on lite mode
+        or (obj and cmobj.specifichide) then --if it's set to be hidden for this specific object, don't continue.
+            return
+        end
+    end
 
     --Prepare corona
-    local sizesetting = corona_size.value
-    local corona = P_SpawnMobjFromMobj(mo, 0,0,0, MT_GKS_CORONA)
+    local corona = P_SpawnMobjFromMobj(mo, 0, 0, 0, MT_GKS_CORONA) --Spawn!
     corona.target = mo
     corona.cmobj = cmobj
+    local sizesetting = corona_size.value
     local corona_cmobj = corona.cmobj
-    if corona_cmobj.postthinkmove then insert(postthink_coronas, corona) end
+
+    if corona_cmobj.postthinkmove then
+        insert(postthink_coronas, corona)
+    end
+
     mo.coronaspawned = true --tell the assigned object that it's corona spawned. to be used when you get a resynch
     P_SetOrigin(corona, mo.x, mo.y, mo.z) --Fixes interpolation issues
 
     --Set corona scale
     local corona_scale = corona_cmobj.scale or FU
-	corona.spritexscale, corona.spriteyscale = FixedMul(sizesetting, corona_scale), FixedMul(sizesetting, corona_scale)
+	corona.spritexscale = FixedMul(sizesetting, corona_scale)
+    corona.spriteyscale = FixedMul(sizesetting, corona_scale)
     corona.scale = mo.scale
 
-    -- Translations over colors (probably redundant)
-	-- If someone passed a direct translation
-	-- That doesn't cross 0:31, that's on them
-	corona.translation = Corona_Color(corona)
-
     --Set corona's visual properties
+    corona.translation = Corona_Color(corona)
     corona.renderflags = $|corona_rf
     corona.alpha = Corona_Alpha(corona)
     corona.spriteyoffset = Corona_UpdateZOffset(corona, mo)
-    if corona_cmobj.fullbright then mo.renderflags = $|RF_FULLBRIGHT end --Make the object fullbright if defined
-    if corona_cmobj.flicker then corona.state = S_GKS_CORONA_FLICKER end
+
+    if corona_cmobj.fullbright then --Make the object fullbright if defined
+        mo.renderflags = $|RF_FULLBRIGHT
+    end
+
+    if corona_cmobj.flicker then --Make the object flicker if flicker is true
+        corona.state = S_GKS_CORONA_FLICKER
+    end
 
     --Mostly for flipped gravity
     corona.eflags = mo.eflags
@@ -87,15 +103,21 @@ local function InitCorona(mo)
 
     --Will it draw on the specific state?
     if corona_cmobj.states then
-        if Corona_State(corona) then corona.flags2 = $ & ~MF2_DONTDRAW
-        else corona.flags2 = $|MF2_DONTDRAW
+        if Corona_State(corona) then
+            corona.flags2 = $ & ~MF2_DONTDRAW
+        else
+            corona.flags2 = $|MF2_DONTDRAW
         end
     end
 
     --Will the corona spawn a floorlight as well?
     if not floorsprites then return end
     if corona_cmobj.floorlight then
-        if corona_cmobj.states and corona_cmobj.nothink and not Corona_State(corona) then return end --Don't even spawn the floorlight if state/sprite doesn't match
+        if corona_cmobj.states --Don't even spawn the floorlight if state/sprite doesn't match
+        and corona_cmobj.nothink
+        and not Corona_State(corona) then
+            return
+        end
 
         local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
         floorlight.floor = true --mark it as a floor light
@@ -138,7 +160,11 @@ local function LoadCoronaMidJoin()
     if corona_toggle then --don't bother to do this if coronas is off
         for mo in mobjs.iterate() do
             if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
-            if (LoadedObjects[mo.type] and LoadedObjects[mo.type].specifichide) then continue end
+
+            if (LoadedObjects[mo.type] and LoadedObjects[mo.type].specifichide) then
+                continue
+            end
+
             local cmobj = LightObjects[mo.type]
             if cmobj and not (cmobj.hide_on_lite and lite_mode) then --is lite mode on? don't spawn the hidden corona on lite mode
                 InitCorona(mo) --Finally Initialize corona
@@ -153,34 +179,39 @@ end
 ---@param mo mobj_t
 local function Corona(mo)
     if not (mo and mo.valid) then return end --This game is dumb
-    if not corona_toggle then RemoveCorona(mo) return end
 
     local corona_cmobj = mo.cmobj
-    if corona_cmobj.nothink then RemoveOnMove(mo) return end
-    if corona_cmobj.hide_on_lite and lite_mode then RemoveCorona(mo) return end
-
     local t = mo.target
 
-    if not (t and (t.health or corona_cmobj.stayondeath)) then
+    if not corona_toggle --Coronas are off
+    or (corona_cmobj.hide_on_lite and lite_mode) --Defined to be hidden on lite mode
+    or not (t and (t.health or corona_cmobj.stayondeath)) --The object assigned is removed
+    or corona_cmobj.specifichide then --Is marked to be specifically hidden (corona_toggle argument)
         RemoveCorona(mo)
         return
     end
 
-    if LoadedObjects[t.type].specifichide then RemoveCorona(mo) return end
+    if corona_cmobj.nothink then --Is the corona defined to have a reduced thinker?
+        RemoveOnMove(mo)
+        return
+    end
 
     local zoffset = Corona_UpdateZOffset(mo, t)
+
     if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
     if mo.alpha - Corona_Alpha(mo) then mo.alpha = Corona_Alpha(mo) end
     if mo.scale - t.scale then mo.scale = t.scale end
     if mo.height - t.height then mo.height = t.height end
     if mo.spriteyoffset - zoffset then mo.spriteyoffset = zoffset end
-    if not corona_cmobj.postthinkmove then Corona_Follow(mo, t) end
+    mo.eflags = t.eflags --Adapt to flipped gravity
 
-    --Adapt to flipped gravity
-    mo.eflags = t.eflags
+    if not corona_cmobj.postthinkmove then
+        Corona_Follow(mo, t)
+    end
 
     --Will it draw on the specific state?
     if not corona_cmobj.states then return end
+
     if Corona_State(mo) then
         mo.flags2 = $ & ~MF2_DONTDRAW
     else
@@ -191,21 +222,23 @@ end
 --Corona floorsprite
 local function CoronaSplat(mo)
     local t = mo.target
-    if not (t and floorsprites) then RemoveCorona(mo) return end
+
+    if not (t and floorsprites) then
+        RemoveCorona(mo)
+        return
+    end
 
     Corona_Follow(mo, t)
     CoronaSplatScale(mo)
 
     if t.cmobj.nothink then return end
 
-    local t_state = t.state
-
     --Copy everything from the main corona
 	if mo.translation != t.translation then mo.translation = t.translation end
     if mo.alpha != t.alpha then mo.alpha = t.alpha end
     if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
     if mo.eflags != t.eflags then mo.eflags = t.eflags end
-    if mo.state != t_state then mo.state = t_state end
+    if mo.state != t.state then mo.state = t.state end
     if mo.scale - t.scale then mo.scale = t.scale end
 end
 
@@ -214,8 +247,10 @@ local function PostThink()
     --go through all coronas
     for i = #postthink_coronas, 1, -1 do
 		local mo = postthink_coronas[i]
+
 		--make sure it exists
-        if (mo and mo.valid and mo.target and (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT)) then
+        if (mo and mo.valid and mo.target)
+        and (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT) then
             Corona_Follow(mo, mo.target)
         else
             remove(postthink_coronas, i) --otherwise it's useless, remove it
