@@ -35,6 +35,8 @@ local function Corona_Color(mo)
     return color_result
 end
 
+local intensity = CV_FindVar("corona_intensity")
+
 --Returns the alpha of the defined corona. if no alpha is found, it returns the default alpha (FRACUNIT)
 ---@param mo mobj_t
 local function Corona_Alpha(mo)
@@ -48,7 +50,25 @@ local function Corona_Alpha(mo)
         alpha = corona_cmobj.states[t.state].alpha or FU
     end
 
-    return alpha
+    return FixedMul(intensity.value, alpha)
+end
+
+local size = CV_FindVar("corona_size")
+
+--Returns the scale of the defined corona. if no scale is found, it returns the default scale (FRACUNIT)
+---@param mo mobj_t
+local function Corona_Scale(mo)
+    local t = mo.target
+    local corona_cmobj = mo.cmobj
+    local scale = corona_cmobj.scale or FU
+
+    if corona_cmobj.states
+    and type(corona_cmobj.states[t.state]) == "table"
+    and corona_cmobj.states[t.state].scale then
+        scale = corona_cmobj.states[t.state].scale or FU
+    end
+
+    return FixedMul(size.value, scale)
 end
 
 --If the corona has states defined, returns true if the object's state matches with the defined states.
@@ -62,15 +82,26 @@ local function Corona_State(mo)
 
     if type(state[t.state]) == "table" then --the defined state has specific properties
         local sprite = state[t.state].sprite
+        local frame = state[t.state].frame
 
         if sprite == nil then --not a sprite defined. doesn't matter, show the corona
             return true
         end
 
-        if sprite == t.sprite then --the sprite matches. show the corona, don't if it doesn't.
-            return true
+        if (sprite == t.sprite) then
+            if frame == nil then --No frame field defined? it's fine, show it anyways
+                return true
+            end
+
+            for _, val in ipairs(frame) do --If the frame field exists, make it sure it matches
+                if val == t.frame then
+                    return true
+                end
+            end
+
+            return false -- None of these accomplishes, don't show it.
         else
-            return false
+            return false --The sprite doesn't match, don't show.
         end
 
     elseif state[t.state] then --the state at least matches, show it.
@@ -87,7 +118,7 @@ local function Corona_UpdateZOffset(corona, target)
     local corona_zoffset = corona.cmobj.zoffset or 0
     local height_offset = (corona.cmobj.centered_offset and target.height/2) or target.height
 
-    return FixedDiv(corona_zoffset * FU + FixedDiv(height_offset, target.scale), corona.spriteyscale)
+    return FixedDiv(corona_zoffset * FU + FixedDiv(height_offset, target.scale), (corona.spriteyscale or 1))
 end
 
 --Scales floorlight (Corona Splat) according to the corona z distance
@@ -139,6 +170,7 @@ end
 rawset(_G, "Corona_Follow", Corona_Follow)
 rawset(_G, "Corona_Color", Corona_Color)
 rawset(_G, "Corona_Alpha", Corona_Alpha)
+rawset(_G, "Corona_Scale", Corona_Scale)
 rawset(_G, "Corona_State", Corona_State)
 rawset(_G, "CoronaSplatScale", CoronaSplatScale)
 rawset(_G, "Corona_UpdateZOffset", Corona_UpdateZOffset)

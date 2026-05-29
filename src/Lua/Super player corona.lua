@@ -28,7 +28,7 @@ local function PlayerCoronaSpawn(p)
             pmo.supercorona.height = pmo.height
             pmo.supercorona.eflags = pmo.eflags
         end
-    elseif pmo.supercorona then
+    elseif pmo.supercorona and pmo.supercorona.valid then
         P_RemoveMobj(pmo.supercorona)
         pmo.supercorona = nil
     end
