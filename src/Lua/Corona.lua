@@ -61,11 +61,9 @@ local function InitCorona(mo)
         return
     end
 
-    if cmobj then
-        if (cmobj.hide_on_lite and lite_mode) --do not spawn on lite mode
-        or (obj and cmobj.specifichide) then --if it's set to be hidden for this specific object, don't continue.
-            return
-        end
+    if (cmobj.hide_on_lite and lite_mode) --do not spawn on lite mode
+    or (LoadedObjects[mo.type] and LoadedObjects[mo.type].specifichide) then --if it's set to be hidden for this specific object, don't continue.
+        return
     end
 
     --Prepare corona
@@ -190,8 +188,8 @@ local function Corona(mo)
 
     if not corona_toggle --Coronas are off
     or (corona_cmobj.hide_on_lite and lite_mode) --Defined to be hidden on lite mode
-    or not (t and (t.health or corona_cmobj.stayondeath)) --The object assigned is removed
-    or corona_cmobj.specifichide then --Is marked to be specifically hidden (corona_toggle argument)
+    or not (t and (t.health or corona_cmobj.stayondeath))
+    or (LoadedObjects[t.type] and LoadedObjects[t.type].specifichide) then --The object assigned is removed
         RemoveCorona(mo)
         return
     end
