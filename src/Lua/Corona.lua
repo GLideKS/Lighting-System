@@ -81,9 +81,8 @@ local function InitCorona(mo)
     P_SetOrigin(corona, mo.x, mo.y, mo.z) --Fixes interpolation issues
 
     --Set corona scale
-    local corona_scale = corona_cmobj.scale or FU
-	corona.spritexscale = FixedMul(sizesetting, corona_scale)
-    corona.spriteyscale = FixedMul(sizesetting, corona_scale)
+	corona.spritexscale = Corona_Scale(corona)
+    corona.spriteyscale = Corona_Scale(corona)
     corona.scale = mo.scale
 
     --Set corona's visual properties
@@ -203,6 +202,8 @@ local function Corona(mo)
 
     if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
     if mo.alpha - Corona_Alpha(mo) then mo.alpha = Corona_Alpha(mo) end
+    if mo.spritexscale != Corona_Scale(mo) then mo.spritexscale = Corona_Scale(mo) end
+    if mo.spriteyscale != Corona_Scale(mo) then mo.spriteyscale = Corona_Scale(mo) end
     if mo.scale - t.scale then mo.scale = t.scale end
     if mo.height - t.height then mo.height = t.height end
     if mo.spriteyoffset - zoffset then mo.spriteyoffset = zoffset end

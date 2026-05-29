@@ -53,6 +53,24 @@ local function Corona_Alpha(mo)
     return FixedMul(intensity.value, alpha)
 end
 
+local size = CV_FindVar("corona_size")
+
+--Returns the scale of the defined corona. if no scale is found, it returns the default scale (FRACUNIT)
+---@param mo mobj_t
+local function Corona_Scale(mo)
+    local t = mo.target
+    local corona_cmobj = mo.cmobj
+    local scale = corona_cmobj.scale or FU
+
+    if corona_cmobj.states
+    and type(corona_cmobj.states[t.state]) == "table"
+    and corona_cmobj.states[t.state].scale then
+        scale = corona_cmobj.states[t.state].scale or FU
+    end
+
+    return FixedMul(size.value, scale)
+end
+
 --If the corona has states defined, returns true if the object's state matches with the defined states.
 ---@param mo mobj_t
 local function Corona_State(mo)
@@ -141,6 +159,7 @@ end
 rawset(_G, "Corona_Follow", Corona_Follow)
 rawset(_G, "Corona_Color", Corona_Color)
 rawset(_G, "Corona_Alpha", Corona_Alpha)
+rawset(_G, "Corona_Scale", Corona_Scale)
 rawset(_G, "Corona_State", Corona_State)
 rawset(_G, "CoronaSplatScale", CoronaSplatScale)
 rawset(_G, "Corona_UpdateZOffset", Corona_UpdateZOffset)

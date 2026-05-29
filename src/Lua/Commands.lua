@@ -80,7 +80,7 @@ CV_RegisterVar({
                 else
                     local corona_cmobj = mo.cmobj
                     local t = mo.target
-                    mo.spritexscale, mo.spriteyscale = FixedMul(sizesetting, corona_cmobj.scale or FU), FixedMul(sizesetting, corona_cmobj.scale or FU) --alternative stacked scale
+                    mo.spritexscale, mo.spriteyscale = Corona_Scale(mo), Corona_Scale(mo) --alternative stacked scale
                     mo.spriteyoffset = Corona_UpdateZOffset(mo, t)
                 end
 			end
