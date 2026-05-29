@@ -6,6 +6,7 @@ local function TryColoredRingsCompat()
 
     LightObjects[MT_RING].color = nil
     LightObjects[MT_SPARK].color = nil
+    LightObjects[MT_FLINGRING].color = nil
 
     coloredrings_loaded = true
 end
