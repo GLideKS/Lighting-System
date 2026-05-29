@@ -82,15 +82,26 @@ local function Corona_State(mo)
 
     if type(state[t.state]) == "table" then --the defined state has specific properties
         local sprite = state[t.state].sprite
+        local frame = state[t.state].frame
 
         if sprite == nil then --not a sprite defined. doesn't matter, show the corona
             return true
         end
 
-        if sprite == t.sprite then --the sprite matches. show the corona, don't if it doesn't.
-            return true
+        if (sprite == t.sprite) then
+            if frame == nil then --No frame field defined? it's fine, show it anyways
+                return true
+            end
+
+            for _, val in ipairs(frame) do --If the frame field exists, make it sure it matches
+                if val == t.frame then
+                    return true
+                end
+            end
+
+            return false -- None of these accomplishes, don't show it.
         else
-            return false
+            return false --The sprite doesn't match, don't show.
         end
 
     elseif state[t.state] then --the state at least matches, show it.
