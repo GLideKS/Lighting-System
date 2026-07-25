@@ -248,16 +248,16 @@ end
 local function CoronaSplat(mo)
     local t = mo.target
 
-	-- This MIGHT do something since we're indexing it more than once?
-	local cmobj = t.cmobj
-
-	-- Sonic, dead or alive, is mine.
-	if not cmobj then if mo then RemoveCorona(mo) end return end
-
     if not (t and floorsprites) then
         RemoveCorona(mo)
         return
     end
+
+    -- This MIGHT do something since we're indexing it more than once?
+	local cmobj = t.cmobj or nil
+
+	-- Sonic, dead or alive, is mine.
+	if not cmobj then if mo then RemoveCorona(mo) end return end
 
     Corona_Follow(mo, t)
     CoronaSplatScale(mo)
