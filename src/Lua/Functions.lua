@@ -162,6 +162,9 @@ end
 local function RemoveCorona(mo)
     if not mo.floor and (mo.target and mo.target.valid) then
         mo.target.coronaspawned = false
+
+		-- Fix bug related to lua variables carrying over
+		mo.cmobj = nil
     end
 
     P_RemoveMobj(mo)
