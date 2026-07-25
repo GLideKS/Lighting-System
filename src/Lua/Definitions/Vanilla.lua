@@ -12,6 +12,14 @@ LightObjects[MT_RING] = {
     nothink = true
 }
 
+LightObjects[MT_THOK] = {
+    color = SKINCOLOR_YELLOW,
+    alpha = FU*3/4,
+    scale = FU/4,
+    zoffset = -5,
+    hide_on_lite = true
+}
+
 LightObjects[MT_FLINGRING] = {
     color = LightObjects[MT_RING].color,
     scale = LightObjects[MT_RING].scale,

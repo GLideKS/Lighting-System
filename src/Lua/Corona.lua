@@ -290,6 +290,9 @@ local function PostThink()
             remove(coronas, i) --otherwise it's useless, remove it
         end
     end
+
+    print(#coronas)
+    print("local: "..#coronas_local)
 end
 
 --Hook all
