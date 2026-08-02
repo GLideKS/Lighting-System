@@ -152,6 +152,18 @@ addHook("AddonLoaded", function()
     end
 end)
 
+-- RSR has a special case where coronas doesn't get spawned on MobjSpawn.
+-- So in the remote case where coronas aren't spawned on MobjSpawn, we have to use a MapLoad hook as well
+-- mobjs.iterate, yes, but it's called once so it's ok.
+addHook("MapLoad", function()
+    for mo in mobjs.iterate() do
+        local cmobj = LightObjects[mo.type]
+        if not cmobj then continue end
+        if LoadedObjects[mo.type].specifichide then LoadedObjects[mo.type].specifichide = false end
+        InitCorona(mo)
+    end
+end)
+
 --Hacky way to load coronas on server mid-join
 local function LoadCoronaMidJoin()
     if gamestate != GS_LEVEL then return end
