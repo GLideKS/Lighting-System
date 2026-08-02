@@ -70,7 +70,6 @@ local function InitCorona(mo)
     local corona = P_SpawnMobjFromMobj(mo, 0, 0, 0, MT_GKS_CORONA) --Spawn!
     corona.target = mo
     corona.cmobj = cmobj
-    local sizesetting = corona_size.value
     local corona_cmobj = corona.cmobj
 
     if corona_cmobj.postthinkmove then
