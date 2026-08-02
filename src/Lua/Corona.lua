@@ -90,6 +90,10 @@ local function InitCorona(mo)
     corona.alpha = Corona_Alpha(corona)
     corona.spriteyoffset = Corona_UpdateZOffset(corona, mo)
 
+    if corona_cmobj.follow_spriteoffsets then -- Will the corona follow sprite offsets as well?
+        corona.spritexoffset = mo.spritexoffset -- Only spritexoffset since Corona_UpdateZOffset already does the calculations for it
+    end
+
     if corona_cmobj.fullbright then --Make the object fullbright if defined
         mo.renderflags = $|RF_FULLBRIGHT
     end
@@ -218,6 +222,9 @@ local function Corona(mo)
     if mo.scale - t.scale then mo.scale = t.scale end
     if mo.height - t.height then mo.height = t.height end
     if mo.spriteyoffset - zoffset then mo.spriteyoffset = zoffset end
+    if corona_cmobj.follow_spriteoffsets then
+        mo.spritexoffset = t.spritexoffset
+    end
     mo.eflags = t.eflags --Adapt to flipped gravity
 
     if not corona_cmobj.postthinkmove then

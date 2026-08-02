@@ -116,7 +116,7 @@ end
 ---@param target mobj_t
 local function Corona_UpdateZOffset(corona, target)
     local corona_zoffset = corona.cmobj.zoffset or 0
-    local height_offset = (corona.cmobj.centered_offset and target.height/2) or target.height
+    local height_offset = ((corona.cmobj.centered_offset and target.height/2) or target.height) + (corona.cmobj.follow_spriteoffsets and target.spriteyoffset or 0)
 
     return FixedDiv(corona_zoffset * FU + FixedDiv(height_offset, target.scale), (corona.spriteyscale or 1))
 end
