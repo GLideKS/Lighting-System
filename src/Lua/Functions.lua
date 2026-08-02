@@ -21,7 +21,7 @@ local function Corona_Color(mo)
     local t = mo.target
     local corona_cmobj = mo.cmobj
 
-    local default_color = t.color or SKINCOLOR_WHITE
+    local default_color = t.translation or t.color or SKINCOLOR_WHITE
     local color = corona_cmobj.color or default_color
 
     if corona_cmobj.states
