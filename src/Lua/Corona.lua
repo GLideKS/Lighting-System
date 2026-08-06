@@ -14,7 +14,14 @@ rawset(_G, "corona_toggle", true)
 rawset(_G, "lite_mode", false)
 rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprites lol
 rawset(_G, "LoadedObjects", {}) --do NOT modify
+rawset(_G, "coronas", {})
+local coronas_local = coronas
 local corona_size = CV_FindVar("corona_size")
+
+addHook("MapChange", function()
+    coronas = {}
+	coronas_local = coronas
+end)
 
 local postthink_coronas = {}
 
@@ -77,6 +84,7 @@ local function InitCorona(mo)
     end
 
     mo.coronaspawned = true --tell the assigned object that it's corona spawned. to be used when you get a resynch
+    insert(coronas_local, corona)
     P_SetOrigin(corona, mo.x, mo.y, mo.z) --Fixes interpolation issues
 
     --Set corona scale
@@ -135,6 +143,7 @@ local function InitCorona(mo)
         floorlight.spriteyscale = corona.spriteyscale
         floorlight.translation = corona.translation
         CoronaSplatScale(floorlight)
+        insert(coronas_local, floorlight)
         P_SetOrigin(floorlight, corona.x, corona.y, corona.floorz) --Fixes interpolation issues
     end
 end
@@ -168,6 +177,7 @@ addHook("MapLoad", function()
 end)
 
 --Hacky way to load coronas on server mid-join
+-- TTH: Old code from the thinkframe stuff! Not sure if slower?
 local function LoadCoronaMidJoin()
     if gamestate != GS_LEVEL then return end
     if not consoleplayer then return end
@@ -175,6 +185,15 @@ local function LoadCoronaMidJoin()
     if consoleplayer.NET_coronasloaded then return end
 
     if corona_toggle then --don't bother to do this if coronas is off
+        for i, corona in ipairs(coronas) do
+			--make sure it exists
+			if (corona and corona.valid) then
+				RemoveCorona(corona)
+			end
+		end
+		-- force a rebuild
+		coronas = {}
+        coronas_local = coronas
         for mo in mobjs.iterate() do
             if mo.coronaspawned then continue end --obviously don't spawn the corona if it's spawned already
 
@@ -199,6 +218,9 @@ local function Corona(mo)
 
     local corona_cmobj = mo.cmobj
     local t = mo.target
+
+	-- You can't do anything, so don't even try.
+	if not corona_cmobj then if mo then RemoveCorona(mo) end return end
 
     if not corona_toggle --Coronas are off
     or (corona_cmobj.hide_on_lite and lite_mode) --Defined to be hidden on lite mode
@@ -227,9 +249,8 @@ local function Corona(mo)
     end
     mo.eflags = t.eflags --Adapt to flipped gravity
 
-    if not corona_cmobj.postthinkmove then
-        Corona_Follow(mo, t)
-    end
+	-- TTH: Deprecating postthinkmove is fiiiiine. probably. hopefully.
+    Corona_Follow(mo, t)
 
     --Will it draw on the specific state?
     if not corona_cmobj.states then return end
@@ -250,10 +271,16 @@ local function CoronaSplat(mo)
         return
     end
 
+    -- This MIGHT do something since we're indexing it more than once?
+	local cmobj = t.cmobj or nil
+
+	-- Sonic, dead or alive, is mine.
+	if not cmobj then if mo then RemoveCorona(mo) end return end
+
     Corona_Follow(mo, t)
     CoronaSplatScale(mo)
 
-    if t.cmobj.nothink then return end
+    if cmobj.nothink then return end
 
     --Copy everything from the main corona
 	if mo.translation != t.translation then mo.translation = t.translation end
@@ -267,21 +294,25 @@ end
 local function PostThink()
     if gamestate != GS_LEVEL then return end
     --go through all coronas
-    for i = #postthink_coronas, 1, -1 do
-		local mo = postthink_coronas[i]
+    for i in pairs(coronas) do
+		local mo = coronas[i]
 
 		--make sure it exists
-        if (mo and mo.valid and mo.target)
-        and (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT) then
-            Corona_Follow(mo, mo.target)
+        if (mo and mo.valid) then
+            if mo.floor then
+                CoronaSplat(mo)
+            else
+                Corona(mo)
+            end
         else
-            remove(postthink_coronas, i) --otherwise it's useless, remove it
+            remove(coronas, i) --otherwise it's useless, remove it
         end
     end
+
+    print(#coronas)
+    print("local: "..#coronas_local)
 end
 
 --Hook all
-addHook("MobjThinker", Corona, MT_GKS_CORONA)
-addHook("MobjThinker", CoronaSplat, MT_GKS_CORONA_SPLAT)
 addHook("ThinkFrame", LoadCoronaMidJoin)
-addHook("PostThinkFrame", PostThink)
+addHook("ThinkFrame", PostThink)

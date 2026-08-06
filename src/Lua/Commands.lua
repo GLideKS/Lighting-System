@@ -71,8 +71,7 @@ CV_RegisterVar({
 	func = function(cvar)
 		if gamestate != GS_LEVEL then return end
 		local sizesetting = cvar.value
-		for mo in mobjs.iterate() do
-            if not (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT) then continue end
+		for i, mo in ipairs(coronas) do
 			--make sure it exists
 			if (mo and mo.valid) then
                 if mo.floor then
