@@ -44,7 +44,6 @@ local function InitCorona(mo)
     local corona = P_SpawnMobjFromMobj(mo, 0, 0, 0, MT_GKS_CORONA) --Spawn!
     corona.target = mo
     corona.cmobj = cmobj
-    local sizesetting = corona_size.value
     local corona_cmobj = corona.cmobj
     mo.coronaspawned = true --tell the assigned object that it's corona spawned. to be used when you get a resynch
     insert(coronas, corona)
@@ -60,6 +59,10 @@ local function InitCorona(mo)
     corona.renderflags = $|corona_rf
     corona.alpha = Corona_Alpha(corona)
     corona.spriteyoffset = Corona_UpdateZOffset(corona, mo)
+
+    if corona_cmobj.follow_spriteoffsets then -- Will the corona follow sprite offsets as well?
+        corona.spritexoffset = mo.spritexoffset -- Only spritexoffset since Corona_UpdateZOffset already does the calculations for it
+    end
 
     if corona_cmobj.fullbright then --Make the object fullbright if defined
         mo.renderflags = $|RF_FULLBRIGHT
@@ -120,6 +123,18 @@ addHook("AddonLoaded", function()
         LoadedObjects[i] = {}
 
         print("Corona added for object "..i)
+    end
+end)
+
+-- RSR has a special case where coronas doesn't get spawned on MobjSpawn.
+-- So in the remote case where coronas aren't spawned on MobjSpawn, we have to use a MapLoad hook as well
+-- mobjs.iterate, yes, but it's called once so it's ok.
+addHook("MapLoad", function()
+    for mo in mobjs.iterate() do
+        local cmobj = LightObjects[mo.type]
+        if not cmobj then continue end
+        if LoadedObjects[mo.type].specifichide then LoadedObjects[mo.type].specifichide = false end
+        InitCorona(mo)
     end
 end)
 
@@ -188,6 +203,9 @@ local function Corona(mo)
     if mo.scale - t.scale then mo.scale = t.scale end
     if mo.height - t.height then mo.height = t.height end
     if mo.spriteyoffset - zoffset then mo.spriteyoffset = zoffset end
+    if corona_cmobj.follow_spriteoffsets then
+        mo.spritexoffset = t.spritexoffset
+    end
     mo.eflags = t.eflags --Adapt to flipped gravity
     Corona_Follow(mo, t)
 
