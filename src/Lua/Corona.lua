@@ -252,7 +252,6 @@ local function CoronaSplat(mo)
 	if mo.translation != t.translation then mo.translation = t.translation end
     if mo.alpha != t.alpha then mo.alpha = t.alpha end
     if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
-    P_MoveOrigin(mo, t.x, t.y, mo.floorz)
 end
 
 --Hook all
