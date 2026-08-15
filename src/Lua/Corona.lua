@@ -67,9 +67,12 @@ local function InitCorona(mo)
     end
 
     --Prepare corona
-    local corona = P_SpawnMobjFromMobj(mo, 0, 0, 0, MT_GKS_CORONA) --Spawn!
-    corona.target = mo
-    corona.cmobj = cmobj
+    mo.coronamobj = P_SpawnMobjFromMobj(mo, 0, 0, 0, MT_OVERLAY) --Spawn!
+    mo.coronamobj.target = mo
+    mo.coronamobj.state = S_GKS_CORONA
+    mo.coronamobj.iscorona = true -- So we can use the corona thinker into MT_OVERLAY
+    mo.coronamobj.cmobj = cmobj
+    local corona = mo.coronamobj
     local corona_cmobj = corona.cmobj
 
     if corona_cmobj.postthinkmove then
@@ -124,8 +127,10 @@ local function InitCorona(mo)
             return
         end
 
-        local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
+        mo.floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_OVERLAY)
+        local floorlight = mo.floorlight
         floorlight.floor = true --mark it as a floor light
+        floorlight.state = S_GKS_CORONA
         floorlight.scale = corona.scale
         floorlight.target = corona
         floorlight.alpha = corona.alpha
@@ -219,16 +224,9 @@ local function Corona(mo)
     if mo.alpha - Corona_Alpha(mo) then mo.alpha = Corona_Alpha(mo) end
     if mo.spritexscale != Corona_Scale(mo) then mo.spritexscale = Corona_Scale(mo) end
     if mo.spriteyscale != Corona_Scale(mo) then mo.spriteyscale = Corona_Scale(mo) end
-    if mo.scale - t.scale then mo.scale = t.scale end
-    if mo.height - t.height then mo.height = t.height end
     if mo.spriteyoffset - zoffset then mo.spriteyoffset = zoffset end
     if corona_cmobj.follow_spriteoffsets then
         mo.spritexoffset = t.spritexoffset
-    end
-    mo.eflags = t.eflags --Adapt to flipped gravity
-
-    if not corona_cmobj.postthinkmove then
-        Corona_Follow(mo, t)
     end
 
     --Will it draw on the specific state?
@@ -243,14 +241,9 @@ end
 
 --Corona floorsprite
 local function CoronaSplat(mo)
+    if not floorsprites then RemoveCorona(mo) return end
     local t = mo.target
 
-    if not (t and floorsprites) then
-        RemoveCorona(mo)
-        return
-    end
-
-    Corona_Follow(mo, t)
     CoronaSplatScale(mo)
 
     if t.cmobj.nothink then return end
@@ -259,29 +252,12 @@ local function CoronaSplat(mo)
 	if mo.translation != t.translation then mo.translation = t.translation end
     if mo.alpha != t.alpha then mo.alpha = t.alpha end
     if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
-    if mo.eflags != t.eflags then mo.eflags = t.eflags end
-    if mo.state != t.state then mo.state = t.state end
-    if mo.scale - t.scale then mo.scale = t.scale end
-end
-
-local function PostThink()
-    if gamestate != GS_LEVEL then return end
-    --go through all coronas
-    for i = #postthink_coronas, 1, -1 do
-		local mo = postthink_coronas[i]
-
-		--make sure it exists
-        if (mo and mo.valid and mo.target)
-        and (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT) then
-            Corona_Follow(mo, mo.target)
-        else
-            remove(postthink_coronas, i) --otherwise it's useless, remove it
-        end
-    end
+    P_MoveOrigin(mo, t.x, t.y, mo.floorz)
 end
 
 --Hook all
-addHook("MobjThinker", Corona, MT_GKS_CORONA)
-addHook("MobjThinker", CoronaSplat, MT_GKS_CORONA_SPLAT)
+addHook("MobjThinker", function(mo)
+    if mo.iscorona then Corona(mo) return end
+    if mo.floor then CoronaSplat(mo) return end
+end, MT_OVERLAY)
 addHook("ThinkFrame", LoadCoronaMidJoin)
-addHook("PostThinkFrame", PostThink)
