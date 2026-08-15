@@ -127,10 +127,8 @@ local function InitCorona(mo)
             return
         end
 
-        mo.floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_OVERLAY)
-        local floorlight = mo.floorlight
+        local floorlight = P_SpawnMobj(corona.x, corona.y, corona.floorz, MT_GKS_CORONA_SPLAT)
         floorlight.floor = true --mark it as a floor light
-        floorlight.state = S_GKS_CORONA
         floorlight.scale = corona.scale
         floorlight.target = corona
         floorlight.alpha = corona.alpha
@@ -241,9 +239,14 @@ end
 
 --Corona floorsprite
 local function CoronaSplat(mo)
-    if not floorsprites then RemoveCorona(mo) return end
     local t = mo.target
 
+    if not (t and floorsprites) then
+        RemoveCorona(mo)
+        return
+    end
+
+    Corona_Follow(mo, t)
     CoronaSplatScale(mo)
 
     if t.cmobj.nothink then return end
@@ -252,11 +255,15 @@ local function CoronaSplat(mo)
 	if mo.translation != t.translation then mo.translation = t.translation end
     if mo.alpha != t.alpha then mo.alpha = t.alpha end
     if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
+    if mo.eflags != t.eflags then mo.eflags = t.eflags end
+    if mo.state != t.state then mo.state = t.state end
+    if mo.scale - t.scale then mo.scale = t.scale end
 end
 
 --Hook all
 addHook("MobjThinker", function(mo)
     if mo.iscorona then Corona(mo) return end
-    if mo.floor then CoronaSplat(mo) return end
 end, MT_OVERLAY)
+
+addHook("MobjThinker", CoronaSplat, MT_GKS_CORONA_SPLAT)
 addHook("ThinkFrame", LoadCoronaMidJoin)
