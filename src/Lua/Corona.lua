@@ -246,7 +246,6 @@ local function CoronaSplat(mo)
         return
     end
 
-    Corona_Follow(mo, t)
     CoronaSplatScale(mo)
 
     if t.cmobj.nothink then return end

@@ -2,15 +2,11 @@
 --Probably an optimized version of P_MoveOrigin.
 ---@param mo mobj_t
 ---@param t mobj_t
-local function Corona_Follow(mo, t)
+local function CoronaSplat_Follow(mo, t)
     local flipped = P_MobjFlip(t) == -1
     local tx = t.x
     local ty = t.y
-    local tz = t.z
-
-    --Because for some reason if floor height is 0, the floorlight moves to the corona position instead
-    --so i can't do tz = (mo.floor and ((flipped and t.ceilingz) or t.floorz)) or t.z
-    if mo.floor then tz = (flipped and t.ceilingz) or t.floorz end
+    local tz = (flipped and t.ceilingz) or t.floorz
 
     P_MoveOrigin(mo, tx, ty, tz)
 end
@@ -168,7 +164,7 @@ local function RemoveCorona(mo)
     P_RemoveMobj(mo)
 end
 
-rawset(_G, "Corona_Follow", Corona_Follow)
+rawset(_G, "CoronaSplat_Follow", CoronaSplat_Follow)
 rawset(_G, "Corona_Color", Corona_Color)
 rawset(_G, "Corona_Alpha", Corona_Alpha)
 rawset(_G, "Corona_Scale", Corona_Scale)

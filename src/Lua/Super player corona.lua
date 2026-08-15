@@ -46,7 +46,7 @@ local function SuperCoronaThink(mo)
     if mo.height - t.height then mo.height = t.height end
     if mo.eflags != t.eflags then mo.eflags = t.eflags end
     if mo.scale - t.scale then mo.scale = t.scale end
-    Corona_Follow(mo, t)
+    P_MoveOrigin(mo, t.x, t.y, t.z)
 end
 
 local function ColorAssign()
