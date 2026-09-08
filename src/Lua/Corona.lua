@@ -143,7 +143,8 @@ rawset(_G, "InitCorona", InitCorona)
 --Assign coronas for the defined object types in the LightObjects table
 
 addHook("AddonLoaded", function()
-    for i in pairs(LightObjects) do
+    for i = 0, #mobjinfo - 1 do
+        if not LightObjects[i] then continue end
         if LoadedObjects[i] then continue end --Is already defined, skip
 
         addHook("MobjSpawn", function(mo)
