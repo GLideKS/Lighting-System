@@ -5,7 +5,6 @@ if not LightObjects then rawset(_G, "LightObjects", {}) end --Initialize table f
 
 if not LightingSystem_loaded then
 	dofile("Freeslots.lua")
-	if isdedicatedserver then LightingSystem_loaded = true return end --Or else players with different settings gets a time out
 
 	--Must load first
 	dofile("Commands.lua")
