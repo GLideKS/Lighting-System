@@ -2,6 +2,11 @@
 --Credits to Romoney5 for a bit more of optimization
 --If you have still lag, use corona_toggle command to disable coronas
 
+rawset(_G, "corona_toggle", true)
+rawset(_G, "lite_mode", false)
+rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprites lol
+rawset(_G, "LoadedObjects", {}) --do NOT modify
+
 --Localize for optimization
 local insert = table.insert
 local remove = table.remove
@@ -9,12 +14,20 @@ local MT_GKS_CORONA = MT_GKS_CORONA
 local MT_GKS_CORONA_SPLAT = MT_GKS_CORONA_SPLAT
 local corona_rf = RF_NOCOLORMAPS|RF_BRIGHTMASK
 local splat_rf = RF_SLOPESPLAT|RF_NOSPLATBILLBOARD|RF_OBJECTSLOPESPLAT|RF_FLOORSPRITE
-
-rawset(_G, "corona_toggle", true)
-rawset(_G, "lite_mode", false)
-rawset(_G, "floorsprites", true) --If lite_mode isn't enough, disable floorsprites lol
-rawset(_G, "LoadedObjects", {}) --do NOT modify
-local corona_size = CV_FindVar("corona_size")
+local Corona_Color = Corona_Color
+local Corona_Alpha = Corona_Alpha
+local Corona_Scale = Corona_Scale
+local Corona_UpdateZOffset = Corona_UpdateZOffset
+local Corona_State = Corona_State
+local RemoveCorona = RemoveCorona
+local Corona_Follow = Corona_Follow
+local LoadedObjects = LoadedObjects
+local LightObjects = LightObjects
+local P_SpawnMobj = P_SpawnMobj
+local P_SpawnMobjFromMobj = P_SpawnMobjFromMobj
+local P_SetOrigin = P_SetOrigin
+local CoronaSplatScale = CoronaSplatScale
+local consoleplayer = consoleplayer
 
 local postthink_coronas = {}
 
@@ -80,15 +93,19 @@ local function InitCorona(mo)
     P_SetOrigin(corona, mo.x, mo.y, mo.z) --Fixes interpolation issues
 
     --Set corona scale
-	corona.spritexscale = Corona_Scale(corona)
-    corona.spriteyscale = Corona_Scale(corona)
+    local corona_scale = Corona_Scale(corona) -- Localize like this so we don't have to call the function twice, which is a bit more optimized ig.
+    corona.spritexscale = corona_scale
+    corona.spriteyscale = corona_scale
     corona.scale = mo.scale
 
     --Set corona's visual properties
-    corona.translation = Corona_Color(corona)
+    local corona_color = Corona_Color(corona)
+    local corona_alpha = Corona_Alpha(corona)
+    local corona_zoffset = Corona_UpdateZOffset(corona, mo)
+    corona.translation = corona_color
     corona.renderflags = $|corona_rf
-    corona.alpha = Corona_Alpha(corona)
-    corona.spriteyoffset = Corona_UpdateZOffset(corona, mo)
+    corona.alpha = corona_alpha
+    corona.spriteyoffset = corona_zoffset
 
     if corona_cmobj.follow_spriteoffsets then -- Will the corona follow sprite offsets as well?
         corona.spritexoffset = mo.spritexoffset -- Only spritexoffset since Corona_UpdateZOffset already does the calculations for it
@@ -201,10 +218,11 @@ local function Corona(mo)
     local corona_cmobj = mo.cmobj
     local t = mo.target
 
+    local loaded = t and LoadedObjects[t.type]
     if not corona_toggle --Coronas are off
     or (corona_cmobj.hide_on_lite and lite_mode) --Defined to be hidden on lite mode
     or not (t and (t.health or corona_cmobj.stayondeath))
-    or (LoadedObjects[t.type] and LoadedObjects[t.type].specifichide) then --The object assigned is removed
+    or (loaded and loaded.specifichide) then --The object assigned is removed
         RemoveCorona(mo)
         return
     end
@@ -215,14 +233,18 @@ local function Corona(mo)
     end
 
     local zoffset = Corona_UpdateZOffset(mo, t)
+    local color = Corona_Color(mo)
+    local alpha = Corona_Alpha(mo)
+    local scale = Corona_Scale(mo)
 
-    if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
-    if mo.alpha - Corona_Alpha(mo) then mo.alpha = Corona_Alpha(mo) end
-    if mo.spritexscale != Corona_Scale(mo) then mo.spritexscale = Corona_Scale(mo) end
-    if mo.spriteyscale != Corona_Scale(mo) then mo.spriteyscale = Corona_Scale(mo) end
-    if mo.scale - t.scale then mo.scale = t.scale end
-    if mo.height - t.height then mo.height = t.height end
-    if mo.spriteyoffset - zoffset then mo.spriteyoffset = zoffset end
+    mo.translation = color --use the translation if defined
+    mo.alpha = alpha
+    mo.spritexscale = scale
+    mo.spriteyscale = scale
+    mo.scale = t.scale
+    mo.height = t.height
+    mo.spriteyoffset = zoffset
+
     if corona_cmobj.follow_spriteoffsets then
         mo.spritexoffset = t.spritexoffset
     end
@@ -257,12 +279,12 @@ local function CoronaSplat(mo)
     if t.cmobj.nothink then return end
 
     --Copy everything from the main corona
-	if mo.translation != t.translation then mo.translation = t.translation end
-    if mo.alpha != t.alpha then mo.alpha = t.alpha end
-    if mo.flags2 != t.flags2 then mo.flags2 = t.flags2 end
-    if mo.eflags != t.eflags then mo.eflags = t.eflags end
-    if mo.state != t.state then mo.state = t.state end
-    if mo.scale - t.scale then mo.scale = t.scale end
+	mo.translation = t.translation
+    mo.alpha = t.alpha
+    mo.flags2 = t.flags2
+    mo.eflags = t.eflags
+    mo.state = t.state
+    mo.scale = t.scale
 end
 
 local function PostThink()
