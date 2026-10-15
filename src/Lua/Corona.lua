@@ -31,6 +31,15 @@ local consoleplayer = consoleplayer
 
 local postthink_coronas = {}
 
+local drawdist = CV_FindVar("drawdist")
+local function IsCloserToCam(mo)
+    if not camera then return end
+    if not drawdist.value then return true end
+    local dist = P_AproxDistance(mo.x - camera.x, mo.y - camera.y)
+
+    return dist < drawdist.value * FU
+end
+
 --nothink coronas thinker. funny right?
 local function RemoveOnMove(mo)
     if not mo and mo.valid then
@@ -227,6 +236,8 @@ local function Corona(mo)
         return
     end
 
+    if not IsCloserToCam(mo) then return end
+
     if corona_cmobj.nothink then --Is the corona defined to have a reduced thinker?
         RemoveOnMove(mo)
         return
@@ -272,6 +283,8 @@ local function CoronaSplat(mo)
         RemoveCorona(mo)
         return
     end
+
+    if not IsCloserToCam(mo) then return end
 
     Corona_Follow(mo, t)
     CoronaSplatScale(mo)
