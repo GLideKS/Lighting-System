@@ -42,10 +42,6 @@ end
 
 --nothink coronas thinker. funny right?
 local function RemoveOnMove(mo)
-    if not mo and mo.valid then
-        return
-    end
-
     local t = mo.target
     local z = (mo.floor and t.floorz) or t.z
     local corona_cmobj = mo.cmobj
