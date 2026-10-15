@@ -1,3 +1,7 @@
+local P_MobjFlip = P_MobjFlip
+local P_MoveOrigin = P_MoveOrigin
+local abs = abs
+
 --`mo` moves to `t` position only if the positions are different.
 --Probably an optimized version of P_MoveOrigin.
 ---@param mo mobj_t
@@ -20,18 +24,22 @@ end
 local function Corona_Color(mo)
     local t = mo.target
     local corona_cmobj = mo.cmobj
-
     local alt = corona_cmobj.color_alt or 0
     local default_color = (corona_cmobj.color_default_translation and t.translation) or t.color or alt or SKINCOLOR_WHITE
     local color = corona_cmobj.color or default_color
 
-    if corona_cmobj.states
-    and type(corona_cmobj.states[t.state]) == "table"
-    and corona_cmobj.states[t.state].color then
-        color = corona_cmobj.states[t.state].color or default_color
+    local states = corona_cmobj.states
+    local s = states and states[t.state]
+    if s and type(s) == "table" and s.color then
+        color = s.color or default_color
     end
 
-    local color_result = (type(color) == "number" and "COLORSCALECLR" .. skincolors[color].ramp[7]) or color
+    local color_result
+    if type(color) == "number" then
+        color_result = "COLORSCALECLR" .. skincolors[color].ramp[7]
+    else
+        color_result = color
+    end
 
     return color_result
 end
@@ -44,11 +52,10 @@ local function Corona_Alpha(mo)
     local t = mo.target
     local corona_cmobj = mo.cmobj
     local alpha = corona_cmobj.alpha or FU
-
-    if corona_cmobj.states
-    and type(corona_cmobj.states[t.state]) == "table"
-    and corona_cmobj.states[t.state].alpha then
-        alpha = corona_cmobj.states[t.state].alpha or FU
+    local states = corona_cmobj.states
+    local s = states and states[t.state]
+    if s and type(s) == "table" and s.alpha then
+        alpha = s.alpha or FU
     end
 
     return FixedMul(intensity.value, alpha)
@@ -62,11 +69,10 @@ local function Corona_Scale(mo)
     local t = mo.target
     local corona_cmobj = mo.cmobj
     local scale = corona_cmobj.scale or FU
-
-    if corona_cmobj.states
-    and type(corona_cmobj.states[t.state]) == "table"
-    and corona_cmobj.states[t.state].scale then
-        scale = corona_cmobj.states[t.state].scale or FU
+    local states = corona_cmobj.states
+    local s = states and states[t.state]
+    if s and type(s) == "table" and s.scale then
+        scale = s.scale or FU
     end
 
     return FixedMul(size.value, scale)
@@ -76,26 +82,27 @@ end
 ---@param mo mobj_t
 local function Corona_State(mo)
     local corona_cmobj = mo.cmobj
-    if not corona_cmobj.states then return false end
+    local states = corona_cmobj.states
+    if not states then return false end
 
     local t = mo.target
-    local state = corona_cmobj.states
+    local s = states[t.state]
 
-    if type(state[t.state]) == "table" then --the defined state has specific properties
-        local sprite = state[t.state].sprite
-        local frame = state[t.state].frame
+    if type(s) == "table" then --the defined state has specific properties
+        local sprite = s.sprite
+        local frame = s.frame
 
         if sprite == nil then --not a sprite defined. doesn't matter, show the corona
             return true
         end
 
-        if (sprite == t.sprite) then
+        if sprite == t.sprite then
             if frame == nil then --No frame field defined? it's fine, show it anyways
                 return true
             end
 
-            for _, val in ipairs(frame) do --If the frame field exists, make it sure it matches
-                if val == t.frame then
+            for i = 1, #frame do --If the frame field exists, make it sure it matches
+                if frame[i] == t.frame then
                     return true
                 end
             end
@@ -105,7 +112,7 @@ local function Corona_State(mo)
             return false --The sprite doesn't match, don't show.
         end
 
-    elseif state[t.state] then --the state at least matches, show it.
+    elseif s then --the state at least matches, show it.
         return true
     end
 
@@ -116,8 +123,9 @@ end
 ---@param corona mobj_t
 ---@param target mobj_t
 local function Corona_UpdateZOffset(corona, target)
-    local corona_zoffset = corona.cmobj.zoffset or 0
-    local height_offset = ((corona.cmobj.centered_offset and target.height/2) or target.height) + (corona.cmobj.follow_spriteoffsets and target.spriteyoffset or 0)
+    local cmobj = corona.cmobj
+    local corona_zoffset = cmobj.zoffset or 0
+    local height_offset = ((cmobj.centered_offset and target.height/2) or target.height) + (cmobj.follow_spriteoffsets and target.spriteyoffset or 0)
 
     return FixedDiv(corona_zoffset * FU + FixedDiv(height_offset, target.scale), (corona.spriteyscale or 1))
 end
@@ -149,13 +157,8 @@ local function CoronaSplatScale(floorlight) --This is only for floorlights
     end
 
     --Set the splat visual scale
-    if floorlight.spritexscale - scale then
-        floorlight.spritexscale = scale
-    end
-
-    if floorlight.spriteyscale - scale then
-        floorlight.spriteyscale = scale
-    end
+    floorlight.spritexscale = scale
+    floorlight.spriteyscale = scale
 end
 
 --Removes the corona properly from the object. This is not just a P_RemoveMobj
