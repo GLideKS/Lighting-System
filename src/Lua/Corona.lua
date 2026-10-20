@@ -20,12 +20,12 @@ local Corona_Scale = Corona_Scale
 local Corona_UpdateZOffset = Corona_UpdateZOffset
 local Corona_State = Corona_State
 local RemoveCorona = RemoveCorona
-local Corona_Follow = Corona_Follow
 local LoadedObjects = LoadedObjects
 local LightObjects = LightObjects
 local P_SpawnMobj = P_SpawnMobj
 local P_SpawnMobjFromMobj = P_SpawnMobjFromMobj
 local P_SetOrigin = P_SetOrigin
+local P_MoveOrigin = P_MoveOrigin
 local CoronaSplatScale = CoronaSplatScale
 local consoleplayer = consoleplayer
 
@@ -262,7 +262,7 @@ local function Corona(mo)
     mo.eflags = t.eflags --Adapt to flipped gravity
 
     if not corona_cmobj.postthinkmove then
-        Corona_Follow(mo, t)
+        P_MoveOrigin(mo, t.x, t.y, t.z)
     end
 
     --Will it draw on the specific state?
@@ -287,7 +287,7 @@ local function CoronaSplat(mo)
     if not IsCloserToCam(mo) then return end
     if P_AproxDistance(mo.x - camera.x, mo.y - camera.y) > maxdrawdist and not (leveltime % far_updaterate == 0) then return end
 
-    Corona_Follow(mo, t)
+    P_MoveOrigin(mo, t.x, t.y, (P_MobjFlip(t) == -1) and t.ceilingz or t.floorz)
     CoronaSplatScale(mo)
 
     if t.cmobj.nothink then return end
@@ -310,7 +310,14 @@ local function PostThink()
 		--make sure it exists
         if (mo and mo.valid and mo.target)
         and (mo.type == MT_GKS_CORONA or mo.type == MT_GKS_CORONA_SPLAT) then
-            Corona_Follow(mo, mo.target)
+            local t = mo.target
+
+            if mo.floor then
+                P_MoveOrigin(mo, t.x, t.y, (P_MobjFlip(t) == -1) and t.ceilingz or t.floorz)
+            else
+                P_MoveOrigin(mo, t.x, t.y, t.z)
+            end
+
         else
             remove(postthink_coronas, i) --otherwise it's useless, remove it
         end

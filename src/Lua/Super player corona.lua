@@ -25,8 +25,6 @@ local function PlayerCoronaSpawn(p)
             pmo.supercorona.target = pmo
             pmo.supercorona.scale = pmo.scale
             pmo.supercorona.color = pmo.color
-            pmo.supercorona.height = pmo.height
-            pmo.supercorona.eflags = pmo.eflags
         end
     elseif pmo.supercorona and pmo.supercorona.valid then
         P_RemoveMobj(pmo.supercorona)
@@ -46,7 +44,7 @@ local function SuperCoronaThink(mo)
     if mo.height - t.height then mo.height = t.height end
     if mo.eflags != t.eflags then mo.eflags = t.eflags end
     if mo.scale - t.scale then mo.scale = t.scale end
-    Corona_Follow(mo, t)
+    P_MoveOrigin(mo, t.x, t.y, t.z)
 end
 
 local function ColorAssign()
