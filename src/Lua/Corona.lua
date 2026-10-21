@@ -202,13 +202,10 @@ local function Corona(mo)
     local t = mo.target
 
     local loaded = t and LoadedObjects[t.type]
-    if not corona_toggle --Coronas are off
-    or (corona_cmobj.hide_on_lite and lite_mode) --Defined to be hidden on lite mode
-    or not (t and (t.health or corona_cmobj.stayondeath))
-    or (loaded and loaded.specifichide) then --The object assigned is removed
-        RemoveCorona(mo)
-        return
-    end
+    if not corona_toggle then RemoveCorona(mo) return end -- Coronas are off
+    if (corona_cmobj.hide_on_lite and lite_mode) then RemoveCorona(mo) return end -- Defined to be hidden on lite mode
+    if not (t and (t.health or corona_cmobj.stayondeath)) then RemoveCorona(mo) return end
+    if (loaded and loaded.specifichide) then RemoveCorona(mo) return end -- The object assigned is removed
 
     if not IsCloserToCam(mo) then return end
     if P_AproxDistance(mo.x - camera.x, mo.y - camera.y) > maxdrawdist and not (leveltime % far_updaterate == 0) then return end
