@@ -20,12 +20,12 @@ local Corona_Scale = Corona_Scale
 local Corona_UpdateZOffset = Corona_UpdateZOffset
 local Corona_State = Corona_State
 local RemoveCorona = RemoveCorona
-local Corona_Follow = Corona_Follow
 local LoadedObjects = LoadedObjects
 local LightObjects = LightObjects
 local P_SpawnMobj = P_SpawnMobj
 local P_SpawnMobjFromMobj = P_SpawnMobjFromMobj
 local P_SetOrigin = P_SetOrigin
+local P_MoveOrigin = P_MoveOrigin
 local CoronaSplatScale = CoronaSplatScale
 local consoleplayer = consoleplayer
 
@@ -214,29 +214,30 @@ local function Corona(mo)
     local t = mo.target
 
     local loaded = t and LoadedObjects[t.type]
-    if not corona_toggle --Coronas are off
-    or (corona_cmobj.hide_on_lite and lite_mode) --Defined to be hidden on lite mode
-    or not (t and (t.health or corona_cmobj.stayondeath))
-    or (loaded and loaded.specifichide) then --The object assigned is removed
-        RemoveCorona(mo)
-        return
-    elseif corona_cmobj.nothink then
-        if (mo.x - t.x) or (mo.y - t.y) or (mo.z - t.z) then P_RemoveMobj(mo) end
-
-        if not ringstyles then return end
-
-        --Sync at least these
-        if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
-        return
-    end
+    if not corona_toggle then RemoveCorona(mo) return end -- Coronas are off
+    if (corona_cmobj.hide_on_lite and lite_mode) then RemoveCorona(mo) return end -- Defined to be hidden on lite mode
+    if not (t and (t.health or corona_cmobj.stayondeath)) then RemoveCorona(mo) return end
+    if (loaded and loaded.specifichide) then RemoveCorona(mo) return end -- The object assigned is removed
 
     if not IsCloserToCam(mo) then return end
     if P_AproxDistance(mo.x - camera.x, mo.y - camera.y) > maxdrawdist and not (leveltime % far_updaterate == 0) then return end
 
+    if corona_cmobj.thinker then
+        corona_cmobj.thinker(mo, t)
+    end
+
+    if corona_cmobj.nothink then --Is the corona defined to have a reduced thinker?
+        if (mo.x != t.x) then RemoveCorona(mo) return end -- Remove when it's moving
+        if (mo.y != t.y) then RemoveCorona(mo) return end
+        if (mo.z != t.z) then RemoveCorona(mo) return end
+        if (corona_cmobj.states and not Corona_State(mo)) then RemoveCorona(mo) return end -- When the state or sprite doesn't match
+        return
+    end
+
     local zoffset = Corona_UpdateZOffset(mo, t)
-    local color = Corona_Color(mo)
     local alpha = Corona_Alpha(mo)
     local scale = Corona_Scale(mo)
+    local color = Corona_Color(mo)
 
     mo.translation = color --use the translation if defined
     mo.alpha = alpha
@@ -250,7 +251,7 @@ local function Corona(mo)
         mo.spritexoffset = t.spritexoffset
     end
     mo.eflags = t.eflags --Adapt to flipped gravity
-    Corona_Follow(mo, t)
+    P_MoveOrigin(mo, t.x, t.y, t.z)
 
     --Will it draw on the specific state?
     if not corona_cmobj.states then return end
@@ -274,7 +275,7 @@ local function CoronaSplat(mo)
     if not IsCloserToCam(mo) then return end
     if P_AproxDistance(mo.x - camera.x, mo.y - camera.y) > maxdrawdist and not (leveltime % far_updaterate == 0) then return end
 
-    Corona_Follow(mo, t)
+    P_MoveOrigin(mo, t.x, t.y, (P_MobjFlip(t) == -1) and t.ceilingz or t.floorz)
     CoronaSplatScale(mo)
 
     if t.cmobj.nothink then return end
