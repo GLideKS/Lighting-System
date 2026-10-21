@@ -212,6 +212,9 @@ local function Corona(mo)
 
     local color = Corona_Color(mo)
     mo.translation = color --use the translation if defined
+    if corona_cmobj.thinker then
+        corona_cmobj.thinker(mo)
+    end
 
     if corona_cmobj.nothink then --Is the corona defined to have a reduced thinker?
         if (mo.x != t.x) then RemoveCorona(mo) return end -- Remove when it's moving
