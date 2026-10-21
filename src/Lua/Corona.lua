@@ -211,7 +211,7 @@ local function Corona(mo)
     if P_AproxDistance(mo.x - camera.x, mo.y - camera.y) > maxdrawdist and not (leveltime % far_updaterate == 0) then return end
 
     if corona_cmobj.thinker then
-        corona_cmobj.thinker(mo)
+        corona_cmobj.thinker(mo, t)
     end
 
     if corona_cmobj.nothink then --Is the corona defined to have a reduced thinker?
