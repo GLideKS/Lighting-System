@@ -11,7 +11,6 @@ if not LightingSystem_loaded then
 	dofile("Commands.lua")
 	dofile("Functions.lua")
 	dofile("Corona.lua")
-	dofile("Super player corona.lua")
 
 	--Light object assignment (Definitions)
 	dofile("Definitions/Vanilla.lua") --Vanilla SRB2
