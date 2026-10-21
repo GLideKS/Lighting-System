@@ -217,9 +217,9 @@ local function Corona(mo)
     mo.translation = color --use the translation if defined
 
     if corona_cmobj.nothink then --Is the corona defined to have a reduced thinker?
-        if (mo.x - t.x) then RemoveCorona(mo) return end -- Remove when it's moving
-        if (mo.y - t.y) then RemoveCorona(mo) return end
-        if (mo.z - t.z) then RemoveCorona(mo) return end
+        if (mo.x != t.x) then RemoveCorona(mo) return end -- Remove when it's moving
+        if (mo.y != t.y) then RemoveCorona(mo) return end
+        if (mo.z != t.z) then RemoveCorona(mo) return end
         if (corona_cmobj.states and not Corona_State(mo)) then RemoveCorona(mo) return end -- When the state or sprite doesn't match
         return
     end
