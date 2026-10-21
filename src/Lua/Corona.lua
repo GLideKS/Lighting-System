@@ -43,31 +43,6 @@ local function IsCloserToCam(mo)
     return dist < drawdist.value * FU
 end
 
---nothink coronas thinker. funny right?
-local function RemoveOnMove(mo)
-    local t = mo.target
-    local z = (mo.floor and t.floorz) or t.z
-    local corona_cmobj = mo.cmobj
-
-    --Only remove under these conditions
-
-    if (mo.x - t.x) or (mo.y - t.y) or (mo.z - z) then --when it's moving
-        RemoveCorona(mo)
-        return
-    end
-
-    if corona_cmobj.states --when the state or sprite doesn't match
-    and not Corona_State(mo)
-        then RemoveCorona(mo)
-        return
-    end
-
-    if not ringstyles then return end
-
-    --Sync at least these
-    if mo.translation != Corona_Color(mo) then mo.translation = Corona_Color(mo) end --use the translation if defined
-end
-
 --Initializes a corona/light for `mo` if it's defined on the `LightObjects` table.
 ---@param mo mobj_t
 local function InitCorona(mo)
@@ -238,13 +213,18 @@ local function Corona(mo)
     if not IsCloserToCam(mo) then return end
     if P_AproxDistance(mo.x - camera.x, mo.y - camera.y) > maxdrawdist and not (leveltime % far_updaterate == 0) then return end
 
+    local color = Corona_Color(mo)
+    mo.translation = color --use the translation if defined
+
     if corona_cmobj.nothink then --Is the corona defined to have a reduced thinker?
-        RemoveOnMove(mo)
+        if (mo.x - t.x) then RemoveCorona(mo) return end -- Remove when it's moving
+        if (mo.y - t.y) then RemoveCorona(mo) return end
+        if (mo.z - t.z) then RemoveCorona(mo) return end
+        if (corona_cmobj.states and not Corona_State(mo)) then RemoveCorona(mo) return end -- When the state or sprite doesn't match
         return
     end
 
     local zoffset = Corona_UpdateZOffset(mo, t)
-    local color = Corona_Color(mo)
     local alpha = Corona_Alpha(mo)
     local scale = Corona_Scale(mo)
 
