@@ -197,6 +197,7 @@ end
 ---@param mo mobj_t
 local function Corona(mo)
     if not (mo and mo.valid) then return end --This game is dumb
+    if not mo.cmobj then return end -- Okay...? this is supposed to be ensured on spawn but whatever. Just in case.
 
     local corona_cmobj = mo.cmobj
     local t = mo.target
