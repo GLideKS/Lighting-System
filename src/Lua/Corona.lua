@@ -210,8 +210,6 @@ local function Corona(mo)
     if not IsCloserToCam(mo) then return end
     if P_AproxDistance(mo.x - camera.x, mo.y - camera.y) > maxdrawdist and not (leveltime % far_updaterate == 0) then return end
 
-    local color = Corona_Color(mo)
-    mo.translation = color --use the translation if defined
     if corona_cmobj.thinker then
         corona_cmobj.thinker(mo)
     end
@@ -227,6 +225,7 @@ local function Corona(mo)
     local zoffset = Corona_UpdateZOffset(mo, t)
     local alpha = Corona_Alpha(mo)
     local scale = Corona_Scale(mo)
+    local color = Corona_Color(mo)
 
     mo.translation = color --use the translation if defined
     mo.alpha = alpha
